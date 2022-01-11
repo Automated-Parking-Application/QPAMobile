@@ -12,6 +12,8 @@ target 'QPAMobile' do
     :hermes_enabled => false
   )
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'QPAMobileTests' do
     inherit! :complete
     # Pods for testing
