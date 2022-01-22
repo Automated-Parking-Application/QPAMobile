@@ -1,35 +1,35 @@
-import { useRoute } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { useContext } from 'react';
+import {useRoute} from '@react-navigation/native';
+import React, {useState} from 'react';
+import {useContext} from 'react';
 import LoginComponent from '../../components/Login';
 import loginUser from '../../context/actions/auth/loginUser';
-import { GlobalContext } from '../../context/Provider';
+import {GlobalContext} from '../../context/Provider';
 const Login = () => {
   const [form, setForm] = useState({});
   const [justSignedUp, setJustSignedUp] = useState(false);
-  const { params } = useRoute();
+  const {params} = useRoute();
 
   React.useEffect(() => {
     if (params?.data) {
       setJustSignedUp(true);
-      setForm({ ...form, userName: params.data.username });
+      setForm({...form, phoneNumbẻ: params.data.phonenumber});
     }
   }, [params]);
 
   const {
     authDispatch,
-    authState: { error, loading },
+    authState: {error, loading},
   } = useContext(GlobalContext);
 
   const onSubmit = () => {
-    if (form.userName && form.password) {
+    if (form.phoneNumber && form.password) {
       loginUser(form)(authDispatch);
     }
   };
 
-  const onChange = ({ name, value }) => {
+  const onChange = ({name, value}) => {
     setJustSignedUp(false);
-    setForm({ ...form, [name]: value });
+    setForm({...form, [name]: value});
   };
 
   return (

@@ -15,7 +15,7 @@ export const clearAuthState = () => (dispatch) => {
 export default ({
   email,
   password,
-  userName: username,
+  phoneNumber,
   firstName: first_name,
   lastName: last_name,
 }) => (dispatch) => (onSuccess) => {
@@ -23,10 +23,10 @@ export default ({
     type: REGISTER_LOADING,
   });
   axiosInstance
-    .post('auth/register', {
+    .post('user/register', {
       email,
       password,
-      username,
+      phoneNumber,
       first_name,
       last_name,
     })

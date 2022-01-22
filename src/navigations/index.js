@@ -1,16 +1,16 @@
-import React, { useEffect, useContext } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, {useEffect, useContext} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
 import AuthNavigator from './AuthNavigator';
 import DrawerNavigator from './DrawerNavigator';
-import { GlobalContext } from '../context/Provider';
+import {GlobalContext} from '../context/Provider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ActivityIndicator } from 'react-native';
-import { navigationRef } from './SideMenu/RootNavigator';
+import {ActivityIndicator} from 'react-native';
+import {navigationRef} from './SideMenu/RootNavigator';
 import SplashScreen from 'react-native-splash-screen';
 
 const AppNavContainer = () => {
   const {
-    authState: { isLoggedIn },
+    authState: {isLoggedIn},
   } = useContext(GlobalContext);
 
   const [isAuthenticated, setIsAuthenticated] = React.useState(isLoggedIn);
@@ -28,7 +28,7 @@ const AppNavContainer = () => {
 
         setIsAuthenticated(false);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
   useEffect(() => {
     getUser();
@@ -45,8 +45,8 @@ const AppNavContainer = () => {
           {isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
         </NavigationContainer>
       ) : (
-          <ActivityIndicator />
-        )}
+        <ActivityIndicator />
+      )}
     </>
   );
 };

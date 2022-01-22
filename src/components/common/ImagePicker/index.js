@@ -6,6 +6,7 @@ import Icon from '../../common/Icon';
 import styles from './styles';
 import ImagePickerCropper from 'react-native-image-crop-picker';
 
+// eslint-disable-next-line react/display-name
 const ImagePicker = React.forwardRef(({onFileSelected}, ref) => {
   const options = [
     {
@@ -18,10 +19,10 @@ const ImagePicker = React.forwardRef(({onFileSelected}, ref) => {
           cropping: true,
           freeStyleCropEnabled: true,
         })
-          .then((images) => {
+          .then(images => {
             onFileSelected(images);
           })
-          .catch((error) => {});
+          .catch(error => {});
       },
     },
     {
@@ -34,10 +35,10 @@ const ImagePicker = React.forwardRef(({onFileSelected}, ref) => {
           cropping: true,
           freeStyleCropEnabled: true,
         })
-          .then((images) => {
+          .then(images => {
             onFileSelected(images);
           })
-          .catch((error) => {});
+          .catch(error => {});
       },
     },
   ];

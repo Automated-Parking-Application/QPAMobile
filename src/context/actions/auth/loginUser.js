@@ -6,30 +6,34 @@ import {
 } from '../../../constants/actionTypes';
 import axiosInstance from '../../../helpers/axiosInstance';
 
-export default ({password, userName: username}) => (dispatch) => {
-  dispatch({
-    type: LOGIN_LOADING,
-  });
-  axiosInstance
-    .post('auth/login', {
-      password,
-      username,
-    })
-    .then((res) => {
-      AsyncStorage.setItem('token', res.data.token);
-      AsyncStorage.setItem('user', JSON.stringify(res.data.user));
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: res.data,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      dispatch({
-        type: LOGIN_FAIL,
-        payload: err.response
-          ? err.response.data
-          : {error: 'Something went wrong, try agin'},
-      });
+export default ({password, phoneNumber}) =>
+  dispatch => {
+    dispatch({
+      type: LOGIN_LOADING,
     });
-};
+    axiosInstance
+      .post('user/login', {
+        password,
+        phoneNumber,
+      })
+      .then(res => {
+        console.log('autho', res.data.Authorization);
+        console.log('autho', res.data.User);
+
+        AsyncStorage.setItem('token', res.data.Authorization);
+        AsyncStorage.setItem('user', JSON.stringify(res.data.User));
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({
+          type: LOGIN_FAIL,
+          payload: err.response
+            ? err.response.data
+            : {error: 'Something went wrong, try agin'},
+        });
+      });
+  };

@@ -31,7 +31,7 @@ const RegisterComponent = ({
       />
 
       <View>
-        <Text style={styles.title}>Welcome to RNContacts</Text>
+        <Text style={styles.title}>Welcome to QPA</Text>
         <Text style={styles.subTitle}>Create a free account</Text>
 
         <View style={styles.form}>
@@ -39,12 +39,12 @@ const RegisterComponent = ({
             <Message retry danger retryFn={onSubmit} message={error?.error} />
           )}
           <Input
-            label="Username"
+            label="Phone Number"
             iconPosition="right"
-            placeholder="Enter Username"
-            error={errors.userName || error?.username?.[0]}
-            onChangeText={(value) => {
-              onChange({name: 'userName', value});
+            placeholder="Enter Phone Number"
+            error={errors.phoneNumber || error?.phoneNumber?.[0]}
+            onChangeText={value => {
+              onChange({name: 'phoneNumber', value});
             }}
           />
 
@@ -52,7 +52,7 @@ const RegisterComponent = ({
             label="First name"
             iconPosition="right"
             placeholder="Enter First name"
-            onChangeText={(value) => {
+            onChangeText={value => {
               onChange({name: 'firstName', value});
             }}
             error={errors.firstName || error?.first_name?.[0]}
@@ -62,7 +62,7 @@ const RegisterComponent = ({
             iconPosition="right"
             placeholder="Enter Last name"
             error={errors.lastName || error?.last_name?.[0]}
-            onChangeText={(value) => {
+            onChangeText={value => {
               onChange({name: 'lastName', value});
             }}
           />
@@ -71,7 +71,7 @@ const RegisterComponent = ({
             iconPosition="right"
             placeholder="Enter Email"
             error={errors.email || error?.email?.[0]}
-            onChangeText={(value) => {
+            onChangeText={value => {
               onChange({name: 'email', value});
             }}
           />
@@ -83,14 +83,14 @@ const RegisterComponent = ({
             icon={
               <TouchableOpacity
                 onPress={() => {
-                  setIsSecureEntry((prev) => !prev);
+                  setIsSecureEntry(prev => !prev);
                 }}>
                 <Text>{isSecureEntry ? 'Show' : 'Hide'}</Text>
               </TouchableOpacity>
             }
             iconPosition="right"
             error={errors.password || error?.password?.[0]}
-            onChangeText={(value) => {
+            onChangeText={value => {
               onChange({name: 'password', value});
             }}
           />

@@ -33,9 +33,9 @@ const CreateContact = () => {
         last_name: lastName,
         is_favorite: isFavorite,
         country_code: countryCode,
-      } = params?.contact;
+      } = params?.contact || {};
 
-      setForm((prev) => {
+      setForm(prev => {
         return {
           ...prev,
           firstName,
@@ -46,12 +46,12 @@ const CreateContact = () => {
         };
       });
 
-      const country = countryCodes.find((item) => {
+      const country = countryCodes.find(item => {
         return item.value.replace('+', '') === countryCode;
       });
 
       if (country) {
-        setForm((prev) => {
+        setForm(prev => {
           return {
             ...prev,
             countryCode: country.key.toUpperCase(),
@@ -73,34 +73,34 @@ const CreateContact = () => {
     if (params?.contact) {
       if (localFile?.size) {
         setIsUploading(true);
-        uploadImage(localFile)((url) => {
+        uploadImage(localFile)(url => {
           setIsUploading(false);
           editContact(
             {...form, contactPicture: url},
             params?.contact.id,
-          )(contactsDispatch)((item) => {
+          )(contactsDispatch)(item => {
             navigate(CONTACT_DETAIL, {item});
           });
-        })((err) => {
+        })(err => {
           console.log('err :>> ', err);
           setIsUploading(false);
         });
       } else {
-        editContact(form, params?.contact.id)(contactsDispatch)((item) => {
+        editContact(form, params?.contact.id)(contactsDispatch)(item => {
           navigate(CONTACT_DETAIL, {item});
         });
       }
     } else {
       if (localFile?.size) {
         setIsUploading(true);
-        uploadImage(localFile)((url) => {
+        uploadImage(localFile)(url => {
           setIsUploading(false);
           createContact({...form, contactPicture: url})(contactsDispatch)(
             () => {
               navigate(CONTACT_LIST);
             },
           );
-        })((err) => {
+        })(err => {
           setIsUploading(false);
         });
       } else {
@@ -125,7 +125,7 @@ const CreateContact = () => {
     setForm({...form, isFavorite: !form.isFavorite});
   };
 
-  const onFileSelected = (image) => {
+  const onFileSelected = image => {
     closeSheet();
     setLocalFile(image);
   };

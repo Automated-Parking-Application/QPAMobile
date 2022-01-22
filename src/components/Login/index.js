@@ -29,7 +29,7 @@ const LoginComponent = ({
       />
 
       <View>
-        <Text style={styles.title}>Welcome to RNContacts</Text>
+        <Text style={styles.title}>Welcome to QPA</Text>
         <Text style={styles.subTitle}>Please login here</Text>
 
         <View style={styles.form}>
@@ -51,12 +51,12 @@ const LoginComponent = ({
           {error?.error && <Message danger onDismiss message={error?.error} />}
 
           <Input
-            label="Username"
+            label="Phone Number"
             iconPosition="right"
-            placeholder="Enter Username"
-            value={form.userName || null}
-            onChangeText={(value) => {
-              onChange({name: 'userName', value});
+            placeholder="Enter Phone Number"
+            value={form.phoneNumber || null}
+            onChangeText={value => {
+              onChange({name: 'phoneNumber', value});
             }}
           />
 
@@ -67,13 +67,13 @@ const LoginComponent = ({
             icon={
               <TouchableOpacity
                 onPress={() => {
-                  setIsSecureEntry((prev) => !prev);
+                  setIsSecureEntry(prev => !prev);
                 }}>
                 <Text>{isSecureEntry ? 'Show' : 'Hide'}</Text>
               </TouchableOpacity>
             }
             iconPosition="right"
-            onChangeText={(value) => {
+            onChangeText={value => {
               onChange({name: 'password', value});
             }}
           />

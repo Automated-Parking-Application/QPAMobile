@@ -1,7 +1,7 @@
 // import {DEV_BACKEND_URL, PROD_BACKEND_URL} from '@env';
 
 const devEnvironmentVariables = {
-  BACKEND_URL: 'https://truly-contacts.herokuapp.com/api/',
+  BACKEND_URL: 'http://localhost:8080/',
 };
 
 const prodEnvironmentVariables = {
