@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import colors from '../../assets/theme/colors';
-import {CONTACT_DETAIL, CREATE_CONTACT} from '../../constants/routeNames';
+import {CONTACT_DETAIL, CREATE_PARKING_SPACE} from '../../constants/routeNames';
 import Icon from '../common/Icon';
 import CustomButton from '../common/CustomButton';
 import styles from './styles';
@@ -138,7 +138,7 @@ const ContactDetailsComponent = ({
           primary
           title="Edit Contact"
           onPress={() => {
-            navigate(CREATE_CONTACT, {contact, editing: true});
+            navigate(CREATE_PARKING_SPACE, {contact, editing: true});
           }}
         />
       </View>

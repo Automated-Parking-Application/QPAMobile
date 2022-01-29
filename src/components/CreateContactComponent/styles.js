@@ -15,4 +15,7 @@ export default StyleSheet.create({
     color: colors.primary,
     textAlign: 'center',
   },
+  pickButton: {
+    width: 120
+  }
 });

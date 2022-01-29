@@ -4,7 +4,7 @@ import {ActivityIndicator, Alert, TouchableOpacity, View} from 'react-native';
 import colors from '../../assets/theme/colors';
 import Icon from '../../components/common/Icon';
 import ContactDetailsComponent from '../../components/ContactDetailsComponent';
-import {CONTACT_LIST} from '../../constants/routeNames';
+import {PARKING_SPACE_LIST} from '../../constants/routeNames';
 import deleteContact from '../../context/actions/contacts/deleteContact';
 import editContact from '../../context/actions/contacts/editContact';
 import {GlobalContext} from '../../context/Provider';
@@ -54,7 +54,7 @@ const ContactDetails = () => {
                         text: 'OK',
                         onPress: () => {
                           deleteContact(item.id)(contactsDispatch)(() => {
-                            navigate(CONTACT_LIST);
+                            navigate(PARKING_SPACE_LIST);
                           });
                         },
                       },

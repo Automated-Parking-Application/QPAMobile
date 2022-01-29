@@ -30,7 +30,7 @@ const AppModal = ({
                 }}>
                 <Icon size={27} type="evil" name="close" />
               </TouchableOpacity>
-              <Text style={styles.title}>{title || 'RNContacts'}</Text>
+              <Text style={styles.title}>{title || 'QPA'}</Text>
 
               <View />
               <View />

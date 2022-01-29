@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {s} from 'react-native-size-matters';
 import colors from '../../assets/theme/colors';
-import {CONTACT_DETAIL, CREATE_CONTACT} from '../../constants/routeNames';
+import {CONTACT_DETAIL, CREATE_PARKING_SPACE} from '../../constants/routeNames';
 import Icon from '../common/Icon';
 import Message from '../common/Message';
 import styles from './styles';
@@ -33,7 +33,7 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
   const ListEmptyComponent = () => {
     return (
       <View style={{paddingVertical: 100, paddingHorizontal: 100}}>
-        <Message info message="No contacts to show" />
+        <Message info message="No Parking Space to show" />
       </View>
     );
   };
@@ -188,7 +188,7 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
       <TouchableOpacity
         style={styles.floatingActionButton}
         onPress={() => {
-          navigate(CREATE_CONTACT);
+          navigate(CREATE_PARKING_SPACE);
         }}>
         <Icon name="plus" size={21} color={colors.white} />
       </TouchableOpacity>

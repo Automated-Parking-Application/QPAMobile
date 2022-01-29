@@ -42,7 +42,12 @@ const Input = ({
 
       <View
         style={[
-          styles.wrapper,
+          !props.multiline
+            ? styles.wrapper
+            : {
+                ...styles.wrapper,
+                height: 42*2,
+              },
           {alignItems: icon ? 'center' : 'baseline'},
           {borderColor: getBorderColor(), flexDirection: getFlexDirection()},
         ]}>
