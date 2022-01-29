@@ -6,6 +6,7 @@ import Icon from '../../components/common/Icon';
 import ContactsComponent from '../../components/ContactsComponent';
 import {CONTACT_DETAIL} from '../../constants/routeNames';
 import getContacts from '../../context/actions/contacts/getContacts';
+import getParkingSpaces from '../../context/actions/parkingSpaces/getParkingSpaces';
 import {GlobalContext} from '../../context/Provider';
 import {navigate} from '../../navigations/SideMenu/RootNavigator';
 
@@ -15,14 +16,14 @@ const Contacts = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const contactsRef = useRef([]);
   const {
-    contactsDispatch,
-    contactsState: {
-      getContacts: {data, loading, error},
+    parkingSpacesDispatch,
+    parkingSpacesState: {
+      getParkingSpaces: {data, loading, error},
     },
   } = useContext(GlobalContext);
 
   useEffect(() => {
-    getContacts()(contactsDispatch);
+    getParkingSpaces()(parkingSpacesDispatch);
   }, []);
 
   const getSettings = async () => {
@@ -40,17 +41,17 @@ const Contacts = ({navigation}) => {
   );
 
   useEffect(() => {
-    const prev = contactsRef.current;
+    // const prev = contactsRef.current;
 
-    contactsRef.current = data;
+    // contactsRef.current = data;
 
-    const newList = contactsRef.current;
-    if (newList.length - prev.length === 1) {
-      const newContact = newList.find(
-        (item) => !prev.map((i) => i.id).includes(item.id),
-      );
-      navigate(CONTACT_DETAIL, {item: newContact});
-    }
+    // const newList = contactsRef.current;
+    // if (newList.length - prev.length === 1) {
+    //   const newContact = newList.find(
+    //     item => !prev.map(i => i.id).includes(item.id),
+    //   );
+    //   navigate(CONTACT_DETAIL, {item: newContact});
+    // }
   }, [data.length]);
 
   React.useEffect(() => {

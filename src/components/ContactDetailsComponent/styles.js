@@ -8,6 +8,7 @@ export default StyleSheet.create({
   imageContainer: {height: 300, width: '100%'},
   detailPhoto: {height: 300, width: '100%', resizeMode: 'cover'},
   names: {fontSize: 23},
+  address: {fontSize: 20},
   content: {padding: 20},
 
   hrLine: {

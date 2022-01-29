@@ -27,7 +27,7 @@ const ContactDetails = () => {
   useEffect(() => {
     if (item) {
       setOptions({
-        title: item.first_name + ' ' + item.last_name,
+        title: item.name,
         headerRight: () => {
           return (
             <View style={{flexDirection: 'row', paddingRight: 10}}>
@@ -43,7 +43,7 @@ const ContactDetails = () => {
                 onPress={() => {
                   Alert.alert(
                     'Delete!',
-                    'Are you sure you want to remove ' + item.first_name,
+                    'Are you sure you want to remove ' + item.name,
                     [
                       {
                         text: 'Cancel',

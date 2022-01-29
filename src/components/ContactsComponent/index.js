@@ -22,7 +22,7 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
   const swipeableItemRefs = useRef([]);
   // console.log('swipeableItemRefs', swipeableItemRefs);
 
-  const toggleSwipeable = (key) => {
+  const toggleSwipeable = key => {
     swipeableItemRefs.current.forEach((ref, i) => {
       if (ref.id !== key) {
         swipeableItemRefs.current?.[i]?.swipeable?.close();
@@ -39,13 +39,7 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
   };
 
   const renderItem = ({item}) => {
-    const {
-      contact_picture,
-      first_name,
-      country_code,
-      phone_number,
-      last_name,
-    } = item;
+    const {name, address, description, image} = item;
 
     const renderLeftActions = (progress, dragX) => {
       return (
@@ -79,7 +73,7 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
     const {id} = item;
     return (
       <Swipeable
-        ref={(ref) =>
+        ref={ref =>
           swipeableItemRefs.current.push({
             id,
             swipeable: ref,
@@ -98,41 +92,31 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
             navigate(CONTACT_DETAIL, {item});
           }}>
           <View style={styles.item}>
-            {contact_picture ? (
-              <Image
-                style={{width: 45, height: 45, borderRadius: 100}}
-                source={{uri: contact_picture}}
-              />
+            {image ? (
+              <Image style={{width: 60, height: 60}} source={{uri: image}} />
             ) : (
               <View
                 style={{
-                  width: 45,
-                  height: 45,
+                  width: 60,
+                  height: 60,
                   flexDirection: 'row',
                   justifyContent: 'center',
                   alignItems: 'center',
                   backgroundColor: colors.grey,
-                  borderRadius: 100,
                 }}>
+                <Text style={[styles.name, {color: colors.white}]}>{name}</Text>
                 <Text style={[styles.name, {color: colors.white}]}>
-                  {first_name[0]}
-                </Text>
-                <Text style={[styles.name, {color: colors.white}]}>
-                  {last_name[0]}
+                  {address}
                 </Text>
               </View>
             )}
 
             <View style={{paddingLeft: 20}}>
               <View style={{flexDirection: 'row'}}>
-                <Text style={styles.name}>{first_name}</Text>
-
-                <Text style={styles.name}> {last_name}</Text>
+                <Text style={styles.name}>{name}</Text>
+                {/* <Text style={styles.name}> {address}</Text> */}
               </View>
-              <Text
-                style={
-                  styles.phoneNumber
-                }>{`${country_code} ${phone_number}`}</Text>
+              <Text style={styles.phoneNumber}>{address}</Text>
             </View>
           </View>
           <Icon name="right" type="ant" size={18} color={colors.grey} />
@@ -177,7 +161,7 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
                 <View
                   style={{height: 0.5, backgroundColor: colors.grey}}></View>
               )}
-              keyExtractor={(item) => String(item.id)}
+              keyExtractor={item => String(item.id)}
               ListEmptyComponent={ListEmptyComponent}
               ListFooterComponent={<View style={{height: 150}}></View>}
             />

@@ -29,22 +29,16 @@ const ContactDetailsComponent = ({
 }) => {
   const {navigate} = useNavigation();
 
-  const {
-    contact_picture,
-    first_name,
-    country_code,
-    phone_number,
-    last_name,
-  } = contact;
+  const {image, name, address, description} = contact;
 
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-        {(contact_picture || uploadSucceeded) && (
-          <ImageComponent src={contact_picture || localFile?.path} />
+        {(image || uploadSucceeded) && (
+          <ImageComponent src={image || localFile?.path} />
         )}
 
-        {!contact_picture && !uploadSucceeded && (
+        {!image && !uploadSucceeded && (
           <View style={{alignItems: 'center', paddingVertical: 20}}>
             <Image
               width={150}
@@ -65,7 +59,8 @@ const ContactDetailsComponent = ({
           </View>
         )}
         <View style={styles.content}>
-          <Text style={styles.names}>{first_name + ' ' + last_name}</Text>
+          <Text style={styles.names}>{name}</Text>
+          <Text style={styles.address}>{address}</Text>
         </View>
 
         <View style={styles.hrLine} />
@@ -108,7 +103,7 @@ const ContactDetailsComponent = ({
             size={27}
           />
           <View style={styles.phoneMobile}>
-            <Text>{phone_number}</Text>
+            <Text>{description}</Text>
             <Text>Mobile</Text>
           </View>
 
@@ -118,19 +113,14 @@ const ContactDetailsComponent = ({
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Icon
-              type="materialCommunity"
-              name="video"
-              color={colors.primary}
-              size={27}
-            />
-            <Icon
+            <Icon type="fa" name="users" color={colors.primary} size={27} />
+            {/* <Icon
               type="materialCommunity"
               name="message-text"
               color={colors.primary}
               size={27}
               style={[styles.msgIcon]}
-            />
+            /> */}
           </View>
         </View>
         <CustomButton
