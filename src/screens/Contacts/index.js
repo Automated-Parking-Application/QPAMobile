@@ -9,21 +9,19 @@ import getContacts from '../../context/actions/contacts/getContacts';
 import getParkingSpaces from '../../context/actions/parkingSpaces/getParkingSpaces';
 import {GlobalContext} from '../../context/Provider';
 import {navigate} from '../../navigations/SideMenu/RootNavigator';
+import { useSelector, useDispatch } from "react-redux";
 
 const Contacts = ({navigation}) => {
   const [sortBy, setSortBy] = React.useState(null);
   const {setOptions, toggleDrawer} = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const contactsRef = useRef([]);
-  const {
-    parkingSpacesDispatch,
-    parkingSpacesState: {
-      getParkingSpaces: {data, loading, error},
-    },
-  } = useContext(GlobalContext);
+  const dispatch = useDispatch();
+
+  const { data, loading, error } = useSelector(state => state.parkingSpaces.getParkingSpaces)
 
   useEffect(() => {
-    getParkingSpaces()(parkingSpacesDispatch);
+    dispatch(getParkingSpaces())
   }, []);
 
   const getSettings = async () => {
@@ -40,7 +38,7 @@ const Contacts = ({navigation}) => {
     }, []),
   );
 
-  useEffect(() => {
+  // useEffect(() => {
     // const prev = contactsRef.current;
 
     // contactsRef.current = data;
@@ -52,7 +50,7 @@ const Contacts = ({navigation}) => {
     //   );
     //   navigate(CONTACT_DETAIL, {item: newContact});
     // }
-  }, [data.length]);
+  // }, [data.length]);
 
   React.useEffect(() => {
     setOptions({

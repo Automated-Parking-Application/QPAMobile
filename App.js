@@ -10,6 +10,8 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import AppNavContainer from './src/navigations';
 import GlobalProvider from './src/context/Provider';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/es/integration/react';
 import ZocialIcon from 'react-native-vector-icons/Zocial';
 import OcticonIcon from 'react-native-vector-icons/Octicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -24,6 +26,8 @@ import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import { store, persistor } from './src/store';
+
 
 ZocialIcon.loadFont();
 OcticonIcon.loadFont();
@@ -41,9 +45,11 @@ Fontisto.loadFont();
 Ionicon.loadFont();
 const App = () => {
   return (
-    <GlobalProvider>
-      <AppNavContainer />
-    </GlobalProvider>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <AppNavContainer />
+      </PersistGate>
+    </Provider>
   );
 };
 

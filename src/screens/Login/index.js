@@ -1,6 +1,7 @@
 import {useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {useContext} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import LoginComponent from '../../components/Login';
 import loginUser from '../../context/actions/auth/loginUser';
 import {GlobalContext} from '../../context/Provider';
@@ -9,6 +10,7 @@ const Login = () => {
   const [justSignedUp, setJustSignedUp] = useState(false);
   const {params} = useRoute();
 
+  const dispatch = useDispatch();
   React.useEffect(() => {
     if (params?.data) {
       setJustSignedUp(true);
@@ -16,14 +18,11 @@ const Login = () => {
     }
   }, [params]);
 
-  const {
-    authDispatch,
-    authState: {error, loading},
-  } = useContext(GlobalContext);
+  const {error, loading} = useSelector(state => state.auth);
 
   const onSubmit = () => {
     if (form.phoneNumber && form.password) {
-      loginUser(form)(authDispatch);
+      dispatch(loginUser(form));
     }
   };
 

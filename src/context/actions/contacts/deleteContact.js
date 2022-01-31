@@ -1,28 +1,27 @@
 import {
-  DELETE_CONTACT_FAIL,
-  DELETE_CONTACT_LOADING,
-  DELETE_CONTACT_SUCCESS,
+  DELETE_PARKING_SPACE_FAIL,
+  DELETE_PARKING_SPACE_LOADING,
+  DELETE_PARKING_SPACE_SUCCESS,
 } from '../../../constants/actionTypes';
 import axios from '../../../helpers/axiosInstance';
 
-export default (id) => (dispatch) => (onSuccess) => {
-  console.log('id', id);
+export default id => dispatch => onSuccess => {
   dispatch({
-    type: DELETE_CONTACT_LOADING,
+    type: DELETE_PARKING_SPACE_LOADING,
   });
 
   axios
-    .delete(`/contacts/${id}`)
+    .delete(`/parking-space/${id}`)
     .then(() => {
       dispatch({
-        type: DELETE_CONTACT_SUCCESS,
+        type: DELETE_PARKING_SPACE_SUCCESS,
         payload: id,
       });
       onSuccess();
     })
-    .catch((err) => {
+    .catch(err => {
       dispatch({
-        type: DELETE_CONTACT_FAIL,
+        type: DELETE_PARKING_SPACE_FAIL,
         payload: err.response
           ? err.response.data
           : {error: 'Something went wrong, try again'},

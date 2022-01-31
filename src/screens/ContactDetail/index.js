@@ -1,5 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useEffect, useState, useRef, useContext} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {ActivityIndicator, Alert, TouchableOpacity, View} from 'react-native';
 import colors from '../../assets/theme/colors';
 import Icon from '../../components/common/Icon';
@@ -7,17 +7,22 @@ import ContactDetailsComponent from '../../components/ContactDetailsComponent';
 import {PARKING_SPACE_LIST} from '../../constants/routeNames';
 import deleteContact from '../../context/actions/contacts/deleteContact';
 import editContact from '../../context/actions/contacts/editContact';
-import {GlobalContext} from '../../context/Provider';
 import uploadImage from '../../helpers/uploadImage';
+import {useDispatch, useSelector} from 'react-redux';
 
 const ContactDetails = () => {
+  const dispatch = useDispatch();
   const {params: {item = {}} = {}} = useRoute();
-  const {
-    contactsDispatch,
-    contactsState: {
-      deleteContact: {loading},
-    },
-  } = useContext(GlobalContext);
+  // const {
+  //   contactsDispatch,
+  //   contactsState: {
+  //     deleteContact: {loading},
+  //   },
+  // } = useContext(GlobalContext);
+
+  const {loading} = useSelector(
+    state => state.parkingSpaces.deleteParkingSpace,
+  );
   const {setOptions, navigate} = useNavigation();
   const sheetRef = useRef(null);
   const [localFile, setLocalFile] = useState(null);
@@ -43,7 +48,7 @@ const ContactDetails = () => {
                 onPress={() => {
                   Alert.alert(
                     'Delete!',
-                    'Are you sure you want to remove ' + item.name,
+                    'Are you sure you want to disable parking ' + item.name,
                     [
                       {
                         text: 'Cancel',
@@ -53,7 +58,7 @@ const ContactDetails = () => {
                       {
                         text: 'OK',
                         onPress: () => {
-                          deleteContact(item.id)(contactsDispatch)(() => {
+                          dispatch(deleteContact(item.id))(() => {
                             navigate(PARKING_SPACE_LIST);
                           });
                         },
@@ -91,36 +96,34 @@ const ContactDetails = () => {
     }
   };
 
-  const onFileSelected = (image) => {
+  const onFileSelected = image => {
     closeSheet();
     setLocalFile(image);
     setUpdatingImage(true);
-    uploadImage(image)((url) => {
+    uploadImage(image)(url => {
       const {
         first_name: firstName,
-
         last_name: lastName,
         phone_number: phoneNumber,
-
         country_code: phoneCode,
         is_favorite: isFavorite,
       } = item;
-      editContact(
-        {
-          firstName,
-          lastName,
-          phoneNumber,
-          isFavorite,
-          phoneCode,
-          contactPicture: url,
-        },
-        item.id,
-      )(contactsDispatch)((item) => {
-        setUpdatingImage(false);
-        setUploadSucceeded(true);
-        // navigate(CONTACT_DETAIL, {item});
-      });
-    })((err) => {
+      // editContact(
+      //   {
+      //     firstName,
+      //     lastName,
+      //     phoneNumber,
+      //     isFavorite,
+      //     phoneCode,
+      //     contactPicture: url,
+      //   },
+      //   item.id,
+      // )(contactsDispatch)((item) => {
+      //   setUpdatingImage(false);
+      //   setUploadSucceeded(true);
+      //   // navigate(CONTACT_DETAIL, {item});
+      // });
+    })(err => {
       console.log('err :>> ', err);
       setUpdatingImage(false);
     });

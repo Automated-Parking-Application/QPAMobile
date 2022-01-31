@@ -10,10 +10,14 @@ import {
 import Container from '../../components/common/Container';
 import {SETTINGS} from '../../constants/routeNames';
 import logoutUser from '../../context/actions/auth/logoutUser';
+import { useDispatch} from 'react-redux';
+
 import styles from './styles';
 import Icon from '../../components/common/Icon';
 
 const SideMenu = ({navigation, authDispatch}) => {
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
     navigation.toggleDrawer();
     Alert.alert('Logout!', 'Are you sure you want to logout?', [
@@ -25,7 +29,8 @@ const SideMenu = ({navigation, authDispatch}) => {
       {
         text: 'OK',
         onPress: () => {
-          logoutUser()(authDispatch);
+          dispatch(logoutUser());
+          navigation.navigate(SETTINGS);
         },
       },
     ]);

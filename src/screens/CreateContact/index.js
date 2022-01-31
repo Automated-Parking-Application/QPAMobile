@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import CreateContactComponent from '../../components/CreateContactComponent';
 import createContact from '../../context/actions/contacts/createContact';
 import createParkingSpace from '../../context/actions/parkingSpaces/createParkingSpace';
@@ -10,13 +11,18 @@ import countryCodes from '../../utils/countryCodes';
 import editContact from '../../context/actions/contacts/editContact';
 
 const CreateContact = () => {
-  const {
-    contactsDispatch,
-    contactsState: {
-      createContact: {loading, error},
-    },
-    parkingSpacesDispatch,
-  } = useContext(GlobalContext);
+  // const {
+  //   contactsDispatch,
+  //   contactsState: {
+  //     createContact: {loading, error},
+  //   },
+  //   parkingSpacesDispatch,
+  // } = useContext(GlobalContext);
+
+  const {loading, error} = useSelector(
+    state => state.parkingSpaces.createParkingSpace,
+  );
+  const dispatch = useDispatch();
 
   const sheetRef = useRef(null);
   const [form, setForm] = useState({
@@ -117,16 +123,14 @@ const CreateContact = () => {
         setIsUploading(true);
         uploadImage(localFile)(url => {
           setIsUploading(false);
-          createParkingSpace({...form, contactPicture: url})(
-            parkingSpacesDispatch,
-          )(() => {
+          dispatch(createParkingSpace({...form, image: url}))(() => {
             navigate(PARKING_SPACE_LIST);
           });
         })(err => {
           setIsUploading(false);
         });
       } else {
-        createParkingSpace(form)(parkingSpacesDispatch)(() => {
+        dispatch(createParkingSpace(form))(() => {
           navigate(PARKING_SPACE_LIST);
         });
       }

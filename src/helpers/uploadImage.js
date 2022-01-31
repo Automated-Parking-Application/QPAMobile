@@ -1,21 +1,32 @@
-import storage from '@react-native-firebase/storage';
+import axios from '../helpers/axiosInstance';
 
 export default file => onSuccess => onError => {
-  onSuccess(
-    'https://thumbs.dreamstime.com/b/car-parking-lot-viewed-above-aerial-view-top-129426684.jpg',
-  );
-  // const path = 'contact-pictures/user/777/' + file.creationDate || file.path;
-  // const ref = storage().ref(path);
+  console.log(file);
+  const data = new FormData();
+  data.append('file', {
+    name: file.filename,
+    mime: file.mime,
+    uri:
+      Platform.OS === 'ios'
+        ? file.sourceURL?.replace('file://', '')
+        : file.sourceURL,
+  });
 
-  // const task = ref.putFile(file.path);
+  console.log('data', data);
 
-  // task
-  //   .then(async () => {
-  //     const url = await ref.getDownloadURL();
-  //     onSuccess(url);
-  //     console.log('url', url);
-  //   })
-  //   .then((error) => {
-  //     onError(error);
-  //   });
+  axios
+    .post('/resource/upload', data, {
+      data,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then(async data => {
+      console.log(data);
+      onSuccess(data.data);
+    })
+    .catch(error => {
+      onError(error);
+      console.log('error', error);
+    });
 };
