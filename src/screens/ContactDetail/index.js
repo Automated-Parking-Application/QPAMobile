@@ -7,7 +7,9 @@ import ContactDetailsComponent from '../../components/ContactDetailsComponent';
 import {
   PARKING_SPACE_LIST,
   CREATE_PARKING_SPACE,
+  PARKING_SPACE_DETAIL
 } from '../../constants/routeNames';
+import editParkingSpace from '../../context/actions/parkingSpaces/editParkingSpace';
 import deleteParkingSpace from '../../context/actions/parkingSpaces/deleteParkingSpace';
 import uploadImage from '../../helpers/uploadImage';
 import {useDispatch, useSelector} from 'react-redux';
@@ -103,23 +105,35 @@ const ContactDetails = () => {
     setLocalFile(image);
     setUpdatingImage(true);
     uploadImage(image)(url => {
-      const {name, address, description} = item;
+      const {
+        name,
+        address,
+        description,
+        startTime,
+        endTime,
+        postingTime,
+        status,
+      } = item;
 
-      // editContact(
-      //   {
-      //     firstName,
-      //     lastName,
-      //     phoneNumber,
-      //     isFavorite,
-      //     phoneCode,
-      //     contactPicture: url,
-      //   },
-      //   item.id,
-      // )(contactsDispatch)(item => {
-      //   setUpdatingImage(false);
-      //   setUploadSucceeded(true);
-      //   // navigate(PARKING_SPACE_DETAIL, {item});
-      // });
+      dispatch(
+        editParkingSpace(
+          {
+            name,
+            address,
+            description,
+            startTime,
+            endTime,
+            postingTime,
+            status,
+            image: url,
+          },
+          item.id,
+        )
+      )(parking => {
+        setUpdatingImage(false);
+        setUploadSucceeded(true);
+        navigate(PARKING_SPACE_DETAIL, {item: parking});
+      });
     })(err => {
       console.log('err :>> ', err);
       setUpdatingImage(false);
