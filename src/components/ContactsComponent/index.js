@@ -10,7 +10,10 @@ import {
 } from 'react-native';
 import {s} from 'react-native-size-matters';
 import colors from '../../assets/theme/colors';
-import {CONTACT_DETAIL, CREATE_PARKING_SPACE} from '../../constants/routeNames';
+import {
+  PARKING_SPACE_DETAIL,
+  CREATE_PARKING_SPACE,
+} from '../../constants/routeNames';
 import Icon from '../common/Icon';
 import Message from '../common/Message';
 import styles from './styles';
@@ -89,7 +92,7 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
         <TouchableOpacity
           style={styles.itemContainer}
           onPress={() => {
-            navigate(CONTACT_DETAIL, {item});
+            navigate(PARKING_SPACE_DETAIL, {item});
           }}>
           <View style={styles.item}>
             {image ? (

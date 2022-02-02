@@ -4,8 +4,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import Icon from '../../components/common/Icon';
 import ContactsComponent from '../../components/ContactsComponent';
-import {CONTACT_DETAIL} from '../../constants/routeNames';
-import getContacts from '../../context/actions/contacts/getContacts';
+import {PARKING_SPACE_DETAIL} from '../../constants/routeNames';
 import getParkingSpaces from '../../context/actions/parkingSpaces/getParkingSpaces';
 import {GlobalContext} from '../../context/Provider';
 import {navigate} from '../../navigations/SideMenu/RootNavigator';
@@ -48,7 +47,7 @@ const Contacts = ({navigation}) => {
     //   const newContact = newList.find(
     //     item => !prev.map(i => i.id).includes(item.id),
     //   );
-    //   navigate(CONTACT_DETAIL, {item: newContact});
+    //   navigate(PARKING_SPACE_DETAIL, {item: newContact});
     // }
   // }, [data.length]);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {
-  CONTACT_DETAIL,
+  PARKING_SPACE_DETAIL,
   PARKING_SPACE_LIST,
   CREATE_PARKING_SPACE,
   LOGOUT,
@@ -18,7 +18,7 @@ const HomeNavigator = () => {
   return (
     <HomeStack.Navigator initialRouteName={PARKING_SPACE_LIST}>
       <HomeStack.Screen name={PARKING_SPACE_LIST} component={Contacts} />
-      <HomeStack.Screen name={CONTACT_DETAIL} component={ContactDetails} />
+      <HomeStack.Screen name={PARKING_SPACE_DETAIL} component={ContactDetails} />
       <HomeStack.Screen name={CREATE_PARKING_SPACE} component={CreateContact} />
       <HomeStack.Screen name={SETTINGS} component={Settings} />
       <HomeStack.Screen name={LOGOUT} component={Logout} />

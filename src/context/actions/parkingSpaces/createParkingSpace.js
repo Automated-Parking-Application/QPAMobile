@@ -4,6 +4,7 @@ import {
   CREATE_PARKING_SPACE_LOADING,
 } from '../../../constants/actionTypes';
 import axios from '../../../helpers/axiosInstance';
+import moment from 'moment';
 
 export default form => dispatch => onSuccess => {
   const requestPayload = {
@@ -11,8 +12,8 @@ export default form => dispatch => onSuccess => {
     name: form.name || '',
     address: form.address || '',
     description: form.description || '',
-    startTime: form.startTime || '',
-    endTime: form.endTime || '',
+    startTime: moment(form.startTime || '').valueOf(),
+    endTime: moment(form.endTime || '').valueOf(),
     postingTime: form.postingTime || '',
   };
 

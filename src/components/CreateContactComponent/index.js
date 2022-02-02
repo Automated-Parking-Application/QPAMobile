@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
+import moment from 'moment';
 import {View, Text, Switch, Image, TouchableOpacity} from 'react-native';
 import Container from '../common/Container';
 import CustomButton from '../common/CustomButton';
@@ -27,6 +28,13 @@ const CreateContactComponent = ({
 }) => {
   const [openStartModal, setOpenStartModal] = useState(false);
   const [openEndModal, setOpenEndModal] = useState(false);
+  const isValidateForm = useMemo(() => {
+    return (
+      form.name &&
+      form.address &&
+      Date.parse(form.startTime) < Date.parse(form.endTime)
+    );
+  }, [form]);
 
   return (
     <View style={styles.container}>
@@ -43,7 +51,7 @@ const CreateContactComponent = ({
           style={styles.imageView}
         />
         <TouchableOpacity onPress={openSheet}>
-          <Text style={styles.chooseText}>Upload image of Parking Space</Text>
+          <Text style={styles.chooseText}>Add picture</Text>
         </TouchableOpacity>
         <Input
           onChangeText={value => {
@@ -82,9 +90,7 @@ const CreateContactComponent = ({
             alignItems: 'center',
           }}>
           <Text style={styles.chooseText}>Start Time</Text>
-          <Text>
-            {form.startTime.getHours()}:{form.startTime.getMinutes()}
-          </Text>
+          <Text>{moment(form.startTime).format('LT')}</Text>
           <CustomButton
             style={styles.pickButton}
             secondary
@@ -95,7 +101,7 @@ const CreateContactComponent = ({
             modal
             open={openStartModal}
             mode="time"
-            date={form.startTime}
+            date={new Date(form.startTime)}
             onConfirm={date => {
               setOpenStartModal(false);
               onChangeText({name: 'startTime', value: date});
@@ -114,9 +120,7 @@ const CreateContactComponent = ({
             alignItems: 'center',
           }}>
           <Text style={styles.chooseText}>End Time</Text>
-          <Text>
-            {form.endTime.getHours()}:{form.endTime.getMinutes()}
-          </Text>
+          <Text>{moment(form.endTime).format('LT')}</Text>
           <CustomButton
             secondary
             style={styles.pickButton}
@@ -127,7 +131,7 @@ const CreateContactComponent = ({
             modal
             open={openEndModal}
             mode="time"
-            date={form.endTime}
+            date={new Date(form.endTime)}
             onConfirm={date => {
               setOpenEndModal(false);
               onChangeText({name: 'endTime', value: date});
@@ -202,7 +206,7 @@ const CreateContactComponent = ({
         </View> */}
         <CustomButton
           loading={loading}
-          disabled={loading}
+          disabled={loading || !isValidateForm}
           onPress={onSubmit}
           primary
           title="Submit"

@@ -42,6 +42,8 @@ export default StyleSheet.create({
   },
 
   phoneMobile: {
+    display: 'flex',
+    justifyContent: 'center',
     flexGrow: 1,
     paddingHorizontal: 20,
   },

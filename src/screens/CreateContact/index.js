@@ -1,33 +1,26 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import CreateContactComponent from '../../components/CreateContactComponent';
-import createContact from '../../context/actions/contacts/createContact';
 import createParkingSpace from '../../context/actions/parkingSpaces/createParkingSpace';
-import {GlobalContext} from '../../context/Provider';
+import editParkingSpace from '../../context/actions/parkingSpaces/editParkingSpace';
+import moment from 'moment';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {CONTACT_DETAIL, PARKING_SPACE_LIST} from '../../constants/routeNames';
+import {
+  PARKING_SPACE_DETAIL,
+  PARKING_SPACE_LIST,
+} from '../../constants/routeNames';
 import uploadImage from '../../helpers/uploadImage';
-import countryCodes from '../../utils/countryCodes';
-import editContact from '../../context/actions/contacts/editContact';
 
 const CreateContact = () => {
-  // const {
-  //   contactsDispatch,
-  //   contactsState: {
-  //     createContact: {loading, error},
-  //   },
-  //   parkingSpacesDispatch,
-  // } = useContext(GlobalContext);
-
+  const dispatch = useDispatch();
   const {loading, error} = useSelector(
     state => state.parkingSpaces.createParkingSpace,
   );
-  const dispatch = useDispatch();
 
   const sheetRef = useRef(null);
   const [form, setForm] = useState({
-    startTime: new Date(),
-    endTime: new Date(),
+    startTime: moment(),
+    endTime: moment(),
   });
   const [errors, setErrors] = useState({});
 
@@ -39,41 +32,32 @@ const CreateContact = () => {
 
   useEffect(() => {
     if (params?.contact) {
+      console.log('update');
       setOptions({title: 'Update contact'});
       const {
-        first_name: firstName,
-        phone_number: phoneNumber,
-        last_name: lastName,
-        is_favorite: isFavorite,
-        country_code: countryCode,
+        name,
+        image,
+        address,
+        description,
+        startTime,
+        endTime,
+        postingTime,
       } = params?.contact || {};
 
       setForm(prev => {
         return {
-          ...prev,
-          firstName,
-          isFavorite,
-          phoneNumber,
-          lastName,
-          phoneCode: countryCode,
+          startTime: startTime || prev.startTime,
+          endTime: endTime || prev.endTime,
+          name,
+          image,
+          address,
+          description,
+          postingTime,
         };
       });
 
-      const country = countryCodes.find(item => {
-        return item.value.replace('+', '') === countryCode;
-      });
-
-      if (country) {
-        setForm(prev => {
-          return {
-            ...prev,
-            countryCode: country.key.toUpperCase(),
-          };
-        });
-      }
-
-      if (params?.contact?.contact_picture) {
-        setLocalFile(params?.contact.contact_picture);
+      if (params?.contact?.image) {
+        setLocalFile(params?.contact.image);
       }
     }
   }, []);
@@ -103,19 +87,27 @@ const CreateContact = () => {
         setIsUploading(true);
         uploadImage(localFile)(url => {
           setIsUploading(false);
-          editContact(
-            {...form, contactPicture: url},
-            params?.contact.id,
-          )(contactsDispatch)(item => {
-            navigate(CONTACT_DETAIL, {item});
+          dispatch(
+            editParkingSpace(
+              {...form, image: url, status: params?.contact.status},
+              params?.contact.id,
+            ),
+          )(item => {
+            navigate(PARKING_SPACE_DETAIL, {item});
           });
         })(err => {
           console.log('err :>> ', err);
           setIsUploading(false);
         });
       } else {
-        editContact(form, params?.contact.id)(contactsDispatch)(item => {
-          navigate(CONTACT_DETAIL, {item});
+        console.log(form);
+        dispatch(
+          editParkingSpace(
+            {...form, status: params?.contact.status},
+            params?.contact.id,
+          ),
+        )(item => {
+          navigate(PARKING_SPACE_DETAIL, {item});
         });
       }
     } else {

@@ -1,4 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 import React from 'react';
 import {
   View,
@@ -10,7 +11,10 @@ import {
   ScrollView,
 } from 'react-native';
 import colors from '../../assets/theme/colors';
-import {CONTACT_DETAIL, CREATE_PARKING_SPACE} from '../../constants/routeNames';
+import {
+  PARKING_SPACE_DETAIL,
+  CREATE_PARKING_SPACE,
+} from '../../constants/routeNames';
 import Icon from '../common/Icon';
 import CustomButton from '../common/CustomButton';
 import styles from './styles';
@@ -28,8 +32,7 @@ const ContactDetailsComponent = ({
   uploadSucceeded,
 }) => {
   const {navigate} = useNavigation();
-
-  const {image, name, address, description} = contact;
+  const {image, name, address, description, startTime, endTime} = contact;
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -61,11 +64,12 @@ const ContactDetailsComponent = ({
         <View style={styles.content}>
           <Text style={styles.names}>{name}</Text>
           <Text style={styles.address}>{address}</Text>
+          <Text style={styles.address}>{description}</Text>
         </View>
 
         <View style={styles.hrLine} />
 
-        <View style={styles.topCallOptions}>
+        {/* <View style={styles.topCallOptions}>
           <TouchableOpacity style={styles.topCallOption}>
             <Icon
               type="ionicon"
@@ -93,18 +97,19 @@ const ContactDetailsComponent = ({
             />
             <Text style={styles.middleText}>Video</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View style={styles.middleCallOptions}>
           <Icon
-            type="ionicon"
-            name="call-outline"
+            type="material"
+            name="access-time"
             color={colors.grey}
             size={27}
           />
           <View style={styles.phoneMobile}>
-            <Text>{description}</Text>
-            <Text>Mobile</Text>
+            <Text>
+              {moment(startTime).format('LT')} - {moment(endTime).format('LT')}
+            </Text>
           </View>
 
           <View
@@ -123,14 +128,14 @@ const ContactDetailsComponent = ({
             /> */}
           </View>
         </View>
-        <CustomButton
+        {/* <CustomButton
           style={{alignSelf: 'flex-end', marginRight: 20, width: 200}}
           primary
           title="Edit Contact"
           onPress={() => {
             navigate(CREATE_PARKING_SPACE, {contact, editing: true});
           }}
-        />
+        /> */}
       </View>
 
       <ImagePicker onFileSelected={onFileSelected} ref={sheetRef} />
