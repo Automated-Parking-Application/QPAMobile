@@ -11,8 +11,6 @@ export default (form, id) => dispatch => onSuccess => {
     type: EDIT_PARKING_SPACE_LOADING,
   });
 
-  console.log(form);
-
   axios
     .put(`/parking-space/${id}`, {
       ...form,

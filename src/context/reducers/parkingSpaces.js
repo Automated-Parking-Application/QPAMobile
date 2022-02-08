@@ -37,7 +37,7 @@ const contacts = (state, {type, payload}) => {
         getParkingSpaces: {
           ...state.getParkingSpaces,
           loading: false,
-          data: state.getParkingSpaces.data.map((item) => {
+          data: state.getParkingSpaces.data.map(item => {
             if (item.id === payload.id) {
               return payload;
             } else {
@@ -83,7 +83,7 @@ const contacts = (state, {type, payload}) => {
         getParkingSpaces: {
           ...state.getParkingSpaces,
           loading: false,
-          data: state.getParkingSpaces.data.filter((item) => item.id !== payload),
+          data: state.getParkingSpaces.data.filter(item => item.id !== payload),
           error: null,
         },
       };

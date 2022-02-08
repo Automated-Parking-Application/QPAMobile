@@ -10,10 +10,13 @@ import {
   EDIT_PARKING_SPACE_LOADING,
   EDIT_PARKING_SPACE_SUCCESS,
   EDIT_PARKING_SPACE_FAIL,
+  GET_PARKING_LOT_ATTENDANTS_LOADING,
+  GET_PARKING_LOT_ATTENDANTS_ERROR,
+  GET_PARKING_LOT_ATTENDANTS_SUCCESS
 } from '../../constants/actionTypes';
 import defaultState from '../initialStates/parkingSpacesInitialState';
 
-const contacts = (state = defaultState, {type, payload}) => {
+const parkingSpaces = (state = defaultState, {type, payload}) => {
   switch (type) {
     case EDIT_PARKING_SPACE_LOADING: {
       return {
@@ -167,9 +170,10 @@ const contacts = (state = defaultState, {type, payload}) => {
         },
       };
 
+
     default:
       return state;
   }
 };
 
-export default contacts;
+export default parkingSpaces;

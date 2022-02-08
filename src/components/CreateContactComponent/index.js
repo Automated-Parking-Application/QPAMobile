@@ -105,7 +105,6 @@ const CreateContactComponent = ({
             onConfirm={date => {
               setOpenStartModal(false);
               onChangeText({name: 'startTime', value: date});
-              console.log(date);
             }}
             onCancel={() => {
               setOpenStartModal(false);
@@ -135,7 +134,6 @@ const CreateContactComponent = ({
             onConfirm={date => {
               setOpenEndModal(false);
               onChangeText({name: 'endTime', value: date});
-              console.log(date);
             }}
             onCancel={() => {
               setOpenEndModal(false);

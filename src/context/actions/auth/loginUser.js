@@ -17,9 +17,6 @@ export default ({password, phoneNumber}) =>
         phoneNumber,
       })
       .then(res => {
-        console.log('autho', res.data.Authorization);
-        console.log('autho', res.data.User);
-
         AsyncStorage.setItem('token', res.data.Authorization);
         AsyncStorage.setItem('user', JSON.stringify(res.data.User));
         dispatch({

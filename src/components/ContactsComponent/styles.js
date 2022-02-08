@@ -24,7 +24,7 @@ export default ScaledSheet.create({
   },
 
   floatingActionButton: {
-    backgroundColor: 'red',
+    backgroundColor: '#304D63',
     width: 55,
     height: 55,
     position: 'absolute',

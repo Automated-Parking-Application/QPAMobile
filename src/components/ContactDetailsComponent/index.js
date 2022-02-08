@@ -14,6 +14,7 @@ import colors from '../../assets/theme/colors';
 import {
   PARKING_SPACE_DETAIL,
   CREATE_PARKING_SPACE,
+  PARKING_LOT_ATTENDANT_LIST,
 } from '../../constants/routeNames';
 import Icon from '../common/Icon';
 import CustomButton from '../common/CustomButton';
@@ -114,11 +115,21 @@ const ContactDetailsComponent = ({
 
           <View
             style={{
-              flexDirection: 'row',
+              flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Icon type="fa" name="users" color={colors.primary} size={27} />
+            <Icon
+              type="fa"
+              name="users"
+              color={colors.primary}
+              size={27}
+              onPress={() => {
+                navigate(PARKING_LOT_ATTENDANT_LIST, {
+                  parkingId: contact.id,
+                });
+              }}
+            />
             {/* <Icon
               type="materialCommunity"
               name="message-text"

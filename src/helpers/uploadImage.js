@@ -1,7 +1,6 @@
 import axios from '../helpers/axiosInstance';
 
 export default file => onSuccess => onError => {
-  console.log(file);
   const data = new FormData();
   data.append('file', {
     name: file.filename,
@@ -12,8 +11,6 @@ export default file => onSuccess => onError => {
         : file.sourceURL,
   });
 
-  console.log('data', data);
-
   axios
     .post('/resource/upload', data, {
       data,
@@ -22,7 +19,6 @@ export default file => onSuccess => onError => {
       },
     })
     .then(async data => {
-      console.log(data);
       onSuccess(data.data);
     })
     .catch(error => {

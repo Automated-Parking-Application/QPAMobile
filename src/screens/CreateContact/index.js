@@ -32,7 +32,6 @@ const CreateContact = () => {
 
   useEffect(() => {
     if (params?.contact) {
-      console.log('update');
       setOptions({title: 'Update contact'});
       const {
         name,
@@ -100,7 +99,6 @@ const CreateContact = () => {
           setIsUploading(false);
         });
       } else {
-        console.log(form);
         dispatch(
           editParkingSpace(
             {...form, status: params?.contact.status},

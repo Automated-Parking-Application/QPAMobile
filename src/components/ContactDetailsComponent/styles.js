@@ -1,15 +1,15 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import colors from '../../assets/theme/colors';
 
 export default StyleSheet.create({
-  scrollView: {backgroundColor: colors.white},
-  container: {flex: 1},
-  loading: {paddingLeft: '35%', paddingTop: '5%'},
-  imageContainer: {height: 300, width: '100%'},
-  detailPhoto: {height: 300, width: '100%', resizeMode: 'cover'},
-  names: {fontSize: 23},
-  address: {fontSize: 20},
-  content: {padding: 20},
+  scrollView: { backgroundColor: colors.white },
+  container: { flex: 1 },
+  loading: { paddingLeft: '35%', paddingTop: '5%' },
+  imageContainer: { height: 300, width: '100%' },
+  detailPhoto: { height: 300, width: '100%', resizeMode: 'cover' },
+  names: { fontSize: 23 },
+  address: { fontSize: 20 },
+  content: { padding: 20 },
 
   hrLine: {
     height: 10,
