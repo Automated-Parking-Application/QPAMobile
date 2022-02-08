@@ -46,7 +46,8 @@
     "redux-persist-transform-filter": "^0.0.20",
     "redux-thunk": "^2.4.1",
     "remote-redux-devtools": "^0.5.16",
-    "reselect": "^4.1.5"
+    "reselect": "^4.1.5",
+    "rn-progress-loader": "^1.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
+import ProgressLoader from 'rn-progress-loader';
 import {
   View,
   Text,
   FlatList,
+  Alert,
   Animated,
   TouchableOpacity,
   ActivityIndicator,
@@ -15,17 +17,21 @@ import Icon from '../common/Icon';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import getParkingLotAttendants from '../../context/actions/parkingLotAttendants/getParkingLotAttendants';
-import { getAllParkingLotAttendantData } from '../../store/selectors/parkingLotAttendants'
+import removeParkingLotAttendant from '../../context/actions/parkingLotAttendants/removeParkingLotAttendant';
+import {getAllParkingLotAttendantData} from '../../store/selectors/parkingLotAttendants';
 
 import styles from './styles';
 const ITEM_SIZE = 70 + 20 * 3;
-const DEFAULT_AVATAR = 'https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?k=20&m=476085198&s=612x612&w=0&h=8J3VgOZab_OiYoIuZfiMIvucFYB8vWYlKnSjKuKeYQM='
+const DEFAULT_AVATAR =
+  'https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?k=20&m=476085198&s=612x612&w=0&h=8J3VgOZab_OiYoIuZfiMIvucFYB8vWYlKnSjKuKeYQM=';
 const ParkingLotAttendantsComponent = () => {
   const {
     params: {parkingId},
   } = useRoute();
-  const parkingLotAttendants = useSelector(getAllParkingLotAttendantData(parkingId))
-  console.log('parkingLotAttendants', parkingLotAttendants)
+  const parkingLotAttendants = useSelector(
+    getAllParkingLotAttendantData(parkingId),
+  );
+  const {error, loading} = useSelector(state => state.parkingLotAttendants);
   const dispatch = useDispatch();
   const {navigate} = useNavigation();
 
@@ -55,8 +61,41 @@ const ParkingLotAttendantsComponent = () => {
   useEffect(() => {
     dispatch(getParkingLotAttendants(parkingId));
   }, [parkingId]);
+
+  const personRemoveClick =
+    ({user, parkingId}) =>
+    () => {
+      Alert.alert(
+        'Remove!',
+        `Are you sure you want to remove ${
+          user.fullName || 'this person'
+        } from this parking space?`,
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+          },
+          {
+            text: 'OK',
+            onPress: () => {
+              dispatch(removeParkingLotAttendant({userId: user.id, parkingId}))(
+                () => {},
+              );
+            },
+          },
+        ],
+      );
+    };
+
   return (
     <>
+      <ProgressLoader
+        visible={loading}
+        isModal={true}
+        isHUD={true}
+        hudColor={'#000000'}
+        color={'#FFFFFF'}
+      />
       <View style={styles.scrollView}>
         <Animated.FlatList
           data={parkingLotAttendants}
@@ -94,10 +133,28 @@ const ParkingLotAttendantsComponent = () => {
             return (
               <Animated.View
                 style={{...styles.flatListItem, opacity, transform: [{scale}]}}>
-                <Image source={{uri: item.avatar || DEFAULT_AVATAR}} style={styles.avatar} />
+                <Image
+                  source={{uri: item.avatar || DEFAULT_AVATAR}}
+                  style={styles.avatar}
+                />
                 <View>
                   <Text style={styles.name}>{item.fullName}</Text>
                   <Text style={styles.phoneNumber}>{item.phoneNumber}</Text>
+                </View>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                    flex: 1,
+                  }}>
+                  <Icon
+                    onPress={personRemoveClick({user: item, parkingId})}
+                    style={{flex: 1}}
+                    size={20}
+                    name="person-remove"
+                    type="material"></Icon>
                 </View>
               </Animated.View>
             );
