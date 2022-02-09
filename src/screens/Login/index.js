@@ -1,4 +1,5 @@
 import {useRoute} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {useContext} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
@@ -12,6 +13,18 @@ const Login = () => {
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
+  const {error, loading, data} = useSelector(state => state.auth);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        if (data || error) {
+          // clearAuthState()(authDispatch);
+          dispatch(clearAuthState());
+        }
+      };
+    }, [data, error]),
+  );
   React.useEffect(() => {
     if (params?.data) {
       setJustSignedUp(true);
@@ -19,11 +32,19 @@ const Login = () => {
     }
   }, [params]);
 
-  const {error, loading} = useSelector(state => state.auth);
-
   const onSubmit = () => {
     if (form.phoneNumber && form.password) {
       dispatch(loginUser(form));
+    }
+    if (!form.phoneNumber) {
+      setErrors(prev => {
+        return {...prev, userName: 'Please add a username'};
+      });
+    }
+    if (!form.password) {
+      setErrors(prev => {
+        return {...prev, password: 'Please add a password'};
+      });
     }
   };
 
