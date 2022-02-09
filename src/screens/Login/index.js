@@ -14,17 +14,6 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const {error, loading, data} = useSelector(state => state.auth);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      return () => {
-        if (data || error) {
-          // clearAuthState()(authDispatch);
-          dispatch(clearAuthState());
-        }
-      };
-    }, [data, error]),
-  );
   React.useEffect(() => {
     if (params?.data) {
       setJustSignedUp(true);
@@ -89,13 +78,13 @@ const Login = () => {
       });
     }
   };
-
   return (
     <LoginComponent
       onSubmit={onSubmit}
       onChange={onChange}
       form={form}
       error={error}
+      errors={errors}
       loading={loading}
       justSignedUp={justSignedUp}
     />

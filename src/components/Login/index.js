@@ -48,7 +48,6 @@ const LoginComponent = ({
               message="invalid credentials"
             />
           )}
-
           {error?.error && <Message danger onDismiss message={error?.error} />}
 
           <Input
@@ -56,7 +55,7 @@ const LoginComponent = ({
             iconPosition="right"
             placeholder="Enter Phone Number"
             value={form.phoneNumber || null}
-            // error={errors.phoneNumber || error?.phoneNumber?.[0]}
+            error={errors.phoneNumber || error?.phoneNumber?.[0]}
             onChangeText={value => {
               onChange({name: 'phoneNumber', value});
             }}
@@ -75,6 +74,7 @@ const LoginComponent = ({
               </TouchableOpacity>
             }
             iconPosition="right"
+            error={errors.password || error?.password?.[0]}
             onChangeText={value => {
               onChange({name: 'password', value});
             }}
