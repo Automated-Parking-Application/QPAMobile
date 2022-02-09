@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import Container from '../../components/common/Container';
-import {SETTINGS} from '../../constants/routeNames';
+import {SETTINGS, LOGIN, LOGOUT} from '../../constants/routeNames';
 import logoutUser from '../../context/actions/auth/logoutUser';
 import { useDispatch} from 'react-redux';
 
@@ -29,8 +29,8 @@ const SideMenu = ({navigation, authDispatch}) => {
       {
         text: 'OK',
         onPress: () => {
+          navigation.navigate(LOGIN);
           dispatch(logoutUser());
-          navigation.navigate(SETTINGS);
         },
       },
     ]);
