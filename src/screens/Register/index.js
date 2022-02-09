@@ -13,12 +13,13 @@ const Register = () => {
   const [form, setForm] = useState({});
   const {navigate} = useNavigation();
   const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
   // const {
   //   authDispatch,
   //   authState: {error, loading, data},
   // } = useContext(GlobalContext);
 
-  const {error, loading, data} = useState(state => state.auth);
+  const {error, loading, data} = useSelector(state => state.auth);
 
   useFocusEffect(
     React.useCallback(() => {
