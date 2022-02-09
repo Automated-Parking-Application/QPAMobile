@@ -11,6 +11,7 @@ import styles from './styles';
 
 const LoginComponent = ({
   error,
+  errors,
   form,
   justSignedUp,
   onChange,
@@ -55,6 +56,7 @@ const LoginComponent = ({
             iconPosition="right"
             placeholder="Enter Phone Number"
             value={form.phoneNumber || null}
+            // error={errors.phoneNumber || error?.phoneNumber?.[0]}
             onChangeText={value => {
               onChange({name: 'phoneNumber', value});
             }}
