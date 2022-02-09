@@ -9,12 +9,13 @@ const Login = () => {
   const [form, setForm] = useState({});
   const [justSignedUp, setJustSignedUp] = useState(false);
   const {params} = useRoute();
+  const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
   React.useEffect(() => {
     if (params?.data) {
       setJustSignedUp(true);
-      setForm({...form, phoneNumbẻ: params.data.phonenumber});
+      setForm({...form, phoneNumber: params.data.phonenumber});
     }
   }, [params]);
 
@@ -29,6 +30,43 @@ const Login = () => {
   const onChange = ({name, value}) => {
     setJustSignedUp(false);
     setForm({...form, [name]: value});
+    if (value !== '') {
+      switch (name) {
+        case 'password': {
+          if (value.length < 6) {
+            setErrors(prev => {
+              return {...prev, [name]: 'This field needs min 6 characters'};
+            });
+          } else {
+            setErrors(prev => {
+              return {...prev, [name]: null};
+            });
+          }
+          break;
+        }
+        case 'phoneNumber': {
+          if (isNaN(value)) {
+            setErrors(prev => {
+              return {...prev, [name]: 'Number only'};
+            });
+          } else {
+            setErrors(prev => {
+              return {...prev, [name]: null};
+            });
+          }
+          break;
+        }
+        default: {
+          setErrors(prev => {
+            return {...prev, [name]: null};
+          });
+        }
+      }
+    } else {
+      setErrors(prev => {
+        return {...prev, [name]: 'This field is required'};
+      });
+    }
   };
 
   return (
