@@ -75,6 +75,15 @@ const RegisterComponent = ({
               onChange({name: 'email', value});
             }}
           />
+          <Input
+            label="Address"
+            iconPosition="right"
+            placeholder="Enter Address"
+            error={errors.address || error?.address?.[0]}
+            onChangeText={value => {
+              onChange({name: 'address', value});
+            }}
+          />
 
           <Input
             label="Password"
