@@ -42,7 +42,7 @@ const AppNavContainer = () => {
     <>
       {authLoaded ? (
         <NavigationContainer ref={navigationRef}>
-          {isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
+          {isLoggedIn && isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
         </NavigationContainer>
       ) : (
         <ActivityIndicator />

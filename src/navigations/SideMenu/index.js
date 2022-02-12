@@ -29,7 +29,6 @@ const SideMenu = ({navigation, authDispatch}) => {
       {
         text: 'OK',
         onPress: () => {
-          navigation.navigate(LOGIN);
           dispatch(logoutUser());
         },
       },
