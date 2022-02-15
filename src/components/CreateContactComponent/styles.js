@@ -16,6 +16,6 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   pickButton: {
-    width: 120
-  }
+    width: 120,
+  },
 });

@@ -25,16 +25,6 @@ const Login = () => {
     if (form.phoneNumber && form.password) {
       dispatch(loginUser(form));
     }
-    if (!form.phoneNumber) {
-      setErrors(prev => {
-        return {...prev, userName: 'Please add a username'};
-      });
-    }
-    if (!form.password) {
-      setErrors(prev => {
-        return {...prev, password: 'Please add a password'};
-      });
-    }
   };
 
   const onChange = ({name, value}) => {

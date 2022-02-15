@@ -1,7 +1,7 @@
 // import {DEV_BACKEND_URL, PROD_BACKEND_URL} from '@env';
 
 const devEnvironmentVariables = {
-  BACKEND_URL: 'http://10.0.2.2:8080/',
+  BACKEND_URL: 'http://localhost:8080/',
 };
 
 const prodEnvironmentVariables = {

@@ -10,6 +10,7 @@ export default ScaledSheet.create({
     flexGrow: 1,
   },
   item: {
+    maxWidth: 300,
     flexDirection: 'row',
     paddingVertical: 10,
     alignItems: 'center',
