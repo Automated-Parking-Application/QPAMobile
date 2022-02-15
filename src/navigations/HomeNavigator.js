@@ -8,6 +8,7 @@ import {
   SETTINGS,
   PARKING_LOT_ATTENDANT_LIST,
   ADD_PARKING_LOT_ATTENDANT,
+  REQUEST_QR_CODE
 } from '../constants/routeNames';
 import Contacts from '../screens/Contacts';
 import ContactDetails from '../screens/ContactDetail';
@@ -16,6 +17,7 @@ import CreateContact from '../screens/CreateContact';
 import Settings from '../screens/Settings';
 import Logout from '../screens/Logout';
 import AddParkingLotAttendant from '../screens/AddParkingLotAttendant';
+import RequestQR from '../screens/RequestQR';
 
 const HomeNavigator = () => {
   const HomeStack = createStackNavigator();
@@ -33,6 +35,10 @@ const HomeNavigator = () => {
       <HomeStack.Screen
         name={ADD_PARKING_LOT_ATTENDANT}
         component={AddParkingLotAttendant}
+      />
+      <HomeStack.Screen
+        name={REQUEST_QR_CODE}
+        component={RequestQR}
       />
       <HomeStack.Screen name={CREATE_PARKING_SPACE} component={CreateContact} />
       <HomeStack.Screen name={SETTINGS} component={Settings} />
