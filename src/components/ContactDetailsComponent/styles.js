@@ -37,6 +37,7 @@ export default StyleSheet.create({
 
   middleCallOptions: {
     flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 20,
     paddingHorizontal: 20,
   },
