@@ -34,6 +34,7 @@ const Register = () => {
 
   const onChange = ({name, value}) => {
     setForm({...form, [name]: value});
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
     if (value !== '') {
       switch (name) {
@@ -109,6 +110,11 @@ const Register = () => {
         return {...prev, email: 'Please add a email'};
       });
     }
+    if (!form.address) {
+      setErrors(prev => {
+        return {...prev, address: 'Please add a address'};
+      });
+    }
     if (!form.password) {
       setErrors(prev => {
         return {...prev, password: 'Please add a password'};
@@ -118,7 +124,7 @@ const Register = () => {
     if (
       Object.values(form).length === 5 &&
       Object.values(form).every(item => item.trim().length > 0) &&
-      Object.values(errors).every(item => !item)
+      Object.values(errors).every(item => !item)  
     ) {
       register(form)(dispatch)(response => {
         navigate(LOGIN, {data: response});
