@@ -48,22 +48,6 @@ const Register = () => {
           });
         }
       }
-      if (name === 'email') {
-        if (reg.test(value) === false) {
-          setErrors(prev => {
-            return {...prev, [name]: 'Email is not correct'};
-          });
-        } else {
-          setErrors(prev => {
-            return {...prev, [name]: null};
-          });
-        }
-      }
-      else {
-        setErrors(prev => {
-          return {...prev, [name]: null};
-        });
-      }
     } else {
       setErrors(prev => {
         return {...prev, [name]: 'This field is required'};
