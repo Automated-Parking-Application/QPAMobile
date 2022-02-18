@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AuthNavigator from './AuthNavigator';
 import DrawerNavigator from './DrawerNavigator';
@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ActivityIndicator} from 'react-native';
 import {navigationRef} from './SideMenu/RootNavigator';
 import SplashScreen from 'react-native-splash-screen';
-
+import Tabs from "./BottomTabs"
 const AppNavContainer = () => {
   const isLoggedIn = useSelector(state => {
     return state.auth.isLoggedIn;

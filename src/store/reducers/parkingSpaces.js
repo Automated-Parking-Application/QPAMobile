@@ -10,9 +10,8 @@ import {
   EDIT_PARKING_SPACE_LOADING,
   EDIT_PARKING_SPACE_SUCCESS,
   EDIT_PARKING_SPACE_FAIL,
-  GET_PARKING_LOT_ATTENDANTS_LOADING,
-  GET_PARKING_LOT_ATTENDANTS_ERROR,
-  GET_PARKING_LOT_ATTENDANTS_SUCCESS
+  SET_SELECTED_PARKING_SPACE,
+  REMOVE_SELECTED_PARKING_SPACE
 } from '../../constants/actionTypes';
 import defaultState from '../initialStates/parkingSpacesInitialState';
 
@@ -170,6 +169,18 @@ const parkingSpaces = (state = defaultState, {type, payload}) => {
         },
       };
 
+    case SET_SELECTED_PARKING_SPACE:
+      return {
+        ...state,
+        selectedParkingSpace: payload,
+      };
+
+    case REMOVE_SELECTED_PARKING_SPACE:
+      const newState = {...state};
+      delete newState.selectedParkingSpace;
+      return {
+        ...newState,
+      };
 
     default:
       return state;

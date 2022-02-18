@@ -6,7 +6,6 @@ import Icon from '../../components/common/Icon';
 import ContactsComponent from '../../components/ContactsComponent';
 import {PARKING_SPACE_DETAIL} from '../../constants/routeNames';
 import getParkingSpaces from '../../context/actions/parkingSpaces/getParkingSpaces';
-import {GlobalContext} from '../../context/Provider';
 import {navigate} from '../../navigations/SideMenu/RootNavigator';
 import { useSelector, useDispatch } from "react-redux";
 

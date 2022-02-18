@@ -20,6 +20,7 @@ import Settings from '../screens/Settings';
 import Logout from '../screens/Logout';
 import AddParkingLotAttendant from '../screens/AddParkingLotAttendant';
 import RequestQR from '../screens/RequestQR';
+import Tabs from './BottomTabs';
 
 const HomeNavigator = () => {
   const isAdmin =
@@ -27,6 +28,12 @@ const HomeNavigator = () => {
   const isParkingLotAttendant =
     useSelector(state => state.auth.data?.User?.roleByRoleId?.name) ===
     'PARKING_ATTENDANT';
+  const hasCheckedInParkingSpace =
+    typeof useSelector(
+      state => state?.parkingSpaces?.selectedParkingSpace?.id,
+    ) === 'number';
+
+  console.log(hasCheckedInParkingSpace);
 
   const HomeStack = createStackNavigator();
   return isAdmin ? (
@@ -50,16 +57,19 @@ const HomeNavigator = () => {
       <HomeStack.Screen name={LOGOUT} component={Logout} />
     </HomeStack.Navigator>
   ) : (
-    isParkingLotAttendant && (
-      <HomeStack.Navigator initialRouteName={PARKING_SPACE_LIST}>
-        <HomeStack.Screen
-          name={PARKING_SPACE_LIST}
-          component={ParkingSpaceList}
-        />
-        <HomeStack.Screen name={SETTINGS} component={Settings} />
-        <HomeStack.Screen name={LOGOUT} component={Logout} />
-      </HomeStack.Navigator>
-    )
+    isParkingLotAttendant &&
+      (hasCheckedInParkingSpace ? (
+        <Tabs />
+      ) : (
+        <HomeStack.Navigator initialRouteName={PARKING_SPACE_LIST}>
+          <HomeStack.Screen
+            name={PARKING_SPACE_LIST}
+            component={ParkingSpaceList}
+          />
+          <HomeStack.Screen name={SETTINGS} component={Settings} />
+          <HomeStack.Screen name={LOGOUT} component={Logout} />
+        </HomeStack.Navigator>
+      ))
   );
 };
 export default HomeNavigator;
