@@ -10,12 +10,12 @@ import authInitialState from '../initialStates/authState';
 const config = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'parkingSpaces', 'parkingLotAttendants'],
-  transforms: [
-    createWhitelistFilter('auth', ['auth']),
-    createWhitelistFilter('parkingSpaces', ['parkingSpaces']),
-    createWhitelistFilter('parkingLotAttendants', ['parkingLotAttendants']),
-  ],
+  // whitelist: ['auth', 'parkingSpaces', 'parkingLotAttendants'],
+  // transforms: [
+  //   createWhitelistFilter('auth', ['auth']),
+  //   createWhitelistFilter('parkingSpaces', ['parkingSpaces']),
+  //   createWhitelistFilter('parkingLotAttendants', ['parkingLotAttendants']),
+  // ],
 };
 
 const appReducer = persistCombineReducers(config, {

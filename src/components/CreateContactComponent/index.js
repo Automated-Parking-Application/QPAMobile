@@ -1,6 +1,16 @@
 import React, {useState, useMemo} from 'react';
 import moment from 'moment';
-import {View, Text, Switch, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Switch,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  Dimensions,
+} from 'react-native';
+import { Input as FakeInput } from 'react-native-elements';
+
 import Container from '../common/Container';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
@@ -11,6 +21,8 @@ import {DEFAULT_IMAGE_URI} from '../../constants/general';
 import colors from '../../assets/theme/colors';
 import ImagePicker from '../common/ImagePicker';
 import DatePicker from 'react-native-date-picker';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import Modal from 'react-native-modalbox';
 
 const CreateContactComponent = ({
   loading,
@@ -28,6 +40,9 @@ const CreateContactComponent = ({
 }) => {
   const [openStartModal, setOpenStartModal] = useState(false);
   const [openEndModal, setOpenEndModal] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const {width, height} = Dimensions.get('window');
+
   const isValidateForm = useMemo(() => {
     return (
       form.name &&
@@ -38,6 +53,51 @@ const CreateContactComponent = ({
 
   return (
     <View style={styles.container}>
+      <Modal
+        entry="bottom"
+        backdropPressToClose={true}
+        isOpen={modalVisible}
+        style={{
+          overflow: 'hidden',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height,
+          width,
+          backgroundColor: 'transparent',
+        }}
+        onClosed={() => setModalVisible(false)}>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            width,
+            height: 500,
+            borderTopLeftRadius: 20,
+            justifyContent: 'center',
+            padding: 20,
+            alignItems: 'center',
+            borderTopRightRadius: 20,
+            backgroundColor: 'white',
+            fontSize: 22,
+          }}>
+          <GooglePlacesAutocomplete
+            placeholder="Search"
+            textInputProps={{
+              InputComp: FakeInput,
+              errorStyle: { color: 'red' },
+            }}
+            onPress={(data, details = null) => {
+              console.log(data.description);
+              setModalVisible(false)
+              onChangeText({name: 'address', value: data.description});
+            }}
+            query={{
+              key: 'AIzaSyADX9pr4gKB-cLS3lxtMU2JsskKlwnbbM4',
+              language: 'vi',
+            }}
+          />
+        </View>
+      </Modal>
       <Container>
         <Image
           width={150}
@@ -62,15 +122,23 @@ const CreateContactComponent = ({
           placeholder="Enter Name"
           error={errors?.name}
         />
-        <Input
-          error={errors?.address}
-          onChangeText={value => {
-            onChangeText({name: 'address', value: value});
-          }}
-          value={form.address || ''}
-          label="Address"
-          placeholder="Enter Address"
-        />
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible(true);
+          }}>
+          <Input
+            disabled
+            pointerEvents="none"
+            error={errors?.address}
+            onChangeText={value => {
+              onChangeText({name: 'address', value: value});
+            }}
+            value={form.address || ''}
+            label="Address"
+            placeholder="Enter Address"
+          />
+        </TouchableOpacity>
+
         <Input
           multiline={true}
           numberOfLines={4}
@@ -158,50 +226,6 @@ const CreateContactComponent = ({
           label="Posting Time (hours)"
           placeholder="Enter Posting Time"
         />
-        {/* <Input
-          icon={
-            <CountryPicker
-              withFilter
-              withFlag
-              countryCode={form.countryCode || undefined}
-              withCountryNameButton={false}
-              withCallingCode
-              withCallingCodeButton
-              withEmoji
-              onSelect={v => {
-                const phoneCode = v.callingCode[0];
-                const cCode = v.cca2;
-                setForm({...form, phoneCode, countryCode: cCode});
-              }}
-            />
-          }
-          style={{paddingLeft: 10}}
-          iconPosition="left"
-          value={form.phoneNumber || ''}
-          error={errors?.phone_number?.[0]}
-          onChangeText={value => {
-            onChangeText({name: 'phoneNumber', value: value});
-          }}
-          label="Phone Number"
-          placeholder="Enter phone number"
-        /> */}
-        {/* <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingVertical: 10,
-          }}>
-          <Text style={{fontSize: 17}}>Add to favorites</Text>
-
-          <Switch
-            trackColor={{false: 'blue', true: colors.primary}}
-            thumbColor="#FFFFFF"
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleValueChange}
-            value={form.isFavorite}
-          />
-        </View> */}
         <CustomButton
           loading={loading}
           disabled={loading || !isValidateForm}

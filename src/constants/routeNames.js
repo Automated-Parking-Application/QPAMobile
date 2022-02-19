@@ -7,3 +7,6 @@ export const LOGIN = 'Login';
 export const REGISTER = 'Register';
 export const HOME_NAVIGATOR = 'Home';
 export const LOGOUT = 'LOGOUT';
+export const ADD_PARKING_LOT_ATTENDANT = "Add Parking Lot Attendant"
+export const REQUEST_QR_CODE = "Request QR Code"
+

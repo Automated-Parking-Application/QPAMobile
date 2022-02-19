@@ -14,6 +14,7 @@ export const clearAuthState = () => (dispatch) => {
 
 export default ({
   email,
+  address,
   password,
   phoneNumber,
   firstName: first_name,
@@ -25,6 +26,7 @@ export default ({
   axiosInstance
     .post('user/register', {
       email,
+      address,
       password,
       phoneNumber,
       first_name,

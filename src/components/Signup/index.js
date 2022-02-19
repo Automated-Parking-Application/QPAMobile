@@ -1,6 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-
 import {Image, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Container from '../../components/common/Container';
@@ -73,6 +72,15 @@ const RegisterComponent = ({
             error={errors.email || error?.email?.[0]}
             onChangeText={value => {
               onChange({name: 'email', value});
+            }}
+          />
+          <Input
+            label="Address"
+            iconPosition="right"
+            placeholder="Enter Address"
+            error={errors.address || error?.address?.[0]}
+            onChangeText={value => {
+              onChange({name: 'address', value});
             }}
           />
 

@@ -34,22 +34,53 @@ const Register = () => {
 
   const onChange = ({name, value}) => {
     setForm({...form, [name]: value});
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
     if (value !== '') {
-      if (name === 'password') {
-        if (value.length < 6) {
-          setErrors(prev => {
-            return {...prev, [name]: 'This field needs min 6 characters'};
-          });
-        } else {
+      switch (name) {
+        case 'password': {
+          if (value.length < 6) {
+            setErrors(prev => {
+              return {...prev, [name]: 'This field needs min 6 characters'};
+            });
+          } else {
+            setErrors(prev => {
+              return {...prev, [name]: null};
+            });
+          }
+          break;
+        }
+        case 'phoneNumber': {
+          if (isNaN(value)) {
+            setErrors(prev => {
+              return {...prev, [name]: 'Number only'};
+            });
+          } else {
+            setErrors(prev => {
+              return {...prev, [name]: null};
+            });
+          }
+          break;
+        }
+        case 'email': {
+          let reg =
+            /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i;
+          if (reg.test(value) === false) {
+            setErrors(prev => {
+              return {...prev, [name]: 'Email is not valid'};
+            });
+          } else {
+            setErrors(prev => {
+              return {...prev, [name]: null};
+            });
+          }
+          break;
+        }
+        default: {
           setErrors(prev => {
             return {...prev, [name]: null};
           });
         }
-      } else {
-        setErrors(prev => {
-          return {...prev, [name]: null};
-        });
       }
     } else {
       setErrors(prev => {
@@ -79,6 +110,11 @@ const Register = () => {
         return {...prev, email: 'Please add a email'};
       });
     }
+    if (!form.address) {
+      setErrors(prev => {
+        return {...prev, address: 'Please add a address'};
+      });
+    }
     if (!form.password) {
       setErrors(prev => {
         return {...prev, password: 'Please add a password'};
@@ -88,7 +124,7 @@ const Register = () => {
     if (
       Object.values(form).length === 5 &&
       Object.values(form).every(item => item.trim().length > 0) &&
-      Object.values(errors).every(item => !item)
+      Object.values(errors).every(item => !item)  
     ) {
       register(form)(dispatch)(response => {
         navigate(LOGIN, {data: response});
