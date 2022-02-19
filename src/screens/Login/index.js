@@ -17,7 +17,7 @@ const Login = () => {
   React.useEffect(() => {
     if (params?.data) {
       setJustSignedUp(true);
-      setForm({...form, phoneNumber: params.data.phonenumber});
+      setForm({...form, phoneNumbẻ: params.data.phonenumber});
     }
   }, [params]);
 
