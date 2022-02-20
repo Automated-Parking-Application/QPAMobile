@@ -9,7 +9,6 @@ const Logout = ({navigation}) => {
 
   useEffect(() => {
     dispatch(logoutUser());
-    navigation.navigate(LOGIN);
   }, []);
 
   return <ActivityIndicator />;

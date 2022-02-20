@@ -19,7 +19,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import getParkingLotAttendants from '../../context/actions/parkingLotAttendants/getParkingLotAttendants';
 import removeParkingLotAttendant from '../../context/actions/parkingLotAttendants/removeParkingLotAttendant';
 import {getAllParkingLotAttendantData} from '../../store/selectors/parkingLotAttendants';
-
+import {ADD_PARKING_LOT_ATTENDANT} from '../../constants/routeNames';
 import styles from './styles';
 const ITEM_SIZE = 70 + 20 * 3;
 const DEFAULT_AVATAR =
@@ -164,7 +164,9 @@ const ParkingLotAttendantsComponent = () => {
       <TouchableOpacity
         style={styles.floatingActionButton}
         onPress={() => {
-          navigate(ADD_PARKING_LOT_ATTENDANT);
+          navigate(ADD_PARKING_LOT_ATTENDANT, {
+            parkingId,
+          });
         }}>
         <Icon name="plus" size={21} color={colors.white} />
       </TouchableOpacity>

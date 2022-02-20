@@ -1,5 +1,8 @@
 import React, {useState, useMemo, useCallback} from 'react';
+<<<<<<< HEAD
 import {useContext} from 'react';
+=======
+>>>>>>> master
 import moment from 'moment';
 import {
   Container,
@@ -14,11 +17,15 @@ import {ADD_PARKING_LOT_ATTENDANTS_SUCCESS} from '../../constants/actionTypes';
 import getParkingLotAttendants from '../../context/actions/parkingLotAttendants/getParkingLotAttendants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {PARKING_LOT_ATTENDANT_LIST} from '../../constants/routeNames';
+<<<<<<< HEAD
 import {useFocusEffect} from '@react-navigation/native';
+=======
+>>>>>>> master
 import CustomButton from '../../components/common/CustomButton';
 import Input from '../common/Input';
 import axios from '../../helpers/axiosInstance';
 import {useSelector, useDispatch} from 'react-redux';
+<<<<<<< HEAD
 import Message from '../common/Message';
 
 const AddParkingLotAttendantComponent = () => {
@@ -39,10 +46,19 @@ const AddParkingLotAttendantComponent = () => {
       };
     }, [data, error]),
   );
+=======
+
+const AddParkingLotAttendantComponent = () => {
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
+>>>>>>> master
   const {
     params: {parkingId},
   } = useRoute();
   const dispatch = useDispatch();
+<<<<<<< HEAD
   const onChange = ({name, value}) => {
     setForm({...form, [name]: value});
     if (value !== '') {
@@ -68,6 +84,9 @@ const AddParkingLotAttendantComponent = () => {
         });
       }
     };
+=======
+
+>>>>>>> master
   const onSubmit = useCallback(() => {
     setIsLoading(true);
     console.log(phoneNumber);
@@ -76,7 +95,11 @@ const AddParkingLotAttendantComponent = () => {
         phoneNumber,
       })
       .then(res => {
+<<<<<<< HEAD
         Alert.alert('Successfull!', "", [
+=======
+        Alert.alert('Successfull!', "",[
+>>>>>>> master
           {
             text: 'OK',
             onPress: () => {
@@ -89,6 +112,7 @@ const AddParkingLotAttendantComponent = () => {
       })
       .catch(err => {
         console.log(err);
+<<<<<<< HEAD
         Alert.alert('Error!', 'Something went wrong!', [
           {
             text: 'Try Again',
@@ -102,6 +126,20 @@ const AddParkingLotAttendantComponent = () => {
         return {...prev, userName: 'Please add a phone number'};
       });
     }
+=======
+        Alert.alert(
+          'Error!',
+          'Something went wrong!',
+          [
+            {
+              text: 'Try Again',
+              onPress: () => {},
+            },
+          ],
+        );
+        setIsLoading(false);
+      });
+>>>>>>> master
   }, [phoneNumber, parkingId]);
   return (
     <View
@@ -111,9 +149,12 @@ const AddParkingLotAttendantComponent = () => {
         display: 'flex',
         alignItems: 'center',
       }}>
+<<<<<<< HEAD
         {error?.error && (
             <Message retry danger retryFn={onSubmit} message={error?.error} />
           )}
+=======
+>>>>>>> master
       <Image
         height={200}
         width={200}
@@ -138,9 +179,14 @@ const AddParkingLotAttendantComponent = () => {
         <Input
           style={{width: '100%'}}
           onChangeText={value => {
+<<<<<<< HEAD
             onChange({name: 'phoneNumber', value});
           }}
           error={errors.phoneNumber || error?.phoneNumber?.[0]}
+=======
+            setPhoneNumber(value);
+          }}
+>>>>>>> master
           value={phoneNumber}
           label="Phone Number"
           placeholder="Enter Phone Number"

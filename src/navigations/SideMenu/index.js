@@ -10,13 +10,18 @@ import {
 import Container from '../../components/common/Container';
 import {SETTINGS, LOGIN, LOGOUT} from '../../constants/routeNames';
 import logoutUser from '../../context/actions/auth/logoutUser';
-import { useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import removeSelectedParkingSpace from '../../context/actions/parkingSpaces/removeSelectedParkingSpace';
 
 import styles from './styles';
 import Icon from '../../components/common/Icon';
 
 const SideMenu = ({navigation, authDispatch}) => {
   const dispatch = useDispatch();
+  const hasCheckedInParkingSpace =
+    typeof useSelector(
+      state => state?.parkingSpaces?.selectedParkingSpace?.id,
+    ) === 'number';
 
   const handleLogout = () => {
     navigation.toggleDrawer();
@@ -29,27 +34,55 @@ const SideMenu = ({navigation, authDispatch}) => {
       {
         text: 'OK',
         onPress: () => {
-          navigation.navigate(LOGIN);
           dispatch(logoutUser());
         },
       },
     ]);
   };
 
-  const menuItems = [
-    {
-      icon: <Icon type="fontisto" size={17} name="player-settings" />,
-      name: 'Settings',
-      onPress: () => {
-        navigation.navigate(SETTINGS);
-      },
-    },
-    {
-      icon: <Icon type="material" size={17} name="logout" />,
-      name: 'Logout',
-      onPress: handleLogout,
-    },
-  ];
+  const menuItems = hasCheckedInParkingSpace
+    ? [
+        {
+          icon: <Icon type="fontisto" size={17} name="player-settings" />,
+          name: 'Settings',
+          onPress: () => {
+            navigation.navigate(SETTINGS);
+          },
+        },
+        {
+          icon: (
+            <Icon
+              type="materialCommunity"
+              size={17}
+              name="account-arrow-left"
+            />
+          ),
+          name: 'Leave Parking Space',
+          onPress: () => {
+            dispatch(removeSelectedParkingSpace());
+            navigation.toggleDrawer();
+          },
+        },
+        {
+          icon: <Icon type="material" size={17} name="logout" />,
+          name: 'Logout',
+          onPress: handleLogout,
+        },
+      ]
+    : [
+        {
+          icon: <Icon type="fontisto" size={17} name="player-settings" />,
+          name: 'Settings',
+          onPress: () => {
+            navigation.navigate(SETTINGS);
+          },
+        },
+        {
+          icon: <Icon type="material" size={17} name="logout" />,
+          name: 'Logout',
+          onPress: handleLogout,
+        },
+      ];
   return (
     <SafeAreaView>
       <Container>
