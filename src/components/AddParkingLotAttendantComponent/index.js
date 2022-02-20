@@ -23,6 +23,7 @@ import Message from '../common/Message';
 
 const AddParkingLotAttendantComponent = () => {
   const [form, setForm] = useState({});
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [errors, setErrors] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
