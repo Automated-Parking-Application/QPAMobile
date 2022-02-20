@@ -11,7 +11,6 @@ const Login = () => {
   const [justSignedUp, setJustSignedUp] = useState(false);
   const {params} = useRoute();
   const [errors, setErrors] = useState({});
-
   const dispatch = useDispatch();
   const {error, loading, data} = useSelector(state => state.auth);
   React.useEffect(() => {

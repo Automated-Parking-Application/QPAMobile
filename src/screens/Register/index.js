@@ -14,13 +14,7 @@ const Register = () => {
   const {navigate} = useNavigation();
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
-  // const {
-  //   authDispatch,
-  //   authState: {error, loading, data},
-  // } = useContext(GlobalContext);
-
   const {error, loading, data} = useSelector(state => state.auth);
-
   useFocusEffect(
     React.useCallback(() => {
       return () => {
