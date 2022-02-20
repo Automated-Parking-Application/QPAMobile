@@ -140,6 +140,7 @@ const AddParkingLotAttendantComponent = () => {
             onChange({name: 'phoneNumber', value});
           }}
           error={errors.phoneNumber || error?.phoneNumber?.[0]}
+          value={phoneNumber}
           label="Phone Number"
           placeholder="Enter Phone Number"
         />
