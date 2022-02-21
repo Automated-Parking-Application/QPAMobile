@@ -20,32 +20,14 @@ import {useSelector, useDispatch} from 'react-redux';
 
 const AddParkingLotAttendantComponent = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [error, setError] = useState({});
+  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
   const {
     params: {parkingId},
   } = useRoute();
   const dispatch = useDispatch();
-  const onChange = ({name, value}) => {
-    if (value !== '') {
-      if (name === 'phoneNumber') {
-        if (isNaN(value)) {
-          setError(prev => {
-            return {...prev, [name]: 'Number only'};
-          });
-        } else {
-          setError(prev => {
-            return {...prev, [name]: null};
-          });
-        }
-      }
-    } else {
-      setError(prev => {
-        return {...prev, [name]: 'This field is required'};
-      });
-    }
-  };
+
   const onSubmit = useCallback(() => {
     setIsLoading(true);
     console.log(phoneNumber);
@@ -112,9 +94,8 @@ const AddParkingLotAttendantComponent = () => {
         <Input
           style={{width: '100%'}}
           onChangeText={value => {
-            setPhoneNumber(value); onChange({name: 'phoneNumber', value});
+            setPhoneNumber(value);
           }}
-          error={error.phoneNumber}
           value={phoneNumber}
           label="Phone Number"
           placeholder="Enter Phone Number"
