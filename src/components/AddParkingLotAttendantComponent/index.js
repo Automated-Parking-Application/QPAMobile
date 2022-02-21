@@ -1,5 +1,4 @@
 import React, {useState, useMemo, useCallback} from 'react';
-import {useContext} from 'react';
 import moment from 'moment';
 import {
   Container,
@@ -14,60 +13,39 @@ import {ADD_PARKING_LOT_ATTENDANTS_SUCCESS} from '../../constants/actionTypes';
 import getParkingLotAttendants from '../../context/actions/parkingLotAttendants/getParkingLotAttendants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {PARKING_LOT_ATTENDANT_LIST} from '../../constants/routeNames';
-import {useFocusEffect} from '@react-navigation/native';
 import CustomButton from '../../components/common/CustomButton';
 import Input from '../common/Input';
 import axios from '../../helpers/axiosInstance';
 import {useSelector, useDispatch} from 'react-redux';
-import Message from '../common/Message';
 
 const AddParkingLotAttendantComponent = () => {
-  const [form, setForm] = useState({});
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [errors, setErrors] = useState(null);
+  const [error, setError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
-  const {error, loading, data} = useSelector(state => state.auth);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      return () => {
-        if (data || error) {
-          // clearAuthState()(authDispatch);
-          dispatch(clearAuthState());
-        }
-      };
-    }, [data, error]),
-  );
   const {
     params: {parkingId},
   } = useRoute();
   const dispatch = useDispatch();
   const onChange = ({name, value}) => {
-    setForm({...form, [name]: value});
     if (value !== '') {
       if (name === 'phoneNumber') {
         if (isNaN(value)) {
-          setErrors(prev => {
+          setError(prev => {
             return {...prev, [name]: 'Number only'};
           });
         } else {
-          setErrors(prev => {
+          setError(prev => {
             return {...prev, [name]: null};
           });
         }
       }
-      else {
-          setErrors(prev => {
-            return {...prev, [name]: null};
-          });
-        }
-      } else {
-        setErrors(prev => {
-          return {...prev, [name]: 'This field is required'};
-        });
-      }
-    };
+    } else {
+      setError(prev => {
+        return {...prev, [name]: 'This field is required'};
+      });
+    }
+  };
   const onSubmit = useCallback(() => {
     setIsLoading(true);
     console.log(phoneNumber);
@@ -76,7 +54,7 @@ const AddParkingLotAttendantComponent = () => {
         phoneNumber,
       })
       .then(res => {
-        Alert.alert('Successfull!', "", [
+        Alert.alert('Successfull!', "",[
           {
             text: 'OK',
             onPress: () => {
@@ -89,19 +67,18 @@ const AddParkingLotAttendantComponent = () => {
       })
       .catch(err => {
         console.log(err);
-        Alert.alert('Error!', 'Something went wrong!', [
-          {
-            text: 'Try Again',
-            onPress: () => {},
-          },
-        ]);
+        Alert.alert(
+          'Error!',
+          'Something went wrong!',
+          [
+            {
+              text: 'Try Again',
+              onPress: () => {},
+            },
+          ],
+        );
         setIsLoading(false);
       });
-    if (!form.phoneNumber) {
-      setErrors(prev => {
-        return {...prev, userName: 'Please add a phone number'};
-      });
-    }
   }, [phoneNumber, parkingId]);
   return (
     <View
@@ -111,9 +88,6 @@ const AddParkingLotAttendantComponent = () => {
         display: 'flex',
         alignItems: 'center',
       }}>
-        {error?.error && (
-            <Message retry danger retryFn={onSubmit} message={error?.error} />
-          )}
       <Image
         height={200}
         width={200}
@@ -138,9 +112,9 @@ const AddParkingLotAttendantComponent = () => {
         <Input
           style={{width: '100%'}}
           onChangeText={value => {
-            onChange({name: 'phoneNumber', value});
+            setPhoneNumber(value); onChange({name: 'phoneNumber', value});
           }}
-          error={errors.phoneNumber || error?.phoneNumber?.[0]}
+          error={error.phoneNumber}
           value={phoneNumber}
           label="Phone Number"
           placeholder="Enter Phone Number"
