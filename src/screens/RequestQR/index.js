@@ -8,12 +8,32 @@ import axios from '../../helpers/axiosInstance';
 
 const RequestQR = () => {
   const [count, setCount] = useState();
+  const [error, setError] = useState({});
   const [isLoading, setIsLoading] = useState();
   const navigation = useNavigation();
 
   const {
     params: {parkingId},
   } = useRoute();
+  const onChange = ({name, value}) => {
+    if (value !== '') {
+      if (name === 'QRnumber') {
+        if (isNaN(value)) {
+          setError(prev => {
+            return {...prev, [name]: 'Number only'};
+          });
+        } else {
+          setError(prev => {
+            return {...prev, [name]: null};
+          });
+        }
+      }
+    } else {
+      setError(prev => {
+        return {...prev, [name]: 'This field is required'};
+      });
+    }
+  };
   const onSubmit = useCallback(() => {
     setIsLoading(true);
     axios
@@ -83,8 +103,9 @@ const RequestQR = () => {
         <Input
           style={{width: '100%'}}
           onChangeText={value => {
-            setCount(value);
+            setCount(value); onChange({name: 'QRnumber', value});
           }}
+          error={error.QRnumber}
           value={count}
           label="Number to request more"
           placeholder="Enter Number"
