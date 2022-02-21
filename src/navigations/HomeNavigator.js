@@ -14,6 +14,7 @@ import {
 import ParkingSpaceList from '../screens/ParkingSpaceList';
 import Contacts from '../screens/Contacts';
 import ContactDetails from '../screens/ContactDetail';
+import ParkingSpaceDetail from '../screens/ParkingSpaceDetail';
 import ParkingLotAttendants from '../screens/ParkingLotAttendants';
 import CreateContact from '../screens/CreateContact';
 import Settings from '../screens/Settings';
@@ -68,6 +69,7 @@ const HomeNavigator = () => {
           />
           <HomeStack.Screen name={SETTINGS} component={Settings} />
           <HomeStack.Screen name={LOGOUT} component={Logout} />
+          <HomeStack.Screen name={PARKING_SPACE_DETAIL} component={ParkingSpaceDetail} />
         </HomeStack.Navigator>
       ))
   );

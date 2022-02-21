@@ -35,6 +35,7 @@ const SideMenu = ({navigation, authDispatch}) => {
         text: 'OK',
         onPress: () => {
           dispatch(logoutUser());
+          dispatch(removeSelectedParkingSpace());
         },
       },
     ]);

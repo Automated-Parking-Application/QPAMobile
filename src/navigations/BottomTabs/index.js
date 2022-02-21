@@ -51,12 +51,12 @@ const Tabs = () => {
             <View
               style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
               <Icon
-                name={'heart-outline'}
+                name={'car-brake-parking'}
                 type="materialCommunity"
                 size={22}
-                color={focused ? '#e32f45' : '#fff'}
+                color={focused ? '#bc5c68' : '#fff'}
               />
-              <Text style={{color: focused ? '#e32f45' : '#fff'}}>Scan</Text>
+              <Text style={{color: focused ? '#bc5c68' : '#fff'}}>Park In</Text>
             </View>
           ),
         }}
@@ -84,12 +84,12 @@ const Tabs = () => {
             <View
               style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
               <Icon
-                name={'heart-outline'}
-                type="materialCommunity"
+                name={'timeline'}
+                type="material"
                 size={22}
-                color={focused ? '#e32f45' : '#fff'}
+                color={focused ? '#bc5c68' : '#fff'}
               />
-              <Text style={{color: focused ? '#e32f45' : '#fff'}}>Scan</Text>
+              <Text style={{color: focused ? '#bc5c68' : '#fff'}}>History</Text>
             </View>
           ),
         }}
