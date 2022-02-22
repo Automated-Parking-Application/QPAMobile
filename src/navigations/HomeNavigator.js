@@ -10,10 +10,12 @@ import {
   PARKING_LOT_ATTENDANT_LIST,
   ADD_PARKING_LOT_ATTENDANT,
   REQUEST_QR_CODE,
+  CHECKED_IN_PARKING_SPACE
 } from '../constants/routeNames';
 import ParkingSpaceList from '../screens/ParkingSpaceList';
 import Contacts from '../screens/Contacts';
 import ContactDetails from '../screens/ContactDetail';
+import ParkingSpaceDetail from '../screens/ParkingSpaceDetail';
 import ParkingLotAttendants from '../screens/ParkingLotAttendants';
 import CreateContact from '../screens/CreateContact';
 import Settings from '../screens/Settings';
@@ -59,7 +61,9 @@ const HomeNavigator = () => {
   ) : (
     isParkingLotAttendant &&
       (hasCheckedInParkingSpace ? (
-        <Tabs />
+        <HomeStack.Navigator initialRouteName={CHECKED_IN_PARKING_SPACE}>
+          <HomeStack.Screen name={CHECKED_IN_PARKING_SPACE} component={Tabs} />
+        </HomeStack.Navigator>
       ) : (
         <HomeStack.Navigator initialRouteName={PARKING_SPACE_LIST}>
           <HomeStack.Screen
@@ -68,6 +72,10 @@ const HomeNavigator = () => {
           />
           <HomeStack.Screen name={SETTINGS} component={Settings} />
           <HomeStack.Screen name={LOGOUT} component={Logout} />
+          <HomeStack.Screen
+            name={PARKING_SPACE_DETAIL}
+            component={ParkingSpaceDetail}
+          />
         </HomeStack.Navigator>
       ))
   );
