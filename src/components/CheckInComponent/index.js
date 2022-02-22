@@ -42,46 +42,16 @@ const CheckInComponent = () => {
   };
   const renderSelectPhotoControl = photos => {
     return (
-      <View style={styles.sectionContainer}>
-        <ScrollView style={styles.photoList} horizontal={true}>
-          {renderListPhotos(photos)}
-          <TouchableOpacity onPress={onPressAddPhotoBtn}>
-            <View style={[styles.addButton, styles.photo]}>
-              <Text style={styles.addButtonText}>+</Text>
-            </View>
-          </TouchableOpacity>
-        </ScrollView>
+      <View style={styles.photoList} horizontal={true}>
+        {renderListPhotos(photos)}
+        <TouchableOpacity onPress={onPressAddPhotoBtn}>
+          <View style={[styles.addButton, styles.photo]}>
+            <Text style={styles.addButtonText}>+</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   };
-  const onDoUploadPress = () => {
-    if (localPhotos && localPhotos.length > 0) {
-      let formData = new FormData();
-      localPhotos.forEach(image => {
-        const file = {
-          uri: image.path,
-          name:
-            image.filename ||
-            Math.floor(Math.random() * Math.floor(999999999)) + '.jpg',
-          type: image.mime || 'image/jpeg',
-        };
-        formData.append('files', file);
-      });
-
-      axios
-        .post('https://api.tradingproedu.com/api/v1/fileupload', formData)
-        .then(response => {
-          // this.setState({logs: JSON.stringify(response.data)});
-          setLogs(JSON.stringify(response.data));
-        })
-        .catch(error => {
-          alert(JSON.stringify(error));
-        });
-    } else {
-      alert('No photo selected');
-    }
-  };
-
   const onActionSelectPhotoDone = useCallback(
     index => {
       switch (index) {
@@ -101,7 +71,7 @@ const CheckInComponent = () => {
             })
             .catch(error => {
               console.log(error);
-              alert(JSON.stringify(error));
+              // alert(JSON.stringify(error));
             });
           break;
         default:

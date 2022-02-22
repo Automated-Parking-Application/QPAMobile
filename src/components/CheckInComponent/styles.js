@@ -42,13 +42,19 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   photoList: {
-    height: 70,
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    // height: 70,
     marginTop: 15,
     marginBottom: 15,
-    marginRight: 10,
+    marginRight: 15,
+    marginLeft: 15
   },
   photo: {
     marginRight: 10,
+    marginTop: 10,
     width: 70,
     height: 70,
     borderRadius: 10,
