@@ -9,4 +9,6 @@ export const HOME_NAVIGATOR = 'Home';
 export const LOGOUT = 'LOGOUT';
 export const ADD_PARKING_LOT_ATTENDANT = "Add Parking Lot Attendant"
 export const REQUEST_QR_CODE = "Request QR Code"
+export const CHECKED_IN_PARKING_SPACE = "CHECKED_IN_PARKING_SPACE"
+export const CHECK_IN = "CHECK_IN"
 
