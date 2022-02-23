@@ -1,20 +1,29 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es2021": true
+    parser: "babel-eslint",
+    env: {
+      browser: true,
+      node: true,
+      es6: true,
+      jest: true,
     },
-    "extends": "plugin:react/recommended",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react"
+    extends: [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:jsx-a11y/recommended"
     ],
-    "rules": {
-        "react/prop-types": 0
+    plugins: [
+      "react",
+      "react-hooks",
+      "jsx-a11y",
+    ],
+    rules: {
+      strict: 0,
+      "react-hooks/rules-of-hooks": "warn",
+      "react-hooks/exhaustive-deps": "warn"
+    },
+    settings: {
+      react: {
+        version: "detect"
+      }
     }
-};
+  }
