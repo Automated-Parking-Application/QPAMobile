@@ -3,9 +3,10 @@ import {Header, Colors} from 'react-native/Libraries/NewAppScreen';
 export default StyleSheet.create({
   scrollView: {
     // backgroundColor: Colors.lighter,
+    display: 'flex', flexWrap: 'nowrap', flexDirection: 'row'
   },
   body: {
-    display: 'flex',
+    // display: 'flex',
     // flexWrap: 'wrap',
     // backgroundColor: Colors.white,
   },
@@ -43,11 +44,10 @@ export default StyleSheet.create({
   },
   photoList: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    // height: 70,
-    marginTop: 15,
+    marginTop: 0,
     marginBottom: 15,
     marginRight: 15,
     marginLeft: 15
@@ -55,8 +55,8 @@ export default StyleSheet.create({
   photo: {
     marginRight: 10,
     marginTop: 10,
-    width: 70,
-    height: 70,
+    width: 100,
+    height: 100,
     borderRadius: 10,
   },
 

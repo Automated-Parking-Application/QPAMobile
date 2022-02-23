@@ -2,16 +2,18 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ScanScreen from '../../screens/ScanScreen';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import React from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import React, {useState, useRef} from 'react';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from '../../components/common/Icon';
-import {CHECK_IN} from "../../constants/routeNames"
-import CheckInScreen from "../../screens/CheckInScreen";
+import {CHECK_IN} from '../../constants/routeNames';
+import CheckInScreen from '../../screens/CheckInScreen';
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   const {setOptions, toggleDrawer} = useNavigation();
   const {selectedParkingSpace} = useSelector(state => state.parkingSpaces);
+  const [start, setStart] = useState(false);
+  const childRef = useRef();
 
   React.useEffect(() => {
     setOptions({
@@ -24,8 +26,23 @@ const Tabs = () => {
           <Icon type="material" style={{padding: 10}} size={25} name="menu" />
         </TouchableOpacity>
       ),
+      headerRight: () =>
+        start && (
+          <TouchableOpacity
+            onPress={() => {
+              childRef.current.resetCheckIn();
+            }}>
+            <Icon
+              type="materialCommunity"
+              style={{padding: 10}}
+              size={25}
+              name="rotate-left"
+            />
+          </TouchableOpacity>
+        ),
     });
-  }, []);
+  }, [childRef, start]);
+
   const CustomTabBarButton = ({children, onPress}) => (
     <TouchableOpacity
       style={{
@@ -65,7 +82,6 @@ const Tabs = () => {
       }}>
       <Tab.Screen
         name={CHECK_IN}
-        component={CheckInScreen}
         options={{
           tabBarIcon: ({focused}) => (
             <View
@@ -79,8 +95,11 @@ const Tabs = () => {
               <Text style={{color: focused ? '#bc5c68' : '#fff'}}>Park In</Text>
             </View>
           ),
-        }}
-      />
+        }}>
+        {props => (
+          <CheckInScreen {...props} start={start} childRef={childRef} setStart={setStart} />
+        )}
+      </Tab.Screen>
       <Tab.Screen
         name="SdsaCAN"
         component={ScanScreen}

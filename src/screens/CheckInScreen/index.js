@@ -3,8 +3,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import CustomButton from '../../components/common/CustomButton';
 import CheckInComponent from '../../components/CheckInComponent';
 
-const CheckInScreen = () => {
-  const [start, setStart] = useState(false);
+const CheckInScreen = ({start, setStart, childRef}) => {
   return !start ? (
     <View
       style={{
@@ -25,7 +24,7 @@ const CheckInScreen = () => {
       />
     </View>
   ) : (
-    <CheckInComponent />
+    <CheckInComponent setStart={setStart} ref={childRef}/>
   );
 };
 
