@@ -26,7 +26,7 @@ const Input = ({
   };
 
   const getBorderColor = () => {
-    if (error) {
+    if (error && error.length > 0) {
       return colors.danger;
     }
 
@@ -46,7 +46,7 @@ const Input = ({
             ? styles.wrapper
             : {
                 ...styles.wrapper,
-                height: 42*2,
+                height: 42 * 2,
               },
           {alignItems: icon ? 'center' : 'baseline'},
           {borderColor: getBorderColor(), flexDirection: getFlexDirection()},
@@ -67,7 +67,7 @@ const Input = ({
         />
       </View>
 
-      {error && <Text style={styles.error}>{error}</Text>}
+      {!!error && error.length > 0 && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 };

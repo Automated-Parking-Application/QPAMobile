@@ -19,7 +19,8 @@ module.exports = {
     rules: {
       strict: 0,
       "react-hooks/rules-of-hooks": "warn",
-      "react-hooks/exhaustive-deps": "warn"
+      "react-hooks/exhaustive-deps": "warn",
+      "react/prop-types": 0
     },
     settings: {
       react: {

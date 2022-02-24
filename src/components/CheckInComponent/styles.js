@@ -2,13 +2,9 @@ import {StyleSheet} from 'react-native';
 import {Header, Colors} from 'react-native/Libraries/NewAppScreen';
 export default StyleSheet.create({
   scrollView: {
-    // backgroundColor: Colors.lighter,
-    display: 'flex', flexWrap: 'nowrap', flexDirection: 'row'
+    flexDirection: 'row',
   },
   body: {
-    // display: 'flex',
-    // flexWrap: 'wrap',
-    // backgroundColor: Colors.white,
   },
   sectionContainer: {
     width: '100%',
@@ -39,18 +35,13 @@ export default StyleSheet.create({
   },
   addPhotoTitle: {
     fontSize: 15,
-
     fontWeight: 'bold',
   },
   photoList: {
     display: 'flex',
-    justifyContent: 'flex-start',
     flexDirection: 'row',
-    flexWrap: 'wrap',
     marginTop: 0,
     marginBottom: 15,
-    marginRight: 15,
-    marginLeft: 15
   },
   photo: {
     marginRight: 10,

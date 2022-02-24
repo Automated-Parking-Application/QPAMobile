@@ -13,18 +13,21 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import checkIn from '../../context/actions/parkingSpaces/checkIn';
 import ImagePicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
 import styles from './styles';
 import Input from '../common/Input';
 import DropDownPicker from 'react-native-dropdown-picker';
 import colors from '../../assets/theme/colors';
-import {useNavigation} from '@react-navigation/native';
-import Icon from '../../components/common/Icon';
+import { useNavigation } from '@react-navigation/native';
 import CustomButton from '../../components/common/CustomButton';
+import uploadMultipleImages from '../../helpers/uploadMultipleImages';
+import { useSelector } from 'react-redux';
 
 // eslint-disable-next-line react/display-name
 const CheckInComponent = forwardRef((props, ref) => {
+  const navigate = useNavigation();
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState();
   const [localPhotos, setLocalPhotos] = useState([]);
   const actionSheetSelectPhotoRef = useRef(null);
@@ -32,11 +35,14 @@ const CheckInComponent = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    {label: 'Xe Tay Ga', value: 'Xe Tay Ga'},
-    {label: 'Xe Gắn Máy', value: 'Xe Gắn Máy'},
+    { label: 'Xe Tay Ga', value: 'Xe Tay Ga' },
+    { label: 'Xe Gắn Máy', value: 'Xe Gắn Máy' },
   ]);
   const [description, setDescription] = useState('');
   const [plateNumber, setPlateNumber] = useState('');
+  const [uploading, setIsUploading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const selectedParkingId = useSelector(state => state?.parkingSpaces?.selectedParkingSpace?.id)
 
   useImperativeHandle(ref, () => ({
     resetCheckIn() {
@@ -47,16 +53,46 @@ const CheckInComponent = forwardRef((props, ref) => {
     },
   }));
 
-  const onSubmit = useCallback(() => {}, []);
+  const onSubmit = useCallback(() => {
+    setErrors(prev => {
+      return {
+        ...prev,
+        photos: localPhotos.length === 0,
+        plateNumber: plateNumber.trim() === '' ? 'Please add plate number' : '',
+        vehicleType: !value,
+      };
+    });
+
+    if (localPhotos.length > 0 && plateNumber.trim() !== '' && value) {
+      setIsUploading(true);
+      uploadMultipleImages(localPhotos)(res => {
+        setIsUploading(false);
+        checkIn({
+          id: selectedParkingId,
+          plateNumber,
+          attachment: JSON.stringify(res),
+          vehicleType: value,
+        })(item => {
+          console.log(item);
+          // navigate(PARKING_SPACE_DETAIL, {item});
+        })(err => {
+          console.error(err);
+        });
+      })(err => {
+        console.log('err :>> ', err);
+        setIsUploading(false);
+      });
+    }
+  }, [localPhotos, plateNumber, selectedParkingId, value]);
 
   const onCancel = () => {
-    // eslint-disable-next-line react/prop-types
     props.setStart(false);
   };
 
   const onPressAddPhotoBtn = () => {
     actionSheetSelectPhotoRef.current.show();
   };
+
   const showActionSheet = index => {
     setSelectedPhotoIndex(index);
     actionSheetRef.current.show();
@@ -69,22 +105,24 @@ const CheckInComponent = forwardRef((props, ref) => {
         onPress={() => {
           showActionSheet(index);
         }}>
-        <Image style={styles.photo} source={{uri: photo.path}} />
+        <Image style={styles.photo} source={{ uri: photo.path }} />
       </TouchableOpacity>
     ));
   };
+
   const renderSelectPhotoControl = photos => {
     return (
-      <View style={styles.photoList} horizontal={true}>
+      <ScrollView horizontal={true} style={styles.photoList}>
         {renderListPhotos(photos)}
         <TouchableOpacity onPress={onPressAddPhotoBtn}>
           <View style={[styles.addButton, styles.photo]}>
             <Text style={styles.addButtonText}>+</Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     );
   };
+
   const onActionSelectPhotoDone = useCallback(
     index => {
       switch (index) {
@@ -126,11 +164,11 @@ const CheckInComponent = forwardRef((props, ref) => {
       style={{
         display: 'flex',
         alignItems: 'center',
-        width: '100%',
-        paddingHorizontal: 15,
+        marginHorizontal: 15,
       }}>
       <Text
         style={{
+          justifyContent: 'center',
           paddingTop: 20,
           width: '100%',
           fontWeight: '500',
@@ -138,21 +176,30 @@ const CheckInComponent = forwardRef((props, ref) => {
         }}>
         Vehicle Image
       </Text>
-      <ScrollView style={styles.scrollView}>
-        {renderSelectPhotoControl(localPhotos)}
-      </ScrollView>
+      {renderSelectPhotoControl(localPhotos)}
+      <Text
+        style={{
+          width: '100%',
+          color: colors.danger,
+          paddingTop: 4,
+          fontSize: 12,
+          opacity: errors.photos ? 1 : 0,
+        }}>
+        Please add at least 1 photo
+      </Text>
+
       <Text
         style={{
           width: '100%',
           fontWeight: '500',
           fontSize: 18,
-          paddingTop: 40,
+          paddingTop: 20,
         }}>
         Vehicle Information
       </Text>
-      <View style={{width: '100%'}}>
+      <View style={{ width: '100%' }}>
         <Input
-          // error={errors?.description?.[0]}
+          error={errors.plateNumber}
           onChangeText={value => {
             setPlateNumber(value);
           }}
@@ -187,11 +234,21 @@ const CheckInComponent = forwardRef((props, ref) => {
         items={items}
         setOpen={setOpen}
         placeholder="Select vehicle type"
-        placeholderStyle={{color: colors.grey}}
+        placeholderStyle={{ color: colors.grey }}
         setValue={setValue}
         setItems={setItems}
       />
-      <View style={{width: '100%'}}>
+      <Text
+        style={{
+          width: '100%',
+          color: colors.danger,
+          paddingTop: 4,
+          fontSize: 12,
+          opacity: errors.vehicleType ? 1 : 0,
+        }}>
+        Please pick type of vehicle
+      </Text>
+      <View style={{ width: '100%' }}>
         <Input
           multiline
           onChangeText={value => {
@@ -210,16 +267,16 @@ const CheckInComponent = forwardRef((props, ref) => {
           flexDirection: 'row',
           justifyContent: 'space-around',
         }}>
-        <View style={{width: '40%'}}>
+        <View style={{ width: '40%' }}>
           <CustomButton
-            // disabled={isLoading}
+            disabled={uploading}
             onPress={onSubmit}
             // loading={isLoading}
             primary
             title="Submit"
           />
         </View>
-        <View style={{width: '40%'}}>
+        <View style={{ width: '40%' }}>
           <CustomButton danger onPress={onCancel} title="Cancel" />
         </View>
       </View>

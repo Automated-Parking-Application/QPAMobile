@@ -1,19 +1,21 @@
 import axios from '../helpers/axiosInstance';
 import { Platform } from 'react-native';
 
-export default file => onSuccess => onError => {
+export default files => onSuccess => onError => {
   const data = new FormData();
-  data.append('file', {
-    name: file.filename,
-    mime: file.mime,
-    uri:
-      Platform.OS === 'ios'
-        ? file.sourceURL?.replace('file://', '')
-        : file.sourceURL,
+  files.forEach(file => {
+    data.append('files', {
+      name: file.filename,
+      mime: file.mime,
+      uri:
+        Platform.OS === 'ios'
+          ? file.sourceURL?.replace('file://', '')
+          : file.sourceURL,
+    });
   });
 
   axios
-    .post('/resource/upload', data, {
+    .post('/resource/upload/batch', data, {
       data,
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -21,6 +23,7 @@ export default file => onSuccess => onError => {
     })
     .then(async data => {
       onSuccess(data.data);
+      console.log(data.data);
     })
     .catch(error => {
       onError(error);
