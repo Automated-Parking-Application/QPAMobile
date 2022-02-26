@@ -23,7 +23,7 @@ const ParkingSpaceList = () => {
         </TouchableOpacity>
       ),
     });
-  }, []);
+  }, [setOptions, toggleDrawer]);
 
   useEffect(() => {
     dispatch(getParkingSpaces());

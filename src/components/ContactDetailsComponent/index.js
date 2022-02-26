@@ -5,7 +5,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ActivityIndicator,
   Image,
   ScrollView,
 } from 'react-native';
@@ -13,8 +12,6 @@ import axios from '../../helpers/axiosInstance';
 
 import colors from '../../assets/theme/colors';
 import {
-  PARKING_SPACE_DETAIL,
-  CREATE_PARKING_SPACE,
   PARKING_LOT_ATTENDANT_LIST,
   REQUEST_QR_CODE,
 } from '../../constants/routeNames';
@@ -43,7 +40,9 @@ const ContactDetailsComponent = ({
       .then(res => {
         setCount(res.data);
       })
-      .catch(err => {});
+      .catch(err => {
+        console.log(err);
+      });
   }, [id]);
 
   return (

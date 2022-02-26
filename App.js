@@ -44,6 +44,7 @@ AntDesign.loadFont();
 Fontisto.loadFont();
 Ionicon.loadFont();
 const App = () => {
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>

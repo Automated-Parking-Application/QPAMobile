@@ -9,8 +9,6 @@ export default ({id, plateNumber, attachment, vehicleType}) =>
       vehicleType,
     };
 
-    console.log(requestPayload)
-
     axios
       .post(`/parking-space/${id}/check-in`, requestPayload)
       .then(res => {

@@ -10,7 +10,8 @@ import {
   PARKING_LOT_ATTENDANT_LIST,
   ADD_PARKING_LOT_ATTENDANT,
   REQUEST_QR_CODE,
-  CHECKED_IN_PARKING_SPACE
+  CHECKED_IN_PARKING_SPACE,
+  PARKING_RESERVATION_DETAIL,
 } from '../constants/routeNames';
 import ParkingSpaceList from '../screens/ParkingSpaceList';
 import Contacts from '../screens/Contacts';
@@ -21,6 +22,7 @@ import CreateContact from '../screens/CreateContact';
 import Settings from '../screens/Settings';
 import Logout from '../screens/Logout';
 import AddParkingLotAttendant from '../screens/AddParkingLotAttendant';
+import ParkingReservationDetail from '../screens/ParkingReservationDetail';
 import RequestQR from '../screens/RequestQR';
 import Tabs from './BottomTabs';
 
@@ -34,8 +36,6 @@ const HomeNavigator = () => {
     typeof useSelector(
       state => state?.parkingSpaces?.selectedParkingSpace?.id,
     ) === 'number';
-
-  console.log(hasCheckedInParkingSpace);
 
   const HomeStack = createStackNavigator();
   return isAdmin ? (
@@ -63,6 +63,10 @@ const HomeNavigator = () => {
       (hasCheckedInParkingSpace ? (
         <HomeStack.Navigator initialRouteName={CHECKED_IN_PARKING_SPACE}>
           <HomeStack.Screen name={CHECKED_IN_PARKING_SPACE} component={Tabs} />
+          <HomeStack.Screen
+            name={PARKING_RESERVATION_DETAIL}
+            component={ParkingReservationDetail}
+          />
         </HomeStack.Navigator>
       ) : (
         <HomeStack.Navigator initialRouteName={PARKING_SPACE_LIST}>

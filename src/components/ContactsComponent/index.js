@@ -23,7 +23,6 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
   const {navigate} = useNavigation();
 
   const swipeableItemRefs = useRef([]);
-  // console.log('swipeableItemRefs', swipeableItemRefs);
 
   const toggleSwipeable = key => {
     swipeableItemRefs.current.forEach((ref, i) => {

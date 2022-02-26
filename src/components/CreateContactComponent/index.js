@@ -91,6 +91,7 @@ const CreateContactComponent = ({
               setModalVisible(false)
               onChangeText({name: 'address', value: data.description});
             }}
+            onFail={error => console.log(error)}
             query={{
               key: 'AIzaSyADX9pr4gKB-cLS3lxtMU2JsskKlwnbbM4',
               language: 'vi',

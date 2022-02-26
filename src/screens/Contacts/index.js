@@ -61,7 +61,7 @@ const Contacts = () => {
         </TouchableOpacity>
       ),
     });
-  }, []);
+  }, [setOptions, toggleDrawer]);
 
   return (
     <ContactsComponent

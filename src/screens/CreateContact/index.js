@@ -59,7 +59,7 @@ const CreateContact = () => {
         setLocalFile(params?.contact.image);
       }
     }
-  }, []);
+  }, [params?.contact, setOptions]);
 
   const onChangeText = ({name, value}) => {
     setForm({...form, [name]: value});
