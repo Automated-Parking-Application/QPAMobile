@@ -87,7 +87,6 @@ const CreateContactComponent = ({
               errorStyle: { color: 'red' },
             }}
             onPress={(data, details = null) => {
-              console.log(data.description);
               setModalVisible(false)
               onChangeText({name: 'address', value: data.description});
             }}

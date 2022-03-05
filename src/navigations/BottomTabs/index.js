@@ -3,7 +3,7 @@ import ScanScreen from '../../screens/ScanScreen';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import React, {useState, useRef} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, Linking} from 'react-native';
 import Icon from '../../components/common/Icon';
 import {CHECK_IN} from '../../constants/routeNames';
 import CheckInScreen from '../../screens/CheckInScreen';
@@ -17,7 +17,7 @@ const Tabs = () => {
 
   React.useEffect(() => {
     setOptions({
-      title: selectedParkingSpace.name,
+      title: selectedParkingSpace?.name,
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {
@@ -41,7 +41,7 @@ const Tabs = () => {
           </TouchableOpacity>
         ),
     });
-  }, [childRef, start]);
+  }, [childRef, selectedParkingSpace?.name, setOptions, start, toggleDrawer]);
 
   const CustomTabBarButton = ({children, onPress}) => (
     <TouchableOpacity
@@ -97,14 +97,19 @@ const Tabs = () => {
           ),
         }}>
         {props => (
-          <CheckInScreen {...props} start={start} childRef={childRef} setStart={setStart} />
+          <CheckInScreen
+            {...props}
+            start={start}
+            childRef={childRef}
+            setStart={setStart}
+          />
         )}
       </Tab.Screen>
       <Tab.Screen
         name="SdsaCAN"
         component={ScanScreen}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: () => (
             <Icon
               name={'qr-code-scanner'}
               type="material"

@@ -145,7 +145,6 @@
 				7CA1D3F312F00D64FCA80F5A /* Pods-QPAMobile-QPAMobileTests.debug.xcconfig */,
 				95C6E607A7DA95E33754A15D /* Pods-QPAMobile-QPAMobileTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -160,8 +159,8 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				25A40D0CC211A69355C5A6EF /* [CP] Embed Pods Frameworks */,
 				1E0A14C0982F5EB5612F75F3 /* [CP] Copy Pods Resources */,
+				1412917BE8D88D9270B2575F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -183,9 +182,9 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				CC98E75E7C9FBB28B09F1FA1 /* [CP] Embed Pods Frameworks */,
 				8473FC1EE8BC615C434B6E3D /* [CP] Copy Pods Resources */,
 				F3C8768F14A11B6941850907 /* [CP-User] [RNFB] Core Configuration */,
+				4A7D1857FAC47F5A55C9FD44 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -266,6 +265,23 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
+		1412917BE8D88D9270B2575F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QPAMobile-QPAMobileTests/Pods-QPAMobile-QPAMobileTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QPAMobile-QPAMobileTests/Pods-QPAMobile-QPAMobileTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QPAMobile-QPAMobileTests/Pods-QPAMobile-QPAMobileTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		1E0A14C0982F5EB5612F75F3 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -283,21 +299,21 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QPAMobile-QPAMobileTests/Pods-QPAMobile-QPAMobileTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		25A40D0CC211A69355C5A6EF /* [CP] Embed Pods Frameworks */ = {
+		4A7D1857FAC47F5A55C9FD44 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QPAMobile-QPAMobileTests/Pods-QPAMobile-QPAMobileTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-QPAMobile/Pods-QPAMobile-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QPAMobile-QPAMobileTests/Pods-QPAMobile-QPAMobileTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-QPAMobile/Pods-QPAMobile-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QPAMobile-QPAMobileTests/Pods-QPAMobile-QPAMobileTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QPAMobile/Pods-QPAMobile-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8473FC1EE8BC615C434B6E3D /* [CP] Copy Pods Resources */ = {
@@ -359,23 +375,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CC98E75E7C9FBB28B09F1FA1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QPAMobile/Pods-QPAMobile-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QPAMobile/Pods-QPAMobile-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QPAMobile/Pods-QPAMobile-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F3C8768F14A11B6941850907 /* [CP-User] [RNFB] Core Configuration */ = {
@@ -443,6 +442,7 @@
 			baseConfigurationReference = 7CA1D3F312F00D64FCA80F5A /* Pods-QPAMobile-QPAMobileTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = L233MPJ42R;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -471,6 +471,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = L233MPJ42R;
 				INFOPLIST_FILE = QPAMobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -496,6 +497,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L233MPJ42R;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = QPAMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -522,6 +524,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L233MPJ42R;
 				INFOPLIST_FILE = QPAMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
