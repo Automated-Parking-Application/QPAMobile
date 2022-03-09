@@ -12,6 +12,7 @@ import {
   REQUEST_QR_CODE,
   CHECKED_IN_PARKING_SPACE,
   PARKING_RESERVATION_DETAIL,
+  UPDATE_PROFILE,
 } from '../constants/routeNames';
 import ParkingSpaceList from '../screens/ParkingSpaceList';
 import Contacts from '../screens/Contacts';
@@ -25,6 +26,7 @@ import AddParkingLotAttendant from '../screens/AddParkingLotAttendant';
 import ParkingReservationDetail from '../screens/ParkingReservationDetail';
 import RequestQR from '../screens/RequestQR';
 import Tabs from './BottomTabs';
+import UpdateProfile from '../screens/UpdateProfile';
 
 const HomeNavigator = () => {
   const isAdmin =
@@ -36,6 +38,10 @@ const HomeNavigator = () => {
     typeof useSelector(
       state => state?.parkingSpaces?.selectedParkingSpace?.id,
     ) === 'number';
+
+  const {address, fullName, avatar} =
+    useSelector(state => state.auth.data?.User) || {};
+  const isLackedProfile = !(address && fullName && avatar);
 
   const HomeStack = createStackNavigator();
   return isAdmin ? (
@@ -60,7 +66,11 @@ const HomeNavigator = () => {
     </HomeStack.Navigator>
   ) : (
     isParkingLotAttendant &&
-      (hasCheckedInParkingSpace ? (
+      (isLackedProfile ? (
+        <HomeStack.Navigator initialRouteName={UPDATE_PROFILE}>
+          <HomeStack.Screen name={UPDATE_PROFILE} component={UpdateProfile} />
+        </HomeStack.Navigator>
+      ) : hasCheckedInParkingSpace ? (
         <HomeStack.Navigator initialRouteName={CHECKED_IN_PARKING_SPACE}>
           <HomeStack.Screen name={CHECKED_IN_PARKING_SPACE} component={Tabs} />
           <HomeStack.Screen

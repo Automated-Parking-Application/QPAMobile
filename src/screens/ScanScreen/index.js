@@ -13,6 +13,8 @@ import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {useHeaderHeight} from '@react-navigation/stack';
 import {PARKING_RESERVATION_DETAIL} from '../../constants/routeNames';
+import {debounce} from 'throttle-debounce';
+
 const deviceWidth = Dimensions.get('screen').width;
 const deviceHeight = Dimensions.get('screen').height;
 const windowHeight = Dimensions.get('window').height;
@@ -98,18 +100,22 @@ const ScanScreen = () => {
     state => state?.parkingSpaces?.selectedParkingSpace?.id,
   );
   const onSuccess = e => {
-    axios
-      .get(`/parking-space/${selectedParkingId}/parking-reservation`, {
-        code: e.data,
-      })
-      .then(item => {
-        navigation.navigate(PARKING_RESERVATION_DETAIL, {
-          parkingReservation: item.data,
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+
+    debounce(
+      500,
+      axios
+        .post(`/parking-space/${selectedParkingId}/parking-reservation`, {
+          externalId: JSON.parse(e.data).parkingReservation,
+        })
+        .then(item => {
+          navigation.navigate(PARKING_RESERVATION_DETAIL, {
+            parkingReservation: item.data.parkingReservation,
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        }),
+    );
   };
 
   return (

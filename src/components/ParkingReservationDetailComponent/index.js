@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect, useMemo, useCallback} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import moment from 'moment';
 import CustomButton from '../../components/common/CustomButton';
@@ -9,14 +9,14 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  Alert,
 } from 'react-native';
 import {useSelector} from 'react-redux';
-import QRCode from 'react-native-qrcode-svg';
 import axios from '../../helpers/axiosInstance';
 import {ACTIVITY_DETAIL} from '../../constants/activityConstant';
-import {CHECKED_IN_PARKING_SPACE} from '../../constants/routeNames';
 import ProgressLoader from 'rn-progress-loader';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import envs from '../../config/env';
 
 const ParkingReservationDetailComponent = () => {
   const {navigate} = useNavigation();
@@ -37,13 +37,19 @@ const ParkingReservationDetailComponent = () => {
       .get(
         `/parking-space/${selectedParkingId}/parking-reservation/${parkingReservation.id}`,
       )
-      .then(res => {
+      .then(result => {
         setIsLoading(false);
-        setRes(res.data.parkingReservation);
-        setActivity(res.data.parkingReservationActivity);
+        setRes(result.data.parkingReservation);
+        setActivity(result.data.parkingReservationActivity);
       })
       .catch(err => {
         setIsLoading(false);
+        Alert.alert('Error!', 'Something went wrong!', [
+          {
+            text: 'Try Again',
+            onPress: () => {},
+          },
+        ]);
         console.log(err);
       });
   }, [parkingReservation.id, selectedParkingId]);
@@ -53,6 +59,32 @@ const ParkingReservationDetailComponent = () => {
       res?.attachment && JSON.parse(res?.attachment)?.map(item => ({url: item}))
     );
   }, [res?.attachment]);
+
+  const checkOut = useCallback(() => {
+    setIsLoading(true);
+    console.log(`/parking-space/${res?.parkingId}/parking-reservation/${res?.id}`)
+    axios
+      .delete(`parking-space/${res?.parkingId}/parking-reservation/${res?.id}`)
+      .then(result => {
+        setIsLoading(false);
+        Alert.alert('Successfull!', '', [
+          {
+            text: 'OK',
+            onPress: () => {},
+          },
+        ]);
+      })
+      .catch(err => {
+        setIsLoading(false);
+        Alert.alert('Error!', 'Something went wrong!', [
+          {
+            text: 'Try Again',
+            onPress: () => {},
+          },
+        ]);
+        console.log(err);
+      });
+  }, [res?.id, res?.parkingId]);
 
   const renderListPhotos = photos => {
     return photos?.map((photo, index) => (
@@ -76,13 +108,13 @@ const ParkingReservationDetailComponent = () => {
   };
   return (
     <>
-      {/* <ProgressLoader
+      <ProgressLoader
         visible={isLoading}
         isModal={true}
         isHUD={true}
         hudColor={'#000000'}
         color={'#FFFFFF'}
-      /> */}
+      />
       <Modal visible={visibleModal} transparent={true}>
         <ImageViewer
           onCancel={() => {
@@ -104,12 +136,11 @@ const ParkingReservationDetailComponent = () => {
           paddingTop: 25,
           paddingHorizontal: 20,
         }}>
-        <QRCode
-          style={{justifyContent: 'center', alignItems: 'center'}}
-          value={res?.code?.code}
-          size={200}
-          color="black"
-          backgroundColor="white"
+        <Image
+          style={{height: 200, width: 200, resizeMode: 'cover'}}
+          source={{
+            uri: `${envs.BACKEND_URL}parking-space/qr-code/${res?.code?.id}`,
+          }}
         />
         <ScrollView
           horizontal={true}
@@ -135,23 +166,21 @@ const ParkingReservationDetailComponent = () => {
             key={index}
             style={{width: '100%', paddingTop: 20, flexDirection: 'row'}}>
             <Text style={{fontWeight: '700', fontSize: 20}}>
-              {ACTIVITY_DETAIL[activityItem.type]?.name}:{' '}
+              {ACTIVITY_DETAIL[activityItem?.type]?.name}:{' '}
             </Text>
             <Text style={{fontSize: 20}}>
               {moment(activityItem?.createTime)?.format('LT')}
             </Text>
           </View>
         ))}
-        {/* <CustomButton
+        <CustomButton
           style={{marginTop: 25}}
           disabled={isLoading}
-          onPress={() => {
-            navigate(CHECKED_IN_PARKING_SPACE);
-          }}
+          onPress={checkOut}
           loading={isLoading}
           primary
-          title="Back to main"
-        /> */}
+          title="Check Out"
+        />
       </View>
     </>
   );
