@@ -3,10 +3,8 @@ import moment from 'moment';
 import {
   View,
   Text,
-  Switch,
   Image,
   TouchableOpacity,
-  SafeAreaView,
   Dimensions,
 } from 'react-native';
 import { Input as FakeInput } from 'react-native-elements';
@@ -14,10 +12,7 @@ import { Input as FakeInput } from 'react-native-elements';
 import Container from '../common/Container';
 import CustomButton from '../common/CustomButton';
 import Input from '../common/Input';
-import Message from '../common/Message';
 import styles from './styles';
-import CountryPicker from 'react-native-country-picker-modal';
-import {DEFAULT_IMAGE_URI} from '../../constants/general';
 import colors from '../../assets/theme/colors';
 import ImagePicker from '../common/ImagePicker';
 import DatePicker from 'react-native-date-picker';

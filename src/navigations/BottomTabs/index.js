@@ -7,6 +7,7 @@ import {StyleSheet, View, Text, TouchableOpacity, Linking} from 'react-native';
 import Icon from '../../components/common/Icon';
 import {CHECK_IN} from '../../constants/routeNames';
 import CheckInScreen from '../../screens/CheckInScreen';
+import HistoryScreen from '../../screens/HistoryScreen'
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
@@ -122,7 +123,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="SdCAN"
-        component={ScanScreen}
+        component={HistoryScreen}
         options={{
           tabBarIcon: ({focused}) => (
             <View
