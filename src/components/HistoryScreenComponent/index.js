@@ -39,6 +39,7 @@ const HistoryScreenComponent = () => {
 
   const renderItem = ({item}) => {
     const {
+      id,
       user: {fullName, phoneNumber},
       parkingReservationEntity: {
         vehicle: {plateNumber},
@@ -49,6 +50,7 @@ const HistoryScreenComponent = () => {
 
     return (
       <TouchableOpacity
+        key={id}
         style={styles.itemContainer}
         onPress={() => {
           navigation.navigate(PARKING_RESERVATION_DETAIL, {
@@ -93,7 +95,11 @@ const HistoryScreenComponent = () => {
                 <View
                   style={{height: 0.5, backgroundColor: colors.grey}}></View>
               )}
-              keyExtractor={item => String(item.id)}
+              keyExtractor={item =>
+                String(
+                  item.id.userId + item.id.parkingReservationId + item.id.type,
+                )
+              }
               ListEmptyComponent={ListEmptyComponent}
               ListFooterComponent={<View style={{height: 150}}></View>}
             />
