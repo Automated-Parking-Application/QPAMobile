@@ -46,7 +46,6 @@ const HistoryScreenComponent = () => {
       type,
       createTime,
     } = item;
-    console.log(item);
 
     return (
       <TouchableOpacity
