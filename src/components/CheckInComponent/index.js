@@ -147,7 +147,6 @@ const CheckInComponent = forwardRef((props, ref) => {
             includeBase64: true,
             writeTempFile: false
           }).then(image => {
-            console.log(image)
             setLocalPhotos([...localPhotos, image]);
           });
           break;

@@ -27,7 +27,7 @@ const ParkingSpaceList = () => {
 
   useEffect(() => {
     dispatch(getParkingSpaces());
-  }, []);
+  }, [dispatch]);
   return <ParkingSpaceListComponent data={data} loading={loading} />;
 };
 

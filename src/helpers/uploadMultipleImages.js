@@ -18,8 +18,6 @@ export default files => onSuccess => onError => {
       });
     });
 
-    console.log(data);
-
     // onError(null)
 
     axios

@@ -19,7 +19,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import envs from '../../config/env';
 
 const ParkingReservationDetailComponent = () => {
-  const {navigate} = useNavigation();
+  const {navigate, goBack} = useNavigation();
   const {
     params: {parkingReservation},
   } = useRoute();
@@ -30,7 +30,8 @@ const ParkingReservationDetailComponent = () => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
-
+  const alreadyCheckedOut = activity?.filter(item => item.type.toString() === '0').length > 0;
+  console.log(alreadyCheckedOut)
   useEffect(() => {
     setIsLoading(true);
     axios
@@ -62,7 +63,6 @@ const ParkingReservationDetailComponent = () => {
 
   const checkOut = useCallback(() => {
     setIsLoading(true);
-    console.log(`/parking-space/${res?.parkingId}/parking-reservation/${res?.id}`)
     axios
       .delete(`parking-space/${res?.parkingId}/parking-reservation/${res?.id}`)
       .then(result => {
@@ -70,7 +70,9 @@ const ParkingReservationDetailComponent = () => {
         Alert.alert('Successfull!', '', [
           {
             text: 'OK',
-            onPress: () => {},
+            onPress: () => {
+              goBack();
+            },
           },
         ]);
       })
@@ -128,16 +130,17 @@ const ParkingReservationDetailComponent = () => {
         />
       </Modal>
 
-      <View
-        style={{
+      <ScrollView
+        vertical
+        contentContainerStyle={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           paddingTop: 25,
-          paddingHorizontal: 20,
+          paddingHorizontal: 30,
         }}>
         <Image
-          style={{height: 200, width: 200, resizeMode: 'cover'}}
+          style={{height: 160, width: 160, resizeMode: 'cover'}}
           source={{
             uri: `${envs.BACKEND_URL}parking-space/qr-code/${res?.code?.id}`,
           }}
@@ -153,35 +156,37 @@ const ParkingReservationDetailComponent = () => {
           {res?.attachment && renderListPhotos(JSON.parse(res?.attachment))}
         </ScrollView>
         <View style={{width: '100%', paddingTop: 20, flexDirection: 'row'}}>
-          <Text style={{fontWeight: '700', fontSize: 20}}>Plate Number: </Text>
-          <Text style={{fontSize: 20}}>{res?.vehicle?.plateNumber}</Text>
+          <Text style={{fontWeight: '700', fontSize: 16}}>Plate Number: </Text>
+          <Text style={{fontSize: 16}}>{res?.vehicle?.plateNumber}</Text>
         </View>
         <View style={{width: '100%', paddingTop: 20, flexDirection: 'row'}}>
-          <Text style={{fontWeight: '700', fontSize: 20}}>Vehicle Type: </Text>
-          <Text style={{fontSize: 20}}>{res?.vehicle?.vehicleType}</Text>
+          <Text style={{fontWeight: '700', fontSize: 16}}>Vehicle Type: </Text>
+          <Text style={{fontSize: 16}}>{res?.vehicle?.vehicleType}</Text>
         </View>
 
         {activity?.map((activityItem, index) => (
           <View
             key={index}
             style={{width: '100%', paddingTop: 20, flexDirection: 'row'}}>
-            <Text style={{fontWeight: '700', fontSize: 20}}>
+            <Text style={{fontWeight: '700', fontSize: 16}}>
               {ACTIVITY_DETAIL[activityItem?.type]?.name}:{' '}
             </Text>
-            <Text style={{fontSize: 20}}>
+            <Text style={{fontSize: 16}}>
               {moment(activityItem?.createTime)?.format('LT')}
             </Text>
           </View>
         ))}
-        <CustomButton
-          style={{marginTop: 25}}
-          disabled={isLoading}
-          onPress={checkOut}
-          loading={isLoading}
-          primary
-          title="Check Out"
-        />
-      </View>
+        {!alreadyCheckedOut && (
+          <CustomButton
+            style={{marginTop: 25}}
+            disabled={isLoading}
+            onPress={checkOut}
+            loading={isLoading}
+            primary
+            title="Check Out"
+          />
+        )}
+      </ScrollView>
     </>
   );
 };
