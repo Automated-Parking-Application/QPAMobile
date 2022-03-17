@@ -31,7 +31,6 @@ const ParkingReservationDetailComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const alreadyCheckedOut = activity?.filter(item => item.type.toString() === '0').length > 0;
-  console.log(alreadyCheckedOut)
   useEffect(() => {
     setIsLoading(true);
     axios
@@ -172,7 +171,13 @@ const ParkingReservationDetailComponent = () => {
               {ACTIVITY_DETAIL[activityItem?.type]?.name}:{' '}
             </Text>
             <Text style={{fontSize: 16}}>
-              {moment(activityItem?.createTime)?.format('LT')}
+              {moment(activityItem?.createTime)?.format('LT')}{' '}
+            </Text>
+            <Text style={{fontWeight: '700', fontSize: 16}}>
+              by{' '}
+            </Text>
+            <Text style={{fontSize: 16}}>
+              {activityItem?.user?.fullName}
             </Text>
           </View>
         ))}

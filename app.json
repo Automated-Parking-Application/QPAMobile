@@ -1,4 +1,10 @@
 {
   "name": "QPAMobile",
-  "displayName": "QPAMobile"
+  "displayName": "QPAMobile",
+  "ios": {
+    "supportsTablet": true,
+    "config": {
+        "googleMapsApiKey": "AIzaSyADX9pr4gKB-cLS3lxtMU2JsskKlwnbbM4"
+    }
+  }
 }

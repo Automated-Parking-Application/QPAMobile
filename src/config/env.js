@@ -1,7 +1,7 @@
 // import {DEV_BACKEND_URL, PROD_BACKEND_URL} from '@env';
 
 const devEnvironmentVariables = {
-  BACKEND_URL: 'http://bb38-42-112-89-222.ngrok.io/',
+  BACKEND_URL: 'http://e24e-113-23-114-200.ngrok.io/',
 };
 
 // const prodEnvironmentVariables = {
