@@ -1,60 +1,30 @@
-import React, {useState, useMemo, useCallback} from 'react';
-import moment from 'moment';
-import {
-  Container,
-  Image,
-  View,
-  Text,
-  Switch,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import {ADD_PARKING_LOT_ATTENDANTS_SUCCESS} from '../../constants/actionTypes';
+import React, {useState, useCallback} from 'react';
+import {Image, View, Text, Alert} from 'react-native';
 import getParkingLotAttendants from '../../context/actions/parkingLotAttendants/getParkingLotAttendants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {PARKING_LOT_ATTENDANT_LIST} from '../../constants/routeNames';
 import CustomButton from '../../components/common/CustomButton';
 import Input from '../common/Input';
 import axios from '../../helpers/axiosInstance';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 const AddParkingLotAttendantComponent = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [error, setError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
   const {
     params: {parkingId},
   } = useRoute();
   const dispatch = useDispatch();
-  const onChange = ({name, value}) => {
-    if (value !== '') {
-      if (name === 'phoneNumber') {
-        if (isNaN(value)) {
-          setError(prev => {
-            return {...prev, [name]: 'Number only'};
-          });
-        } else {
-          setError(prev => {
-            return {...prev, [name]: null};
-          });
-        }
-      }
-    } else {
-      setError(prev => {
-        return {...prev, [name]: 'This field is required'};
-      });
-    }
-  };
+
   const onSubmit = useCallback(() => {
     setIsLoading(true);
-    console.log(phoneNumber);
     axios
       .post(`/parking-space/${parkingId}/user`, {
         phoneNumber,
       })
-      .then(res => {
-        Alert.alert('Successfull!', "",[
+      .then(() => {
+        Alert.alert('Successfull!', '', [
           {
             text: 'OK',
             onPress: () => {
@@ -67,19 +37,15 @@ const AddParkingLotAttendantComponent = () => {
       })
       .catch(err => {
         console.log(err);
-        Alert.alert(
-          'Error!',
-          'Something went wrong!',
-          [
-            {
-              text: 'Try Again',
-              onPress: () => {},
-            },
-          ],
-        );
+        Alert.alert('Error!', 'Something went wrong!', [
+          {
+            text: 'Try Again',
+            onPress: () => {},
+          },
+        ]);
         setIsLoading(false);
       });
-  }, [phoneNumber, parkingId]);
+  }, [phoneNumber, parkingId, navigation, dispatch]);
   return (
     <View
       style={{
@@ -112,9 +78,8 @@ const AddParkingLotAttendantComponent = () => {
         <Input
           style={{width: '100%'}}
           onChangeText={value => {
-            setPhoneNumber(value); onChange({name: 'phoneNumber', value});
+            setPhoneNumber(value);
           }}
-          error={error.phoneNumber}
           value={phoneNumber}
           label="Phone Number"
           placeholder="Enter Phone Number"

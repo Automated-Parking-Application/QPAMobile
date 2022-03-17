@@ -7,14 +7,18 @@ import {
   REGISTER_FAIL,
   REGISTER_LOADING,
   REGISTER_SUCCESS,
+  UPDATE_PROFILE_LOADING,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
 } from '../../constants/actionTypes';
 
-import defaultState from "../initialStates/authState"
+import defaultState from '../initialStates/authState';
 
 const auth = (state = defaultState, {type, payload}) => {
   switch (type) {
     case LOGIN_LOADING:
     case REGISTER_LOADING:
+    case UPDATE_PROFILE_LOADING:
       return {
         ...state,
         loading: true,
@@ -45,6 +49,7 @@ const auth = (state = defaultState, {type, payload}) => {
 
     case REGISTER_FAIL:
     case LOGIN_FAIL:
+    case UPDATE_PROFILE_FAIL:
       return {
         ...state,
         loading: false,
@@ -57,6 +62,17 @@ const auth = (state = defaultState, {type, payload}) => {
         loading: false,
         data: null,
         error: null,
+      };
+
+    case UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        data: {
+          ...state.data,
+          ...payload,
+        },
       };
 
     default:

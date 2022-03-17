@@ -1,4 +1,5 @@
 import axios from '../helpers/axiosInstance';
+import {Platform} from 'react-native';
 
 export default file => onSuccess => onError => {
   const data = new FormData();
@@ -18,8 +19,8 @@ export default file => onSuccess => onError => {
         'Content-Type': 'multipart/form-data',
       },
     })
-    .then(async data => {
-      onSuccess(data.data);
+    .then(async res => {
+      onSuccess(res.data);
     })
     .catch(error => {
       onError(error);

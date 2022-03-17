@@ -4,6 +4,9 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '11.0'
 
 target 'QPAMobile' do
+
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   config = use_native_modules!
 
   use_react_native!(
@@ -14,10 +17,11 @@ target 'QPAMobile' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
   target 'QPAMobileTests' do
     inherit! :complete
+    permissions_path = '../node_modules/react-native-permissions/ios'
+    pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+
     # Pods for testing
   end
 

@@ -10,17 +10,23 @@ import {
   PARKING_LOT_ATTENDANT_LIST,
   ADD_PARKING_LOT_ATTENDANT,
   REQUEST_QR_CODE,
+  CHECKED_IN_PARKING_SPACE,
+  PARKING_RESERVATION_DETAIL,
+  UPDATE_PROFILE,
 } from '../constants/routeNames';
 import ParkingSpaceList from '../screens/ParkingSpaceList';
 import Contacts from '../screens/Contacts';
 import ContactDetails from '../screens/ContactDetail';
+import ParkingSpaceDetail from '../screens/ParkingSpaceDetail';
 import ParkingLotAttendants from '../screens/ParkingLotAttendants';
 import CreateContact from '../screens/CreateContact';
 import Settings from '../screens/Settings';
 import Logout from '../screens/Logout';
 import AddParkingLotAttendant from '../screens/AddParkingLotAttendant';
+import ParkingReservationDetail from '../screens/ParkingReservationDetail';
 import RequestQR from '../screens/RequestQR';
 import Tabs from './BottomTabs';
+import UpdateProfile from '../screens/UpdateProfile';
 
 const HomeNavigator = () => {
   const isAdmin =
@@ -33,7 +39,9 @@ const HomeNavigator = () => {
       state => state?.parkingSpaces?.selectedParkingSpace?.id,
     ) === 'number';
 
-  console.log(hasCheckedInParkingSpace);
+  const {address, fullName, avatar} =
+    useSelector(state => state.auth.data?.User) || {};
+  const isLackedProfile = !(address && fullName && avatar);
 
   const HomeStack = createStackNavigator();
   return isAdmin ? (
@@ -58,8 +66,18 @@ const HomeNavigator = () => {
     </HomeStack.Navigator>
   ) : (
     isParkingLotAttendant &&
-      (hasCheckedInParkingSpace ? (
-        <Tabs />
+      (isLackedProfile ? (
+        <HomeStack.Navigator initialRouteName={UPDATE_PROFILE}>
+          <HomeStack.Screen name={UPDATE_PROFILE} component={UpdateProfile} />
+        </HomeStack.Navigator>
+      ) : hasCheckedInParkingSpace ? (
+        <HomeStack.Navigator initialRouteName={CHECKED_IN_PARKING_SPACE}>
+          <HomeStack.Screen name={CHECKED_IN_PARKING_SPACE} component={Tabs} />
+          <HomeStack.Screen
+            name={PARKING_RESERVATION_DETAIL}
+            component={ParkingReservationDetail}
+          />
+        </HomeStack.Navigator>
       ) : (
         <HomeStack.Navigator initialRouteName={PARKING_SPACE_LIST}>
           <HomeStack.Screen
@@ -68,6 +86,10 @@ const HomeNavigator = () => {
           />
           <HomeStack.Screen name={SETTINGS} component={Settings} />
           <HomeStack.Screen name={LOGOUT} component={Logout} />
+          <HomeStack.Screen
+            name={PARKING_SPACE_DETAIL}
+            component={ParkingSpaceDetail}
+          />
         </HomeStack.Navigator>
       ))
   );

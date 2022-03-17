@@ -23,11 +23,11 @@ const ParkingSpaceList = () => {
         </TouchableOpacity>
       ),
     });
-  }, []);
+  }, [setOptions, toggleDrawer]);
 
   useEffect(() => {
     dispatch(getParkingSpaces());
-  }, []);
+  }, [dispatch]);
   return <ParkingSpaceListComponent data={data} loading={loading} />;
 };
 

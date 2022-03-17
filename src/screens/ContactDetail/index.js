@@ -87,7 +87,7 @@ const ContactDetails = () => {
         },
       });
     }
-  }, [item, loading]);
+  }, [dispatch, item, loading, navigate, setOptions]);
 
   const closeSheet = () => {
     if (sheetRef.current) {
