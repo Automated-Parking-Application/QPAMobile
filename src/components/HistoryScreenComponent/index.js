@@ -79,7 +79,11 @@ const HistoryScreenComponent = () => {
   };
   return (
     <>
-      <View style={{backgroundColor: colors.white, flex: 1}}>
+      <View
+        style={{
+          backgroundColor: colors.white,
+          flex: 1,
+        }}>
         {loading && (
           <View style={{paddingVertical: 100, paddingHorizontal: 100}}>
             <ActivityIndicator color={colors.primary} size="large" />
@@ -87,7 +91,7 @@ const HistoryScreenComponent = () => {
         )}
 
         {!loading && (
-          <View style={[{paddingVertical: 20}]}>
+          <View style={[{paddingVertical: 0}]}>
             <FlatList
               renderItem={renderItem}
               data={data}
@@ -103,6 +107,7 @@ const HistoryScreenComponent = () => {
               ListEmptyComponent={ListEmptyComponent}
               ListFooterComponent={<View style={{height: 150}}></View>}
             />
+
           </View>
         )}
       </View>

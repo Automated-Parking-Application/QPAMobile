@@ -1,13 +1,6 @@
 import React, {useState, useMemo} from 'react';
 import moment from 'moment';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
-import { Input as FakeInput } from 'react-native-elements';
+import {View, Text, Image, TouchableOpacity, Dimensions} from 'react-native';
 
 import Container from '../common/Container';
 import CustomButton from '../common/CustomButton';
@@ -16,9 +9,8 @@ import styles from './styles';
 import colors from '../../assets/theme/colors';
 import ImagePicker from '../common/ImagePicker';
 import DatePicker from 'react-native-date-picker';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import Modal from 'react-native-modalbox';
-
+import AddressPicker from '../AddressPicker';
 const CreateContactComponent = ({
   loading,
   error,
@@ -36,7 +28,7 @@ const CreateContactComponent = ({
   const [openStartModal, setOpenStartModal] = useState(false);
   const [openEndModal, setOpenEndModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const {width, height} = Dimensions.get('window');
+  const {width, height} = Dimensions.get('screen');
 
   const isValidateForm = useMemo(() => {
     return (
@@ -61,37 +53,10 @@ const CreateContactComponent = ({
           backgroundColor: 'transparent',
         }}
         onClosed={() => setModalVisible(false)}>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            width,
-            height: 500,
-            borderTopLeftRadius: 20,
-            justifyContent: 'center',
-            padding: 20,
-            alignItems: 'center',
-            borderTopRightRadius: 20,
-            backgroundColor: 'white',
-            fontSize: 22,
-          }}>
-          <GooglePlacesAutocomplete
-            placeholder="Search"
-            textInputProps={{
-              InputComp: FakeInput,
-              errorStyle: { color: 'red' },
-            }}
-            onPress={(data, details = null) => {
-              setModalVisible(false)
-              onChangeText({name: 'address', value: data.description});
-            }}
-            onFail={error => console.log(error)}
-            query={{
-              key: 'AIzaSyADX9pr4gKB-cLS3lxtMU2JsskKlwnbbM4',
-              language: 'vi',
-            }}
-          />
-        </View>
+        <AddressPicker
+          setModalVisible={setModalVisible}
+          onChangeText={onChangeText}
+        />
       </Modal>
       <Container>
         <Image
