@@ -23,7 +23,7 @@ const HistoryScreenComponent = () => {
   const selectedParkingId = useSelector(
     state => state?.parkingSpaces?.selectedParkingSpace?.id,
   );
-  const {data, loading} = useSelector(state => state.parkingSpaces.history);
+  const {data, loading} = useSelector(state => state.parkingSpaces.history) || {};
 
   useEffect(() => {
     dispatch(getParkingSpacesHistory(selectedParkingId));

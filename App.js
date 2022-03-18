@@ -9,7 +9,6 @@
 import React from 'react';
 import 'react-native-gesture-handler';
 import AppNavContainer from './src/navigations';
-import GlobalProvider from './src/context/Provider';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import ZocialIcon from 'react-native-vector-icons/Zocial';
@@ -21,7 +20,6 @@ import FoundationIcon from 'react-native-vector-icons/Foundation';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
-import FAIcon5 from 'react-native-vector-icons/FontAwesome5';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';

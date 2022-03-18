@@ -6,19 +6,13 @@ export default files => onSuccess => onError => {
     const data = new FormData();
     files.forEach(file => {
       data.append('files', {
-        name: file.filename || new Date().getTime(),
-        filename: new Date().getTime(),
-        type: file.mime,
-        mime: file.mime,
-        data: file.data,
+        name: file.fileName,
+        mime: file.type,
+        type: file.type,
         uri:
-          (Platform.OS === 'ios'
-            ? file.sourceURL?.replace('file://', '')
-            : file.sourceURL) || file.path,
+          Platform.OS === 'ios' ? file.uri?.replace('file://', '') : file.uri,
       });
     });
-
-    // onError(null)
 
     axios
       .post('/resource/upload/batch', data, {

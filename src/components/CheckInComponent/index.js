@@ -17,7 +17,8 @@ import ProgressLoader from 'rn-progress-loader';
 
 import {PARKING_RESERVATION_DETAIL} from '../../constants/routeNames';
 import checkIn from '../../context/actions/parkingSpaces/checkIn';
-import ImagePicker from 'react-native-image-crop-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
 import ActionSheet from 'react-native-actionsheet';
 import styles from './styles';
 import Input from '../common/Input';
@@ -120,7 +121,7 @@ const CheckInComponent = forwardRef((props, ref) => {
         onPress={() => {
           showActionSheet(index);
         }}>
-        <Image style={styles.photo} source={{uri: photo.path}} />
+        <Image style={styles.photo} source={{uri: photo.path || photo.uri}} />
       </TouchableOpacity>
     ));
   };
@@ -142,26 +143,56 @@ const CheckInComponent = forwardRef((props, ref) => {
     index => {
       switch (index) {
         case 0:
-          ImagePicker.openCamera({
-            cropping: true,
-            includeBase64: true,
-            writeTempFile: false
-          }).then(image => {
-            setLocalPhotos([...localPhotos, image]);
-          });
+          launchCamera(
+            {
+              storageOptions: {
+                skipBackup: true,
+                path: 'images',
+              },
+            },
+            res => {
+              console.log('Response = ', res);
+              if (res.didCancel) {
+                console.log('User cancelled image picker');
+              } else if (res.error) {
+                console.log(res.error);
+              } else if (res.customButton) {
+                console.log('User tapped custom button: ', res.customButton);
+              } else {
+                setLocalPhotos([...localPhotos, ...res.assets]);
+              }
+            },
+          );
           break;
         case 1:
-          ImagePicker.openPicker({
-            multiple: true,
-            maxFiles: 10,
-            mediaType: 'photo',
-          })
-            .then(images => {
-              setLocalPhotos([...localPhotos, ...images]);
-            })
-            .catch(error => {
-              console.log(error);
-            });
+          launchImageLibrary(
+            {
+              title: 'Select Image',
+              customButtons: [
+                {
+                  name: 'customOptionKey',
+                  title: 'Choose file from Custom Option',
+                },
+              ],
+              selectionLimit: 10,
+              storageOptions: {
+                skipBackup: true,
+                path: 'images',
+              },
+            },
+            res => {
+              if (res.didCancel) {
+                console.log('User cancelled image picker');
+              } else if (res.error) {
+                console.log('ImagePicker Error: ', res.error);
+              } else if (res.customButton) {
+                console.log('User tapped custom button: ', res.customButton);
+                // alert(res.customButton);
+              } else {
+                setLocalPhotos([...localPhotos, ...res.assets]);
+              }
+            },
+          );
           break;
         default:
           break;

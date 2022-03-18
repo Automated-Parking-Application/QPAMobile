@@ -6,6 +6,8 @@
 	<string>en</string>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) camera use</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) camera use</string>
 	<key>CFBundleDisplayName</key>
 	<string>QPAMobile</string>
 	<key>NSPhotoLibraryUsageDescription</key>
