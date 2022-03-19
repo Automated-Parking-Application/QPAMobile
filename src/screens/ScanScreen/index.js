@@ -160,7 +160,7 @@ const ScanScreen = () => {
             onRead={onSuccess}
             topContent={
               <Text style={styles.centerText}>
-                Scan the parking reservation QR
+                Scan to Checkout
               </Text>
             }
             bottomContent={
