@@ -64,7 +64,7 @@ const CreateContactComponent = ({
           height={150}
           source={{
             uri:
-              localFile?.path ||
+              localFile?.uri ||
               localFile ||
               'https://bppl.kkp.go.id/uploads/publikasi/karya_tulis_ilmiah/default.jpg',
           }}
