@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {
   View,
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
   Text,
+  RefreshControl,
 } from 'react-native';
 import {PARKING_RESERVATION_DETAIL} from '../../constants/routeNames';
 
@@ -23,7 +24,8 @@ const HistoryScreenComponent = () => {
   const selectedParkingId = useSelector(
     state => state?.parkingSpaces?.selectedParkingSpace?.id,
   );
-  const {data, loading} = useSelector(state => state.parkingSpaces.history) || {};
+  const {data, loading} =
+    useSelector(state => state.parkingSpaces.history) || {};
 
   useEffect(() => {
     dispatch(getParkingSpacesHistory(selectedParkingId));
@@ -36,6 +38,10 @@ const HistoryScreenComponent = () => {
       </View>
     );
   };
+
+  const onRefresh = useCallback(async () => {
+    await dispatch(getParkingSpacesHistory(selectedParkingId));
+  }, [dispatch, selectedParkingId]);
 
   const renderItem = ({item}) => {
     const {
@@ -95,6 +101,9 @@ const HistoryScreenComponent = () => {
             <FlatList
               renderItem={renderItem}
               data={data}
+              refreshControl={
+                <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+              }
               ItemSeparatorComponent={() => (
                 <View
                   style={{height: 0.5, backgroundColor: colors.grey}}></View>
@@ -107,7 +116,6 @@ const HistoryScreenComponent = () => {
               ListEmptyComponent={ListEmptyComponent}
               ListFooterComponent={<View style={{height: 150}}></View>}
             />
-
           </View>
         )}
       </View>

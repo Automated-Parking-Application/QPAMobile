@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useRef} from 'react';
+import React, {useRef, useCallback} from 'react';
 import {
   View,
   Text,
@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
+  RefreshControl,
 } from 'react-native';
-import {s} from 'react-native-size-matters';
 import colors from '../../assets/theme/colors';
 import {PARKING_SPACE_DETAIL} from '../../constants/routeNames';
 import Icon from '../common/Icon';
@@ -17,6 +17,7 @@ import styles from './styles';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {useDispatch} from 'react-redux';
 import setSelectedParkingSpace from '../../context/actions/parkingSpaces/setSelectedParkingSpace';
+import getParkingSpaces from '../../context/actions/parkingSpaces/getParkingSpaces';
 
 const ParkingSpaceListComponent = ({data, loading}) => {
   const swipeableItemRefs = useRef([]);
@@ -30,6 +31,10 @@ const ParkingSpaceListComponent = ({data, loading}) => {
       </View>
     );
   };
+
+  const onRefresh = useCallback(async () => {
+    dispatch(getParkingSpaces());
+  }, [dispatch]);
 
   const renderItem = ({item}) => {
     const {name, address, description, image} = item;
@@ -142,6 +147,9 @@ const ParkingSpaceListComponent = ({data, loading}) => {
             <FlatList
               renderItem={renderItem}
               data={data}
+              refreshControl={
+                <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+              }
               ItemSeparatorComponent={() => (
                 <View
                   style={{height: 0.5, backgroundColor: colors.grey}}></View>

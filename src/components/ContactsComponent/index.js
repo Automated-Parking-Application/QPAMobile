@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useRef} from 'react';
+import React, {useRef, useCallback} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
+  RefreshControl,
 } from 'react-native';
 import {s} from 'react-native-size-matters';
 import colors from '../../assets/theme/colors';
@@ -18,9 +19,12 @@ import Icon from '../common/Icon';
 import Message from '../common/Message';
 import styles from './styles';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import {useDispatch} from 'react-redux';
+import getParkingSpaces from '../../context/actions/parkingSpaces/getParkingSpaces';
 
 const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
   const {navigate} = useNavigation();
+  const dispatch = useDispatch();
 
   const swipeableItemRefs = useRef([]);
 
@@ -39,6 +43,10 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
       </View>
     );
   };
+
+  const onRefresh = useCallback(async () => {
+    dispatch(getParkingSpaces());
+  }, [dispatch]);
 
   const renderItem = ({item}) => {
     const {name, address, description, image} = item;
@@ -138,6 +146,9 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
         {!loading && (
           <View style={[{paddingVertical: 20}]}>
             <FlatList
+              refreshControl={
+                <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+              }
               renderItem={renderItem}
               data={
                 sortBy

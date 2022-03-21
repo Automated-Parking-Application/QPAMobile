@@ -1,15 +1,13 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import ProgressLoader from 'rn-progress-loader';
 import {
   View,
   Text,
-  FlatList,
   Alert,
   Animated,
   TouchableOpacity,
-  ActivityIndicator,
   Image,
-  ScrollView,
+  RefreshControl,
 } from 'react-native';
 import colors from '../../assets/theme/colors';
 import Message from '../common/Message';
@@ -36,7 +34,9 @@ const ParkingLotAttendantsComponent = () => {
   const {navigate} = useNavigation();
 
   const scrollY = React.useRef(new Animated.Value(0)).current;
-
+  const onRefresh = useCallback(async () => {
+    dispatch(getParkingLotAttendants(parkingId));
+  }, [dispatch, parkingId]);
   const ListEmptyComponent = () => {
     return (
       <View
@@ -60,7 +60,7 @@ const ParkingLotAttendantsComponent = () => {
   };
   useEffect(() => {
     dispatch(getParkingLotAttendants(parkingId));
-  }, [parkingId]);
+  }, [dispatch, parkingId]);
 
   const personRemoveClick =
     ({user, parkingId}) =>
@@ -101,6 +101,9 @@ const ParkingLotAttendantsComponent = () => {
           data={parkingLotAttendants}
           ListEmptyComponent={ListEmptyComponent}
           keyExtractor={item => item.id}
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+          }
           onScroll={Animated.event(
             [{nativeEvent: {contentOffset: {y: scrollY}}}],
             {useNativeDriver: true},
