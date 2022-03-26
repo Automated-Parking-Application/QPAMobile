@@ -110,6 +110,7 @@ const ScanScreen = () => {
         .then(item => {
           navigation.navigate(PARKING_RESERVATION_DETAIL, {
             parkingReservation: item.data.parkingReservation,
+            refreshFn: null,
           });
         })
         .catch(err => {

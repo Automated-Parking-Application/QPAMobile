@@ -61,6 +61,7 @@ const HistoryScreenComponent = () => {
         onPress={() => {
           navigation.navigate(PARKING_RESERVATION_DETAIL, {
             parkingReservation: item.parkingReservationEntity,
+            refreshFn: null
           });
         }}>
         <View style={styles.item}>

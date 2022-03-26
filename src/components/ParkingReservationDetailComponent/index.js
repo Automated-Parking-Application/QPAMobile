@@ -21,7 +21,7 @@ import envs from '../../config/env';
 const ParkingReservationDetailComponent = () => {
   const {navigate, goBack} = useNavigation();
   const {
-    params: {parkingReservation},
+    params: {parkingReservation, refreshFn},
   } = useRoute();
   const [res, setRes] = useState({});
   const [activity, setActivity] = useState([]);
@@ -71,6 +71,7 @@ const ParkingReservationDetailComponent = () => {
             text: 'OK',
             onPress: () => {
               goBack();
+              refreshFn && refreshFn();
             },
           },
         ]);
@@ -85,7 +86,7 @@ const ParkingReservationDetailComponent = () => {
         ]);
         console.log(err);
       });
-  }, [res?.id, res?.parkingId]);
+  }, [goBack, refreshFn, res?.id, res?.parkingId]);
 
   const renderListPhotos = photos => {
     return photos?.map((photo, index) => (

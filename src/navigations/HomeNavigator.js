@@ -13,6 +13,7 @@ import {
   CHECKED_IN_PARKING_SPACE,
   PARKING_RESERVATION_DETAIL,
   UPDATE_PROFILE,
+  PARKING_SPACE_REPORT,
 } from '../constants/routeNames';
 import ParkingSpaceList from '../screens/ParkingSpaceList';
 import Contacts from '../screens/Contacts';
@@ -27,6 +28,17 @@ import ParkingReservationDetail from '../screens/ParkingReservationDetail';
 import RequestQR from '../screens/RequestQR';
 import Tabs from './BottomTabs';
 import UpdateProfile from '../screens/UpdateProfile';
+import ParkingSpaceReport from '../screens/ParkingSpaceReport';
+
+const getCommon = Stack => {
+  return [
+    <Stack.Screen
+      key="PARKING_SPACE_REPORT"
+      name={PARKING_SPACE_REPORT}
+      component={ParkingSpaceReport}
+    />,
+  ];
+};
 
 const HomeNavigator = () => {
   const isAdmin =
@@ -44,6 +56,8 @@ const HomeNavigator = () => {
   const isLackedProfile = !(address && fullName && avatar);
 
   const HomeStack = createStackNavigator();
+
+  const common = getCommon(HomeStack);
   return isAdmin ? (
     <HomeStack.Navigator initialRouteName={PARKING_SPACE_LIST}>
       <HomeStack.Screen name={PARKING_SPACE_LIST} component={Contacts} />
@@ -71,12 +85,13 @@ const HomeNavigator = () => {
           <HomeStack.Screen name={UPDATE_PROFILE} component={UpdateProfile} />
         </HomeStack.Navigator>
       ) : hasCheckedInParkingSpace ? (
-        <HomeStack.Navigator initialRouteName={CHECKED_IN_PARKING_SPACE}>
+        <HomeStack.Navigator initialRouteName={PARKING_SPACE_REPORT}>
           <HomeStack.Screen name={CHECKED_IN_PARKING_SPACE} component={Tabs} />
           <HomeStack.Screen
             name={PARKING_RESERVATION_DETAIL}
             component={ParkingReservationDetail}
           />
+          {common}
         </HomeStack.Navigator>
       ) : (
         <HomeStack.Navigator initialRouteName={PARKING_SPACE_LIST}>
@@ -90,6 +105,7 @@ const HomeNavigator = () => {
             name={PARKING_SPACE_DETAIL}
             component={ParkingSpaceDetail}
           />
+          {common}
         </HomeStack.Navigator>
       ))
   );

@@ -100,6 +100,7 @@ const CheckInComponent = forwardRef((props, ref) => {
           props.setStart(false);
           navigation.navigate(PARKING_RESERVATION_DETAIL, {
             parkingReservation: item.data,
+            refreshFn: null
           });
         })(err => {
           setIsSubmitting(false);
