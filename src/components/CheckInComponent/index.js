@@ -94,13 +94,15 @@ const CheckInComponent = forwardRef((props, ref) => {
           attachment: JSON.stringify(res),
           vehicleType: value,
           // eslint-disable-next-line no-extra-boolean-cast
-          codeId: !!qrCode ? qrCode.id : ""
+          codeId: !!qrCode ? qrCode.id : '',
+          // eslint-disable-next-line no-extra-boolean-cast
+          externalId: !!qrCode ? qrCode.externalId : '',
         })(item => {
           setIsSubmitting(false);
           props.setStart(false);
           navigation.navigate(PARKING_RESERVATION_DETAIL, {
             parkingReservation: item.data,
-            refreshFn: null
+            refreshFn: null,
           });
         })(err => {
           setIsSubmitting(false);
@@ -111,7 +113,15 @@ const CheckInComponent = forwardRef((props, ref) => {
         setIsUploading(false);
       });
     }
-  }, [localPhotos, navigation, plateNumber, props, qrCode, selectedParkingId, value]);
+  }, [
+    localPhotos,
+    navigation,
+    plateNumber,
+    props,
+    qrCode,
+    selectedParkingId,
+    value,
+  ]);
 
   const onCancel = () => {
     props.setStart(false);
@@ -188,15 +198,19 @@ const CheckInComponent = forwardRef((props, ref) => {
               setQRCode(res.data);
             }
           })
-          .catch(() => {
-            Alert.alert('Error!', 'Something went wrong', [
-              {
-                text: 'Try Again',
-                onPress: () => {
-                  setScan(true);
+          .catch(err => {
+            Alert.alert(
+              'Error!',
+              err?.response?.data || err?.response?.data?.message,
+              [
+                {
+                  text: 'Try Again',
+                  onPress: () => {
+                    setScan(true);
+                  },
                 },
-              },
-            ]);
+              ],
+            );
             setScan(false);
           });
       }

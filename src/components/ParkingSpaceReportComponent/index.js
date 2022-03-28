@@ -119,7 +119,6 @@ const ParkingSpaceReportComponent = () => {
         <View style={styles.item}>
           <View style={{paddingLeft: 20}}>
             <View style={{flexDirection: 'row'}}>
-              <Text style={styles.name}>{name}</Text>
               <Text style={[styles.name, {color: colors.black}]}>
                 {plateNumber}
               </Text>
@@ -146,7 +145,7 @@ const ParkingSpaceReportComponent = () => {
         backgroundColor: colors.white,
       }}>
       <Text style={{paddingVertical: 10, fontSize: 16, fontWeight: '700'}}>
-        Check-in Number Chart in Day
+        Total Check-in Number Chart in Day: {parkingRes.length}
       </Text>
       <ScrollView horizontal>
         {workingTime?.length > 0 && (
@@ -189,17 +188,6 @@ const ParkingSpaceReportComponent = () => {
       {backlog.length > 0 && <Text>Contains:</Text>}
       {backlog.map(item =>
         renderItem({item: item.vehicle, parkingReservation: item}),
-      )}
-      {isParkingLotAttendant && (
-        <View style={{width: '100%', paddingLeft: 15, paddingRight: 15}}>
-          <CustomButton
-            disabled={isLoading}
-            onPress={onSubmit}
-            loading={isLoading}
-            primary
-            title="Archive All"
-          />
-        </View>
       )}
     </ScrollView>
   );

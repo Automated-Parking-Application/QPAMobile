@@ -2,6 +2,7 @@ import React, {useState, useEffect, useMemo, useCallback} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import moment from 'moment';
 import CustomButton from '../../components/common/CustomButton';
+import ImageComponent from './ImageComponent';
 import {
   View,
   ScrollView,
@@ -10,6 +11,7 @@ import {
   TouchableOpacity,
   Modal,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import axios from '../../helpers/axiosInstance';
@@ -30,8 +32,10 @@ const ParkingReservationDetailComponent = () => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
-  const alreadyCheckedOut = activity?.filter(item => item.type.toString() === '0').length > 0;
-  useEffect(() => {
+  const alreadyCheckedOut =
+    activity?.filter(item => item.type.toString() === '0').length > 0;
+
+  const onRefresh = useCallback(() => {
     setIsLoading(true);
     axios
       .get(
@@ -44,15 +48,25 @@ const ParkingReservationDetailComponent = () => {
       })
       .catch(err => {
         setIsLoading(false);
-        Alert.alert('Error!', 'Something went wrong!', [
-          {
-            text: 'Try Again',
-            onPress: () => {},
-          },
-        ]);
+        Alert.alert(
+          'Error!',
+          err?.response?.data ||
+            err?.response?.data?.message ||
+            'Something went wrong!',
+          [
+            {
+              text: 'Try Again',
+              onPress: () => {},
+            },
+          ],
+        );
         console.log(err);
       });
   }, [parkingReservation.id, selectedParkingId]);
+
+  useEffect(() => {
+    onRefresh();
+  }, [onRefresh]);
 
   const customizedPhotos = useMemo(() => {
     return (
@@ -78,12 +92,18 @@ const ParkingReservationDetailComponent = () => {
       })
       .catch(err => {
         setIsLoading(false);
-        Alert.alert('Error!', 'Something went wrong!', [
-          {
-            text: 'Try Again',
-            onPress: () => {},
-          },
-        ]);
+        Alert.alert(
+          'Error!',
+          err?.response?.data ||
+            err?.response?.data?.message ||
+            'Something went wrong!',
+          [
+            {
+              text: 'Try Again',
+              onPress: () => {},
+            },
+          ],
+        );
         console.log(err);
       });
   }, [goBack, refreshFn, res?.id, res?.parkingId]);
@@ -95,7 +115,7 @@ const ParkingReservationDetailComponent = () => {
         onPress={() => {
           setVisibleModal(true);
         }}>
-        <Image
+        <ImageComponent
           style={{
             marginRight: 10,
             marginTop: 10,
@@ -103,7 +123,7 @@ const ParkingReservationDetailComponent = () => {
             height: 100,
             borderRadius: 10,
           }}
-          source={{uri: photo}}
+          src={photo}
         />
       </TouchableOpacity>
     ));
@@ -131,6 +151,9 @@ const ParkingReservationDetailComponent = () => {
       </Modal>
 
       <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+        }
         vertical
         contentContainerStyle={{
           display: 'flex',
@@ -174,12 +197,8 @@ const ParkingReservationDetailComponent = () => {
             <Text style={{fontSize: 16}}>
               {moment(activityItem?.createTime)?.format('LT')}{' '}
             </Text>
-            <Text style={{fontWeight: '700', fontSize: 16}}>
-              by{' '}
-            </Text>
-            <Text style={{fontSize: 16}}>
-              {activityItem?.user?.fullName}
-            </Text>
+            <Text style={{fontWeight: '700', fontSize: 16}}>by </Text>
+            <Text style={{fontSize: 16}}>{activityItem?.user?.fullName}</Text>
           </View>
         ))}
         {!alreadyCheckedOut && (

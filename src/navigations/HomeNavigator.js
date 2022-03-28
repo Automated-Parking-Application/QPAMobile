@@ -85,7 +85,7 @@ const HomeNavigator = () => {
           <HomeStack.Screen name={UPDATE_PROFILE} component={UpdateProfile} />
         </HomeStack.Navigator>
       ) : hasCheckedInParkingSpace ? (
-        <HomeStack.Navigator initialRouteName={PARKING_SPACE_REPORT}>
+        <HomeStack.Navigator initialRouteName={CHECKED_IN_PARKING_SPACE}>
           <HomeStack.Screen name={CHECKED_IN_PARKING_SPACE} component={Tabs} />
           <HomeStack.Screen
             name={PARKING_RESERVATION_DETAIL}
