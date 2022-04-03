@@ -7,6 +7,8 @@ import {
   CREATE_PARKING_SPACE,
   LOGOUT,
   SETTINGS,
+  UPDATE_PASSWORD,
+  RESET_PASSWORD,
   PARKING_LOT_ATTENDANT_LIST,
   ADD_PARKING_LOT_ATTENDANT,
   REQUEST_QR_CODE,
@@ -16,6 +18,8 @@ import {
   PARKING_SPACE_REPORT,
 } from '../constants/routeNames';
 import ParkingSpaceList from '../screens/ParkingSpaceList';
+import UpdatePassword from '../screens/UpdatePassword';
+import ResetPassword from '../screens/ResetPassword';
 import Contacts from '../screens/Contacts';
 import ContactDetails from '../screens/ContactDetail';
 import ParkingSpaceDetail from '../screens/ParkingSpaceDetail';
@@ -76,6 +80,8 @@ const HomeNavigator = () => {
       <HomeStack.Screen name={REQUEST_QR_CODE} component={RequestQR} />
       <HomeStack.Screen name={CREATE_PARKING_SPACE} component={CreateContact} />
       <HomeStack.Screen name={SETTINGS} component={Settings} />
+      <HomeStack.Screen name={UPDATE_PASSWORD} component={UpdatePassword} />
+      <HomeStack.Screen name={RESET_PASSWORD} component={ResetPassword} />
       <HomeStack.Screen name={LOGOUT} component={Logout} />
     </HomeStack.Navigator>
   ) : (

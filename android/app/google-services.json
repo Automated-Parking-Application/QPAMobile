@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "746832329604",
+    "project_id": "automated-parking-application",
+    "storage_bucket": "automated-parking-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746832329604:android:1421619bd84a7854e4fbd1",
+        "android_client_info": {
+          "package_name": "com.qpamobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746832329604-551p105pt0ubc4pkqi2fsgdb6nh2o8dv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4ZqhHouhcqbh-kIJpxRejTx1CR80oq9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746832329604-551p105pt0ubc4pkqi2fsgdb6nh2o8dv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

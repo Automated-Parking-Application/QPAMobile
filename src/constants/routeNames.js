@@ -13,5 +13,5 @@ export const CHECKED_IN_PARKING_SPACE = "CHECKED_IN_PARKING_SPACE"
 export const CHECK_IN = "CHECK_IN"
 export const PARKING_RESERVATION_DETAIL = "Parking Reservation Detail"
 export const UPDATE_PROFILE = "Update Profile"
+export const RESET_PASSWORD = "Reset Password"
 export const PARKING_SPACE_REPORT = "Parking Space Report"
-

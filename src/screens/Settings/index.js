@@ -1,11 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import SettingsComponent from '../../components/SettingsComponent';
+import {UPDATE_PASSWORD} from '../../constants/routeNames';
 
 const Settings = () => {
   const [email, setEmail] = React.useState(null);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [sortBy, setSortBy] = React.useState(null);
+  const navigation = useNavigation();
 
   const saveSetting = (key, value) => {
     AsyncStorage.setItem(key, value);
@@ -13,7 +16,9 @@ const Settings = () => {
 
   const settingsOptions = [
     {title: 'My Info', subTitle: 'Setup your profile', onPress: () => {}},
-    {title: 'Accounts', subTitle: null, onPress: () => {}},
+    {title: 'Change Password', subTitle: null, onPress: () => {
+      navigation.navigate(UPDATE_PASSWORD);
+    }},
     {
       title: 'Default account for new contacts',
       subTitle: email,
