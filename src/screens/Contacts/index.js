@@ -16,11 +16,11 @@ const Contacts = () => {
 
   const {data, loading} = useSelector(
     state => state.parkingSpaces.getParkingSpaces,
-  );
+  ) || {};
 
   useEffect(() => {
     dispatch(getParkingSpaces());
-  }, []);
+  }, [dispatch]);
 
   const getSettings = async () => {
     const sortPref = await AsyncStorage.getItem('sortBy');

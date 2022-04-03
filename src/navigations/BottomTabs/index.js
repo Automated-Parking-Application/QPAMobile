@@ -3,7 +3,7 @@ import ScanScreen from '../../screens/ScanScreen';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import React, {useState, useRef} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Linking} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from '../../components/common/Icon';
 import {CHECK_IN} from '../../constants/routeNames';
 import CheckInScreen from '../../screens/CheckInScreen';
@@ -122,7 +122,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="SdCAN"
+        name="History"
         component={HistoryScreen}
         options={{
           tabBarIcon: ({focused}) => (

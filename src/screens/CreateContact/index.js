@@ -116,7 +116,8 @@ const CreateContact = () => {
           dispatch(createParkingSpace({...form, image: url}))(() => {
             navigate(PARKING_SPACE_LIST);
           });
-        })(err => {
+        })((err) => {
+          console.log(err);
           setIsUploading(false);
         });
       } else {

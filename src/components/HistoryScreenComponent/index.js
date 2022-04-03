@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {
   View,
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
   Text,
+  RefreshControl,
 } from 'react-native';
 import {PARKING_RESERVATION_DETAIL} from '../../constants/routeNames';
 
@@ -23,7 +24,8 @@ const HistoryScreenComponent = () => {
   const selectedParkingId = useSelector(
     state => state?.parkingSpaces?.selectedParkingSpace?.id,
   );
-  const {data, loading} = useSelector(state => state.parkingSpaces.history);
+  const {data, loading} =
+    useSelector(state => state.parkingSpaces.history) || {};
 
   useEffect(() => {
     dispatch(getParkingSpacesHistory(selectedParkingId));
@@ -36,6 +38,10 @@ const HistoryScreenComponent = () => {
       </View>
     );
   };
+
+  const onRefresh = useCallback(async () => {
+    await dispatch(getParkingSpacesHistory(selectedParkingId));
+  }, [dispatch, selectedParkingId]);
 
   const renderItem = ({item}) => {
     const {
@@ -55,6 +61,7 @@ const HistoryScreenComponent = () => {
         onPress={() => {
           navigation.navigate(PARKING_RESERVATION_DETAIL, {
             parkingReservation: item.parkingReservationEntity,
+            refreshFn: null
           });
         }}>
         <View style={styles.item}>
@@ -79,7 +86,11 @@ const HistoryScreenComponent = () => {
   };
   return (
     <>
-      <View style={{backgroundColor: colors.white, flex: 1}}>
+      <View
+        style={{
+          backgroundColor: colors.white,
+          flex: 1,
+        }}>
         {loading && (
           <View style={{paddingVertical: 100, paddingHorizontal: 100}}>
             <ActivityIndicator color={colors.primary} size="large" />
@@ -87,10 +98,13 @@ const HistoryScreenComponent = () => {
         )}
 
         {!loading && (
-          <View style={[{paddingVertical: 20}]}>
+          <View style={[{paddingVertical: 0}]}>
             <FlatList
               renderItem={renderItem}
               data={data}
+              refreshControl={
+                <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+              }
               ItemSeparatorComponent={() => (
                 <View
                   style={{height: 0.5, backgroundColor: colors.grey}}></View>

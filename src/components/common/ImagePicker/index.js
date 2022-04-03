@@ -4,7 +4,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import colors from '../../../assets/theme/colors';
 import Icon from '../../common/Icon';
 import styles from './styles';
-import ImagePickerCropper from 'react-native-image-crop-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 // eslint-disable-next-line react/display-name
 const ImagePicker = React.forwardRef(({onFileSelected}, ref) => {
@@ -13,36 +13,61 @@ const ImagePicker = React.forwardRef(({onFileSelected}, ref) => {
       name: 'Take from camera',
       icon: <Icon color={colors.grey} size={21} name="camera" />,
       onPress: () => {
-        ImagePickerCropper.openCamera({
-          width: 300,
-          height: 300,
-          cropping: true,
-          freeStyleCropEnabled: true,
-        })
-          .then(images => {
-            onFileSelected(images);
-          })
-          .catch(error => {
-            console.log(error);
-          });
+        launchCamera(
+          {
+            storageOptions: {
+              skipBackup: true,
+              path: 'images',
+            },
+          },
+          res => {
+            console.log('Response = ', res);
+            if (res.didCancel) {
+              console.log('User cancelled image picker');
+            } else if (res.error) {
+              console.log(res.error);
+            } else if (res.customButton) {
+              console.log('User tapped custom button: ', res.customButton);
+            } else {
+              onFileSelected(res.assets[0]);
+              console.log(res.assets)
+            }
+          },
+        );
       },
     },
     {
       name: 'Choose from Gallery',
       icon: <Icon name="image" color={colors.grey} size={21} />,
       onPress: () => {
-        ImagePickerCropper.openPicker({
-          width: 300,
-          height: 300,
-          cropping: true,
-          freeStyleCropEnabled: true,
-        })
-          .then(images => {
-            onFileSelected(images);
-          })
-          .catch(error => {
-            console.log(error);
-          });
+        launchImageLibrary(
+          {
+            title: 'Select Image',
+            customButtons: [
+              {
+                name: 'customOptionKey',
+                title: 'Choose file from Custom Option',
+              },
+            ],
+            storageOptions: {
+              skipBackup: true,
+              path: 'images',
+            },
+          },
+          res => {
+            if (res.didCancel) {
+              console.log('User cancelled image picker');
+            } else if (res.error) {
+              console.log('ImagePicker Error: ', res.error);
+            } else if (res.customButton) {
+              console.log('User tapped custom button: ', res.customButton);
+            } else {
+              onFileSelected(res.assets[0]);
+              console.log(res.assets[0])
+
+            }
+          },
+        );
       },
     },
   ];

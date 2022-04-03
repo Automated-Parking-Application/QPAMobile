@@ -41,7 +41,7 @@ const RequestQR = () => {
         ]);
         setIsLoading(false);
       });
-  }, [count, parkingId]);
+  }, [count, navigation, parkingId]);
   return (
     <View
       style={{

@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useSelector} from 'react-redux';
-import {View, Text} from 'react-native';
+import {ScrollView, Text, RefreshControl} from 'react-native';
 import CustomButton from '../../components/common/CustomButton';
 import CheckInComponent from '../../components/CheckInComponent';
 import axios from '../../helpers/axiosInstance';
 import colors from '../../assets/theme/colors';
+import ProgressLoader from 'rn-progress-loader';
 
 const CheckInScreen = ({start, setStart, childRef}) => {
   const [count, setCount] = useState();
@@ -12,26 +13,45 @@ const CheckInScreen = ({start, setStart, childRef}) => {
     state => state?.parkingSpaces?.selectedParkingSpace?.id,
   );
   const unavailableParkingSpace = !count || count === 0;
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const requestCall = useCallback(() => {
+    setLoading(true);
     axios
       .get(`/parking-space/${selectedParkingId}/qr/count/`)
       .then(res => {
         setCount(res.data);
+        setLoading(false);
       })
       .catch(err => {
+        setLoading(false);
         console.log(err);
       });
   }, [selectedParkingId]);
 
+  useEffect(() => {
+    requestCall();
+  }, [requestCall, selectedParkingId]);
+
   return !start ? (
-    <View
-      style={{
-        alignItems: 'center',
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={loading} onRefresh={requestCall} />
+      }
+      contentContainerStyle={{
+        display: 'flex',
         justifyContent: 'center',
+        alignItems: 'center',
         height: '80%',
         width: '100%',
       }}>
+      <ProgressLoader
+        visible={loading}
+        isModal={true}
+        isHUD={true}
+        hudColor={'#000000'}
+        color={'#FFFFFF'}
+      />
       <CustomButton
         style={{
           width: 120,
@@ -55,7 +75,7 @@ const CheckInScreen = ({start, setStart, childRef}) => {
           This parking space does not have QR code left
         </Text>
       )}
-    </View>
+    </ScrollView>
   ) : (
     <CheckInComponent setStart={setStart} ref={childRef} />
   );

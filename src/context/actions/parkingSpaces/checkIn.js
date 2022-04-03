@@ -1,12 +1,14 @@
 import axios from '../../../helpers/axiosInstance';
 
-export default ({id, plateNumber, attachment, vehicleType}) =>
+export default ({id, plateNumber, attachment, vehicleType, codeId, externalId}) =>
   onSuccess =>
   onError => {
     const requestPayload = {
       plateNumber,
       attachment,
       vehicleType,
+      codeId,
+      externalId
     };
 
     axios

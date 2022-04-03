@@ -7,13 +7,13 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  Alert,
 } from 'react-native';
 import axios from '../../helpers/axiosInstance';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {useHeaderHeight} from '@react-navigation/stack';
 import {PARKING_RESERVATION_DETAIL} from '../../constants/routeNames';
-import {debounce} from 'throttle-debounce';
 
 const deviceWidth = Dimensions.get('screen').width;
 const deviceHeight = Dimensions.get('screen').height;
@@ -100,22 +100,29 @@ const ScanScreen = () => {
     state => state?.parkingSpaces?.selectedParkingSpace?.id,
   );
   const onSuccess = e => {
-
-    debounce(
-      500,
-      axios
-        .post(`/parking-space/${selectedParkingId}/parking-reservation`, {
-          externalId: JSON.parse(e.data).parkingReservation,
-        })
-        .then(item => {
-          navigation.navigate(PARKING_RESERVATION_DETAIL, {
-            parkingReservation: item.data.parkingReservation,
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        }),
-    );
+    axios
+      .post(`/parking-space/${selectedParkingId}/parking-reservation`, {
+        externalId: JSON.parse(e.data).parkingReservation,
+      })
+      .then(item => {
+        setScan(false);
+        navigation.navigate(PARKING_RESERVATION_DETAIL, {
+          parkingReservation: item.data.parkingReservation,
+          refreshFn: null,
+        });
+      })
+      .catch(err => {
+        setScan(false);
+        console.log(err?.response?.data?.message);
+        Alert.alert('Error!', err?.response?.data?.message, [
+          {
+            text: 'Try Again',
+            onPress: () => {
+              setScan(true);
+            },
+          },
+        ]);
+      });
   };
 
   return (
@@ -152,17 +159,13 @@ const ScanScreen = () => {
 
         {scan && (
           <QRCodeScanner
-            reactivate={true}
+            reactivate={false}
             showMarker={true}
             ref={node => {
               scanner.current = node;
             }}
             onRead={onSuccess}
-            topContent={
-              <Text style={styles.centerText}>
-                Scan the parking reservation QR
-              </Text>
-            }
+            topContent={<Text style={styles.centerText}>Scan to Checkout</Text>}
             bottomContent={
               <View>
                 <TouchableOpacity
