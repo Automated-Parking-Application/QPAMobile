@@ -15,4 +15,4 @@ export const PARKING_RESERVATION_DETAIL = "Parking Reservation Detail"
 export const UPDATE_PROFILE = "Update Profile"
 export const UPDATE_PASSWORD = "Update Password"
 export const RESET_PASSWORD = "Reset Password"
-
+export const PARKING_SPACE_REPORT = "Parking Space Report"
