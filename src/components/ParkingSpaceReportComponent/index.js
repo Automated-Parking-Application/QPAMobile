@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 
-import CustomButton from '../../components/common/CustomButton';
 import axios from '../../helpers/axiosInstance';
 import moment from 'moment';
 import styles from './styles';
@@ -28,8 +27,8 @@ const ParkingSpaceReportComponent = () => {
   const [backlog, setBacklog] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const {navigate} = useNavigation();
-  const isAdmin =
-    useSelector(state => state.auth.data?.User?.roleByRoleId?.name) === 'ADMIN';
+  // const isAdmin =
+  //   useSelector(state => state.auth.data?.User?.roleByRoleId?.name) === 'ADMIN';
   const isParkingLotAttendant =
     useSelector(state => state.auth.data?.User?.roleByRoleId?.name) ===
     'PARKING_ATTENDANT';
@@ -63,18 +62,19 @@ const ParkingSpaceReportComponent = () => {
     refreshFn();
   }, [refreshFn]);
 
-  const onSubmit = () => {};
-
   const workingTime = useMemo(() => {
     if (Object.values(parkingRes).length > 0) {
       const firstTime = new Date(Object.values(parkingRes)[0].createTime);
       const {startTime, endTime} =
         Object.values(parkingRes)[0].parkingReservationEntity.parking_space;
 
-      const formattedStartTime = new Date(startTime).setDate(
+      const tempS = new Date(startTime).setMonth(firstTime.getMonth())
+      const formattedStartTime = new Date(tempS).setDate(
         firstTime.getDate(),
       );
-      const formattedEndTime = new Date(endTime).setDate(firstTime.getDate());
+
+      const tempE = new Date(endTime).setMonth(firstTime.getMonth())
+      const formattedEndTime = new Date(tempE).setDate(firstTime.getDate());
 
       let result = [];
       let s = new Date(formattedStartTime);

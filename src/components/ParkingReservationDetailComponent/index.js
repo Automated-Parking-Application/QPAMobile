@@ -21,7 +21,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import envs from '../../config/env';
 
 const ParkingReservationDetailComponent = () => {
-  const {navigate, goBack} = useNavigation();
+  const {goBack} = useNavigation();
   const {
     params: {parkingReservation, refreshFn},
   } = useRoute();
@@ -77,8 +77,11 @@ const ParkingReservationDetailComponent = () => {
   const checkOut = useCallback(() => {
     setIsLoading(true);
     axios
-      .delete(`parking-space/${res?.parkingId}/parking-reservation/${res?.id}`)
+      .post(`parking-space/${res?.parkingId}/parking-reservation/${res?.id}/check-out`, {
+        externalId: res?.externalId
+      })
       .then(result => {
+        console.log(result)
         setIsLoading(false);
         Alert.alert('Successfull!', '', [
           {

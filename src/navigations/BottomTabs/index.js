@@ -5,16 +5,109 @@ import {useSelector} from 'react-redux';
 import React, {useState, useRef} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from '../../components/common/Icon';
-import {CHECK_IN} from '../../constants/routeNames';
+import {CHECK_IN, PARKING_SPACE_REPORT} from '../../constants/routeNames';
 import CheckInScreen from '../../screens/CheckInScreen';
-import HistoryScreen from '../../screens/HistoryScreen'
+import HistoryScreen from '../../screens/HistoryScreen';
+import messaging from '@react-native-firebase/messaging';
+import notifee from '@notifee/react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
-  const {setOptions, toggleDrawer} = useNavigation();
+  const {setOptions, toggleDrawer, navigate} = useNavigation();
   const {selectedParkingSpace} = useSelector(state => state.parkingSpaces);
   const [start, setStart] = useState(false);
   const childRef = useRef();
+  const selectedParkingId = useSelector(
+    state => state?.parkingSpaces?.selectedParkingSpace?.id,
+  );
+
+  const requestUserPermission = React.useCallback(async () => {
+    {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+      if (enabled) {
+        console.log('Authorization status:', authStatus);
+        // getFcmToken();
+      }
+
+      try {
+        let checkToken = await AsyncStorage.getItem('fcmToken');
+        console.log(checkToken);
+        if (!checkToken) {
+          try {
+            const fcmToken = await messaging().getToken();
+            if (fcmToken) {
+              await AsyncStorage.setItem('fcmToken', fcmToken);
+            }
+          } catch (error) {
+            console.log('error in fcmToken', error);
+            alert(error?.message);
+          }
+        }
+      } catch (error) {
+        console.log('error in fcmToken', error);
+        alert(error?.message);
+      }
+
+      try {
+        messaging().onNotificationOpenedApp(async remoteMessage => {
+          console.log(
+            'Notification caused app to open from background state:',
+            remoteMessage.notification,
+          );
+          navigate(PARKING_SPACE_REPORT);
+        });
+
+        // Check whether an initial notification is available
+        messaging()
+          .getInitialNotification()
+          .then(async remoteMessage => {
+            if (remoteMessage) {
+              try {
+                console.log(
+                  'Notification caused app to open from quit state:',
+                  remoteMessage.notification,
+                );
+                navigate(PARKING_SPACE_REPORT);
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          })
+          .catch(error => console.log(error));
+
+        messaging().onMessage(remoteMessage => {
+          console.log(remoteMessage);
+          notifee.displayNotification({
+            title: remoteMessage.notification.title,
+            body: remoteMessage.notification.body,
+          });
+        });
+
+        messaging().setBackgroundMessageHandler(async remoteMessage => {
+          navigate(PARKING_SPACE_REPORT);
+          console.log('Message received in the background!', remoteMessage);
+        });
+      } catch (error) {
+        console.log('error', error);
+      }
+    }
+  }, [navigate]);
+  React.useEffect(() => {
+    if (selectedParkingId) {
+      requestUserPermission();
+      messaging()
+        .subscribeToTopic(selectedParkingId.toString())
+        .then(() => {
+          console.log(`Topic: ${selectedParkingId} Suscribed`);
+        });
+    }
+  }, [requestUserPermission, selectedParkingId]);
 
   React.useEffect(() => {
     setOptions({
