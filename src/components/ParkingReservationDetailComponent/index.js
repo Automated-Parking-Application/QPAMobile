@@ -109,7 +109,8 @@ const ParkingReservationDetailComponent = () => {
         );
         console.log(err);
       });
-  }, [goBack, refreshFn, res?.id, res?.parkingId]);
+  }, [goBack, refreshFn, res?.externalId, res?.id, res?.parkingId]);
+
 
   const renderListPhotos = photos => {
     return photos?.map((photo, index) => (
@@ -168,7 +169,7 @@ const ParkingReservationDetailComponent = () => {
         <Image
           style={{height: 160, width: 160, resizeMode: 'cover'}}
           source={{
-            uri: `${envs.BACKEND_URL}parking-space/qr-code/${res?.code?.id}`,
+            uri: res?.code?.id && `${envs.BACKEND_URL}parking-space/qr-code/${res?.code?.id}`,
           }}
         />
         <ScrollView

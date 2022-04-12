@@ -35,7 +35,7 @@ const UpdateProfile = () => {
       });
     }
 
-    if (localFile?.size) {
+    if (localFile?.fileSize) {
       setIsUploading(true);
       uploadImage(localFile)(url => {
         setIsUploading(false);

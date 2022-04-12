@@ -82,7 +82,7 @@ const CreateContact = () => {
       });
     }
     if (params?.contact) {
-      if (localFile?.size) {
+      if (localFile?.fileSize) {
         setIsUploading(true);
         uploadImage(localFile)(url => {
           setIsUploading(false);
@@ -109,7 +109,7 @@ const CreateContact = () => {
         });
       }
     } else {
-      if (localFile?.size) {
+      if (localFile?.fileSize) {
         setIsUploading(true);
         uploadImage(localFile)(url => {
           setIsUploading(false);

@@ -53,7 +53,7 @@ const HomeNavigator = () => {
 
   const {address, fullName, avatar} =
     useSelector(state => state.auth.data?.User) || {};
-  const isLackedProfile = !(address && fullName && avatar);
+  const isLackedProfile = !address && !fullName && !avatar;
 
   const HomeStack = createStackNavigator();
 
