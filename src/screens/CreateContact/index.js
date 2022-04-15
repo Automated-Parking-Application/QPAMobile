@@ -32,7 +32,7 @@ const CreateContact = () => {
 
   useEffect(() => {
     if (params?.contact) {
-      setOptions({title: 'Update contact'});
+      setOptions({title: 'Update Parking Space'});
       const {
         name,
         image,

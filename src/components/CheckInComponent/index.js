@@ -227,6 +227,7 @@ const CheckInComponent = forwardRef((props, ref) => {
               storageOptions: {
                 skipBackup: true,
                 path: 'images',
+                quality: 0.5
               },
             },
             res => {
