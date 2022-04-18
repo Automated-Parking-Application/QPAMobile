@@ -10,6 +10,7 @@ import {useDispatch} from 'react-redux';
 
 const AddParkingLotAttendantComponent = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [errors, setErrors] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
   const {
@@ -18,33 +19,38 @@ const AddParkingLotAttendantComponent = () => {
   const dispatch = useDispatch();
 
   const onSubmit = useCallback(() => {
-    setIsLoading(true);
-    axios
-      .post(`/parking-space/${parkingId}/user`, {
-        phoneNumber,
-      })
-      .then(() => {
-        Alert.alert('Successfull!', '', [
-          {
-            text: 'OK',
-            onPress: () => {
-              navigation.navigate(PARKING_LOT_ATTENDANT_LIST);
-              dispatch(getParkingLotAttendants(parkingId));
+    if (isNaN(phoneNumber)) {
+      setErrors('Wrong format for phone number');
+    } else {
+      setErrors('');
+      setIsLoading(true);
+      axios
+        .post(`/parking-space/${parkingId}/user`, {
+          phoneNumber: '0' + phoneNumber,
+        })
+        .then(() => {
+          Alert.alert('Successfull!', '', [
+            {
+              text: 'OK',
+              onPress: () => {
+                navigation.navigate(PARKING_LOT_ATTENDANT_LIST);
+                dispatch(getParkingLotAttendants(parkingId));
+              },
             },
-          },
-        ]);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        Alert.alert('Error!', 'Something went wrong!', [
-          {
-            text: 'Try Again',
-            onPress: () => {},
-          },
-        ]);
-        setIsLoading(false);
-      });
+          ]);
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.log(err);
+          Alert.alert('Error!', 'Something went wrong!', [
+            {
+              text: 'Try Again',
+              onPress: () => {},
+            },
+          ]);
+          setIsLoading(false);
+        });
+    }
   }, [phoneNumber, parkingId, navigation, dispatch]);
   return (
     <View
@@ -76,12 +82,14 @@ const AddParkingLotAttendantComponent = () => {
 
       <View style={{width: '100%', paddingLeft: 15, paddingRight: 15}}>
         <Input
+          error={errors}
           style={{width: '100%'}}
           onChangeText={value => {
+            setErrors('');
             setPhoneNumber(value);
           }}
           value={phoneNumber}
-          label="Phone Number"
+          label="Phone Number (+84)"
           placeholder="Enter Phone Number"
         />
       </View>

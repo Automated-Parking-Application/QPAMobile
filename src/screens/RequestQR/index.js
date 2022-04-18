@@ -8,40 +8,46 @@ import axios from '../../helpers/axiosInstance';
 
 const RequestQR = () => {
   const [count, setCount] = useState();
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState();
   const navigation = useNavigation();
-
   const {
-    params: {parkingId},
+    params: {parkingId, refreshFn},
   } = useRoute();
   const onSubmit = useCallback(() => {
-    setIsLoading(true);
-    axios
-      .post(`/parking-space/${parkingId}/qr`, {
-        number: parseInt(count),
-      })
-      .then(res => {
-        Alert.alert('Successfull!', '', [
-          {
-            text: 'OK',
-            onPress: () => {
-              navigation.goBack();
+    if (isNaN(count)) {
+      setError('Invalid Input');
+    } else {
+      setError('');
+      setIsLoading(true);
+      axios
+        .post(`/parking-space/${parkingId}/qr`, {
+          number: parseInt(count),
+        })
+        .then(res => {
+          Alert.alert('Successfull!', '', [
+            {
+              text: 'OK',
+              onPress: () => {
+                navigation.goBack();
+                refreshFn && refreshFn();
+              },
             },
-          },
-        ]);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        Alert.alert('Error!', 'Something went wrong!', [
-          {
-            text: 'Try Again',
-            onPress: () => {},
-          },
-        ]);
-        setIsLoading(false);
-      });
-  }, [count, navigation, parkingId]);
+          ]);
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.log(err);
+          Alert.alert('Error!', 'Something went wrong!', [
+            {
+              text: 'Try Again',
+              onPress: () => {},
+            },
+          ]);
+          setIsLoading(false);
+        });
+    }
+  }, [count, navigation, parkingId, refreshFn]);
   return (
     <View
       style={{
@@ -82,7 +88,9 @@ const RequestQR = () => {
       <View style={{width: '100%', paddingLeft: 15, paddingRight: 15}}>
         <Input
           style={{width: '100%'}}
+          error={error}
           onChangeText={value => {
+            setError('');
             setCount(value);
           }}
           value={count}

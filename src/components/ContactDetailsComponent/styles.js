@@ -9,6 +9,7 @@ export default StyleSheet.create({
   detailPhoto: { height: 300, width: '100%', resizeMode: 'cover' },
   names: { fontSize: 23 },
   address: { fontSize: 20 },
+  description: { fontSize: 18, paddingTop: 20 },
   content: { padding: 20 },
 
   hrLine: {

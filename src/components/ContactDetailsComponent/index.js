@@ -44,7 +44,8 @@ const ContactDetailsComponent = ({
   const [loading, setLoading] = useState(false);
   const username = useSelector(state => state.auth.data?.User?.fullName);
   const {id, image, name, address, description, startTime, endTime} = contact;
-  useEffect(() => {
+
+  const refreshFn = useCallback(() => {
     axios
       .get(`/parking-space/${id}/qr/count/`)
       .then(res => {
@@ -54,6 +55,10 @@ const ContactDetailsComponent = ({
         console.log(err);
       });
   }, [id]);
+
+  useEffect(() => {
+    refreshFn();
+  }, [refreshFn]);
 
   const sendEmail = useCallback(() => {
     setLoading(true);
@@ -151,7 +156,7 @@ const ContactDetailsComponent = ({
         <View style={styles.content}>
           <Text style={styles.names}>{name}</Text>
           <Text style={styles.address}>{address}</Text>
-          <Text style={styles.address}>{description}</Text>
+          <Text style={styles.description}>{description}</Text>
         </View>
 
         <View style={styles.hrLine} />
@@ -236,6 +241,7 @@ const ContactDetailsComponent = ({
               onPress={() => {
                 navigate(REQUEST_QR_CODE, {
                   parkingId: contact.id,
+                  refreshFn,
                 });
               }}
             />

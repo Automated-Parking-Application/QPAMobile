@@ -82,20 +82,20 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
     };
     const {id} = item;
     return (
-      <Swipeable
-        ref={ref =>
-          swipeableItemRefs.current.push({
-            id,
-            swipeable: ref,
-          })
-        }
-        onSwipeableWillOpen={() => toggleSwipeable(id)}
-        renderLeftActions={(progress, dragX) =>
-          renderLeftActions(progress, dragX, item)
-        }
-        renderRightActions={(progress, dragX) =>
-          renderLeftActions(progress, dragX, item)
-        }>
+      // <Swipeable
+      //   ref={ref =>
+      //     swipeableItemRefs.current.push({
+      //       id,
+      //       swipeable: ref,
+      //     })
+      //   }
+      //   onSwipeableWillOpen={() => toggleSwipeable(id)}
+      //   renderLeftActions={(progress, dragX) =>
+      //     renderLeftActions(progress, dragX, item)
+      //   }
+      //   renderRightActions={(progress, dragX) =>
+      //     renderLeftActions(progress, dragX, item)
+      //   }>
         <TouchableOpacity
           style={styles.itemContainer}
           onPress={() => {
@@ -129,9 +129,9 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
               <Text style={styles.phoneNumber}>{address}</Text>
             </View>
           </View>
-          <Icon name="right" type="ant" size={18} color={colors.grey} />
+          {/* <Icon name="right" type="ant" size={18} color={colors.grey} /> */}
         </TouchableOpacity>
-      </Swipeable>
+      // </Swipeable>
     );
   };
   return (
