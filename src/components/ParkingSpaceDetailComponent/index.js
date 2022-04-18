@@ -1,6 +1,6 @@
 import {useDispatch} from 'react-redux';
 import moment from 'moment';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {View, Text, Image, ScrollView} from 'react-native';
 
 import colors from '../../assets/theme/colors';
@@ -14,6 +14,20 @@ import setSelectedParkingSpace from '../../context/actions/parkingSpaces/setSele
 const ParkingSpaceDetailComponent = ({contact}) => {
   const dispatch = useDispatch();
   const {id, image, name, address, description, startTime, endTime} = contact;
+
+  const isInWorkingHour = useMemo(() => {
+    const currentTime = new Date();
+    const beginningTime = new Date(
+      new Date(startTime).setDate(currentTime.getDate()),
+    ).setMonth(currentTime.getMonth());
+    const endingTime = new Date(
+      new Date(endTime).setDate(currentTime.getDate()),
+    ).setMonth(currentTime.getMonth());
+    return moment().isBetween(
+      moment(beginningTime),
+      moment(endingTime),
+    );
+  }, [endTime, startTime]);
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -53,8 +67,12 @@ const ParkingSpaceDetailComponent = ({contact}) => {
               onPress={() => {
                 dispatch(setSelectedParkingSpace({parkingSpace: contact}));
               }}
+              disabled={!isInWorkingHour}
               primary
-              title="Go to Parking Space"
+              title={
+                'Go to Parking Space' +
+                (!isInWorkingHour ? ' (Out of Working)' : '')
+              }
             />
           </View>
         </View>

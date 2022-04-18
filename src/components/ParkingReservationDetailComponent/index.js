@@ -190,6 +190,10 @@ const ParkingReservationDetailComponent = () => {
           <Text style={{fontWeight: '700', fontSize: 16}}>Vehicle Type: </Text>
           <Text style={{fontSize: 16}}>{res?.vehicle?.vehicleType}</Text>
         </View>
+        <View style={{width: '100%', paddingTop: 20, flexDirection: 'row'}}>
+          <Text style={{fontWeight: '700', fontSize: 16}}>Description: </Text>
+          <Text style={{fontSize: 16}}>{res?.description}</Text>
+        </View>
 
         {activity?.map((activityItem, index) => (
           <View

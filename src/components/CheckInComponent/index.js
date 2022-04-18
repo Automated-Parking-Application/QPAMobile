@@ -93,6 +93,7 @@ const CheckInComponent = forwardRef((props, ref) => {
           plateNumber,
           attachment: JSON.stringify(res),
           vehicleType: value,
+          description,
           // eslint-disable-next-line no-extra-boolean-cast
           codeId: !!qrCode ? qrCode.id : '',
           // eslint-disable-next-line no-extra-boolean-cast
@@ -107,6 +108,19 @@ const CheckInComponent = forwardRef((props, ref) => {
         })(err => {
           setIsSubmitting(false);
           console.log(err);
+          Alert.alert(
+            'Something went wrong!',
+            err?.response?.data ||
+              err?.response?.data?.message ||
+              err ||
+              'Something went wrong!',
+            [
+              {
+                text: 'Try Again',
+                onPress: () => {},
+              },
+            ],
+          );
         });
       })(err => {
         console.log('err :>> ', err);
@@ -114,6 +128,7 @@ const CheckInComponent = forwardRef((props, ref) => {
       });
     }
   }, [
+    description,
     localPhotos,
     navigation,
     plateNumber,
@@ -227,7 +242,7 @@ const CheckInComponent = forwardRef((props, ref) => {
               storageOptions: {
                 skipBackup: true,
                 path: 'images',
-                quality: 0.5
+                quality: 0.5,
               },
             },
             res => {

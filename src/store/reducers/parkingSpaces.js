@@ -11,6 +11,7 @@ import {
   EDIT_PARKING_SPACE_SUCCESS,
   EDIT_PARKING_SPACE_FAIL,
   SET_SELECTED_PARKING_SPACE,
+  UPDATE_PARKING_SPACES_DETAIL,
   REMOVE_SELECTED_PARKING_SPACE,
   GET_PARKING_SPACES_HISTORY_LOADING,
   GET_PARKING_SPACES_HISTORY_SUCCESS,
@@ -139,6 +140,25 @@ const parkingSpaces = (state = defaultState, {type, payload}) => {
           loading: false,
           error: payload,
         },
+      };
+
+    case UPDATE_PARKING_SPACES_DETAIL:
+      return {
+        ...state,
+        getParkingSpaces: {
+          ...state.getParkingSpaces,
+          data: state.getParkingSpaces.data.map(item => {
+            if (item.id === payload.id) {
+              return payload;
+            } else {
+              return item;
+            }
+          }),
+        },
+        selectedParkingSpace:
+          state.selectedParkingSpace?.id === payload.id
+            ? payload
+            : state.selectedParkingSpace,
       };
 
     case GET_PARKING_SPACES_LOADING:

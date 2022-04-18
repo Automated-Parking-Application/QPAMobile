@@ -82,7 +82,6 @@ const Tabs = () => {
           .catch(error => console.log(error));
 
         messaging().onMessage(remoteMessage => {
-          console.log(remoteMessage);
           notifee.displayNotification({
             title: remoteMessage.notification.title,
             body: remoteMessage.notification.body,
