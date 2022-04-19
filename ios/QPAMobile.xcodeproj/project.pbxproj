@@ -14,6 +14,7 @@
 		3D765A1CCCC43DE9B5AEC593 /* libPods-QPAMobile-QPAMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12038E04B3422F115F5D7C02 /* libPods-QPAMobile-QPAMobileTests.a */; };
 		5A900F5D91D4BA570EA02433 /* libPods-QPAMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0084343CCC41E96604458EFB /* libPods-QPAMobile.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		FA929E5E280EF1BA00C4CB0C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA929E5D280EF1BA00C4CB0C /* StoreKit.framework */; };
 		FAB26A6C27F4B5300047D91E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAB26A6B27F4B5300047D91E /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		A0A2322216801113EC0530F1 /* Pods-QPAMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QPAMobile.debug.xcconfig"; path = "Target Support Files/Pods-QPAMobile/Pods-QPAMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FA132A7B27F5DCA100F2AEEF /* QPAMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = QPAMobile.entitlements; path = QPAMobile/QPAMobile.entitlements; sourceTree = "<group>"; };
+		FA929E5D280EF1BA00C4CB0C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		FAB26A6B27F4B5300047D91E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,6 +65,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A900F5D91D4BA570EA02433 /* libPods-QPAMobile.a in Frameworks */,
+				FA929E5E280EF1BA00C4CB0C /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +106,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FA929E5D280EF1BA00C4CB0C /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				0084343CCC41E96604458EFB /* libPods-QPAMobile.a */,
 				12038E04B3422F115F5D7C02 /* libPods-QPAMobile-QPAMobileTests.a */,
@@ -501,6 +505,7 @@
 			baseConfigurationReference = A0A2322216801113EC0530F1 /* Pods-QPAMobile.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = QPAMobile/QPAMobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
@@ -511,6 +516,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -529,6 +535,7 @@
 			baseConfigurationReference = 32A6B93A80BCA44F8B456052 /* Pods-QPAMobile.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = QPAMobile/QPAMobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
@@ -538,6 +545,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
