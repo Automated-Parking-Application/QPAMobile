@@ -67,7 +67,6 @@ const ParkingSpaceDetailComponent = ({contact}) => {
               onPress={() => {
                 dispatch(setSelectedParkingSpace({parkingSpace: contact}));
               }}
-              disabled={!isInWorkingHour}
               primary
               title={
                 'Go to Parking Space' +

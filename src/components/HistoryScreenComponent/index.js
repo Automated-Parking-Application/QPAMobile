@@ -61,15 +61,15 @@ const HistoryScreenComponent = () => {
         onPress={() => {
           navigation.navigate(PARKING_RESERVATION_DETAIL, {
             parkingReservation: item.parkingReservationEntity,
-            refreshFn: null
+            refreshFn: null,
           });
         }}>
         <View style={styles.item}>
           <Icon
             size={20}
             type="feather"
-            color={type === '0' ? '#D0312D' : '#0033CC'}
-            name={type === '0' ? 'log-out' : 'log-in'}
+            color={type === '0' ? '#D0312D' : type === '1' ? '#0033CC' : "#FFD700"}
+            name={type === '0' ? 'log-out' : type === '1' ? 'log-in' : 'clock'}
           />
           <View style={{paddingLeft: 20}}>
             <View style={{flexDirection: 'row'}}>

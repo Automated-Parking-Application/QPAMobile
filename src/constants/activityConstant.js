@@ -4,5 +4,8 @@ export const ACTIVITY_DETAIL = {
   },
   0: {
     name: "Check Out"
+  },
+  "-1": {
+    name: "Archived"
   }
 }
