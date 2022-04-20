@@ -105,7 +105,7 @@ const HomeNavigator = () => {
             name={PARKING_SPACE_DETAIL}
             component={ParkingSpaceDetail}
           />
-          {common}
+          {/* {common} */}
         </HomeStack.Navigator>
       ))
   );

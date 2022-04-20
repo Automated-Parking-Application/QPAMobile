@@ -1,11 +1,8 @@
 import {useRoute} from '@react-navigation/native';
-import {useFocusEffect} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {useContext} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import LoginComponent from '../../components/Login';
 import loginUser from '../../context/actions/auth/loginUser';
-import {GlobalContext} from '../../context/Provider';
 const Login = () => {
   const [form, setForm] = useState({});
   const [justSignedUp, setJustSignedUp] = useState(false);
@@ -13,7 +10,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
-  const {error, loading, data} = useSelector(state => state.auth);
+  const {error, loading} = useSelector(state => state.auth);
   React.useEffect(() => {
     if (params?.data) {
       setJustSignedUp(true);

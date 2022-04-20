@@ -1,23 +1,17 @@
 import {useNavigation} from '@react-navigation/native';
 import {useFocusEffect} from '@react-navigation/native';
 import React from 'react';
-import {useContext} from 'react';
 import {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import RegisterComponent from '../../components/Signup';
 import {LOGIN} from '../../constants/routeNames';
 import register, {clearAuthState} from '../../context/actions/auth/register';
-import {GlobalContext} from '../../context/Provider';
 
 const Register = () => {
   const [form, setForm] = useState({});
   const {navigate} = useNavigation();
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
-  // const {
-  //   authDispatch,
-  //   authState: {error, loading, data},
-  // } = useContext(GlobalContext);
 
   const {error, loading, data} = useSelector(state => state.auth);
 
@@ -25,11 +19,10 @@ const Register = () => {
     React.useCallback(() => {
       return () => {
         if (data || error) {
-          // clearAuthState()(authDispatch);
           dispatch(clearAuthState());
         }
       };
-    }, [data, error]),
+    }, [data, dispatch, error]),
   );
 
   const onChange = ({name, value}) => {

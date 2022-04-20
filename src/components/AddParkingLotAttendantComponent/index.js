@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {Image, View, Text, Alert} from 'react-native';
+import {Image, View, Text, Alert, KeyboardAvoidingView} from 'react-native';
 import getParkingLotAttendants from '../../context/actions/parkingLotAttendants/getParkingLotAttendants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {PARKING_LOT_ATTENDANT_LIST} from '../../constants/routeNames';
@@ -53,22 +53,30 @@ const AddParkingLotAttendantComponent = () => {
     }
   }, [phoneNumber, parkingId, navigation, dispatch]);
   return (
-    <View
+    <KeyboardAvoidingView
+      behavior="position"
       style={{
         flex: 1,
         backgroundColor: 'white',
-        display: 'flex',
-        alignItems: 'center',
       }}>
-      <Image
-        height={200}
-        width={200}
-        source={require('../../assets/images/parking-attendant.jpg')}
+      <View
         style={{
-          width: 300,
-          height: 300,
-        }}
-      />
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Image
+          height={200}
+          width={200}
+          source={require('../../assets/images/parking-attendant.jpg')}
+          style={{
+            alignItems: 'center',
+            width: 300,
+            height: 300,
+          }}
+        />
+      </View>
 
       <Text
         style={{
@@ -102,7 +110,7 @@ const AddParkingLotAttendantComponent = () => {
           title="Add"
         />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, {useState, useMemo} from 'react';
 import moment from 'moment';
-import {View, Text, Image, TouchableOpacity, Dimensions} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Dimensions, KeyboardAvoidingView} from 'react-native';
 
 import Container from '../common/Container';
 import CustomButton from '../common/CustomButton';
@@ -13,12 +13,12 @@ import Modal from 'react-native-modalbox';
 import AddressPicker from '../AddressPicker';
 const CreateContactComponent = ({
   loading,
-  error,
+  // error,
   onChangeText,
-  setForm,
+  // setForm,
   errors,
   onSubmit,
-  toggleValueChange,
+  // toggleValueChange,
   form,
   sheetRef,
   openSheet,
@@ -39,7 +39,7 @@ const CreateContactComponent = ({
   }, [form]);
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior="position" style={styles.container}>
       <Modal
         entry="bottom"
         backdropPressToClose={true}
@@ -173,7 +173,7 @@ const CreateContactComponent = ({
             {errors.time}
           </Text>
         )}
-        <Input
+        {/* <Input
           error={errors?.postingTime?.[0]}
           keyboardType="number-pad"
           onChangeText={value => {
@@ -185,7 +185,7 @@ const CreateContactComponent = ({
           value={form.postingTime || ''}
           label="Posting Time (hours)"
           placeholder="Enter Posting Time"
-        />
+        /> */}
         <CustomButton
           loading={loading}
           disabled={loading || !isValidateForm}
@@ -196,7 +196,7 @@ const CreateContactComponent = ({
       </Container>
 
       <ImagePicker onFileSelected={onFileSelected} ref={sheetRef} />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

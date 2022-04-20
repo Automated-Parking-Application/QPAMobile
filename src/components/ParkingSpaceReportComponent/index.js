@@ -15,6 +15,7 @@ import moment from 'moment';
 import styles from './styles';
 import Icon from '../common/Icon';
 import {useNavigation} from '@react-navigation/native';
+import CustomButton from '../../components/common/CustomButton';
 
 import {LineChart} from 'react-native-chart-kit';
 import colors from '../../assets/theme/colors';
@@ -25,18 +26,23 @@ const TIME_PERIOD = 3;
 const ParkingSpaceReportComponent = () => {
   const [parkingRes, setParkingRes] = useState([]);
   const [backlog, setBacklog] = useState([]);
+  const [archive, setArchive] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const {navigate} = useNavigation();
+  const {navigate, goBack} = useNavigation();
   // const isAdmin =
   //   useSelector(state => state.auth.data?.User?.roleByRoleId?.name) === 'ADMIN';
   const isParkingLotAttendant =
     useSelector(state => state.auth.data?.User?.roleByRoleId?.name) ===
     'PARKING_ATTENDANT';
 
+  const selectedParkingId = useSelector(
+    state => state?.parkingSpaces?.selectedParkingSpace?.id,
+  );
+
   const refreshFn = useCallback(() => {
     setIsLoading(true);
     axios
-      .get(`/parking-space/1/parking-reservation`)
+      .get(`/parking-space/${selectedParkingId}/parking-reservation`)
       .then(res => {
         setIsLoading(false);
         setParkingRes(res.data);
@@ -48,16 +54,28 @@ const ParkingSpaceReportComponent = () => {
     setIsLoading(true);
 
     axios
-      .get(`/parking-space/1/parking-reservation/backlog`)
+      .get(`/parking-space/${selectedParkingId}/parking-reservation/backlog`)
       .then(res => {
         setIsLoading(false);
         setBacklog(res.data);
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.response);
         setIsLoading(false);
       });
-  }, []);
+
+    axios
+      .get(`/parking-space/${selectedParkingId}/parking-reservation/archive`)
+      .then(res => {
+        setIsLoading(false);
+        setArchive(res.data);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err.response);
+        setIsLoading(false);
+      });
+  }, [selectedParkingId]);
   useEffect(() => {
     refreshFn();
   }, [refreshFn]);
@@ -68,12 +86,10 @@ const ParkingSpaceReportComponent = () => {
       const {startTime, endTime} =
         Object.values(parkingRes)[0].parkingReservationEntity.parking_space;
 
-      const tempS = new Date(startTime).setMonth(firstTime.getMonth())
-      const formattedStartTime = new Date(tempS).setDate(
-        firstTime.getDate(),
-      );
+      const tempS = new Date(startTime).setMonth(firstTime.getMonth());
+      const formattedStartTime = new Date(tempS).setDate(firstTime.getDate());
 
-      const tempE = new Date(endTime).setMonth(firstTime.getMonth())
+      const tempE = new Date(endTime).setMonth(firstTime.getMonth());
       const formattedEndTime = new Date(tempE).setDate(firstTime.getDate());
 
       let result = [];
@@ -186,9 +202,41 @@ const ParkingSpaceReportComponent = () => {
         Number of Backlog Vehicle: {backlog.length}
       </Text>
       {backlog.length > 0 && <Text>Contains:</Text>}
+      {backlog.length > 0 && (
+        <Text style={{paddingVertical: 8}}>
+          *Note: All backlog vehicle will be archived at the end of working hour
+        </Text>
+      )}
       {backlog.map(item =>
         renderItem({item: item.vehicle, parkingReservation: item}),
       )}
+      <Text style={{paddingVertical: 10, fontSize: 16, fontWeight: '700'}}>
+        Number of Archive Vehicle: {archive.length}
+      </Text>
+      {archive.length > 0 && <Text>Contains:</Text>}
+
+      {archive.map(item =>
+        renderItem({item: item.vehicle, parkingReservation: item}),
+      )}
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <CustomButton
+          style={{
+            width: '40%',
+            alignItems: 'center',
+            flexDirection: 'row',
+            display: 'flex',
+          }}
+          onPress={() => {
+            goBack();
+          }}
+          primary
+          title="Back"
+        />
+      </View>
     </ScrollView>
   );
 };

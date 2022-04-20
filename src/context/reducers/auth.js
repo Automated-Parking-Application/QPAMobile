@@ -31,6 +31,7 @@ const auth = (state, {type, payload}) => {
         loading: false,
         data: payload,
         isLoggedIn: true,
+        error: null,
       };
 
     case LOGOUT_USER:

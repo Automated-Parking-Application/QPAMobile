@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {View, Text, Image, Alert} from 'react-native';
+import {View, Text, Image, Alert, KeyboardAvoidingView} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
 import CustomButton from '../../components/common/CustomButton';
@@ -49,22 +49,28 @@ const RequestQR = () => {
     }
   }, [count, navigation, parkingId, refreshFn]);
   return (
-    <View
+    <KeyboardAvoidingView
+      behavior="position"
       style={{
         flex: 1,
         backgroundColor: 'white',
-        display: 'flex',
-        alignItems: 'center',
       }}>
-      <Image
-        height={200}
-        width={200}
-        source={require('../../assets/images/ticket.png')}
+      <View
         style={{
-          width: 300,
-          height: 300,
-        }}
-      />
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}>
+        <Image
+          height={200}
+          width={200}
+          source={require('../../assets/images/ticket.png')}
+          style={{
+            width: 300,
+            height: 300,
+          }}
+        />
+      </View>
 
       <Text
         style={{
@@ -81,6 +87,8 @@ const RequestQR = () => {
           fontWeight: '400',
           textAlign: 'left',
           paddingTop: 15,
+          paddingLeft: 15,
+          paddingRight: 15,
         }}>
         *Your current plan is Basic, you can only request maximum 40 codes
       </Text>
@@ -107,7 +115,7 @@ const RequestQR = () => {
           title="Request more"
         />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

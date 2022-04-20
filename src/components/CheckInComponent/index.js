@@ -14,6 +14,7 @@ import {
   Dimensions,
   Modal,
   Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 import envs from '../../config/env';
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -314,7 +315,7 @@ const CheckInComponent = forwardRef((props, ref) => {
 
   return (
     <TouchableOpacity onPress={() => setOpen(false)} activeOpacity={1}>
-      <View style={{height: windowHeight - 115 - headerHeight}}>
+      <KeyboardAvoidingView behavior="position"style={{height: windowHeight - 115 - headerHeight}}>
         <ProgressLoader
           visible={uploading || submitting}
           isModal={true}
@@ -528,7 +529,7 @@ const CheckInComponent = forwardRef((props, ref) => {
             }}
           />
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     </TouchableOpacity>
   );
 });

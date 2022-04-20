@@ -9,7 +9,7 @@ import {CHECK_IN, PARKING_SPACE_REPORT} from '../../constants/routeNames';
 import CheckInScreen from '../../screens/CheckInScreen';
 import HistoryScreen from '../../screens/HistoryScreen';
 import messaging from '@react-native-firebase/messaging';
-import notifee from '@notifee/react-native';
+import notifee, {EventType} from '@notifee/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
@@ -97,6 +97,18 @@ const Tabs = () => {
       }
     }
   }, [navigate]);
+
+  React.useEffect(() => {
+    return notifee.onForegroundEvent(({type, detail}) => {
+      switch (type) {
+        case EventType.PRESS:
+          navigate(PARKING_SPACE_REPORT);
+          console.log('User pressed notification', detail.notification);
+          break;
+      }
+    });
+  }, [navigate]);
+
   React.useEffect(() => {
     if (selectedParkingId) {
       requestUserPermission();
@@ -120,7 +132,7 @@ const Tabs = () => {
         </TouchableOpacity>
       ),
       headerRight: () =>
-        start && (
+        start ? (
           <TouchableOpacity
             onPress={() => {
               childRef.current.resetCheckIn();
@@ -132,9 +144,28 @@ const Tabs = () => {
               name="rotate-left"
             />
           </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              navigate(PARKING_SPACE_REPORT);
+            }}>
+            <Icon
+              type="ionicon"
+              style={{padding: 10}}
+              size={25}
+              name="bar-chart-outline"
+            />
+          </TouchableOpacity>
         ),
     });
-  }, [childRef, selectedParkingSpace?.name, setOptions, start, toggleDrawer]);
+  }, [
+    childRef,
+    navigate,
+    selectedParkingSpace?.name,
+    setOptions,
+    start,
+    toggleDrawer,
+  ]);
 
   const CustomTabBarButton = ({children, onPress}) => (
     <TouchableOpacity
