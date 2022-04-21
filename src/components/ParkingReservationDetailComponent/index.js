@@ -12,7 +12,10 @@ import {
   Modal,
   Alert,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
+
 import {useSelector} from 'react-redux';
 import axios from '../../helpers/axiosInstance';
 import {ACTIVITY_DETAIL} from '../../constants/activityConstant';
@@ -77,11 +80,14 @@ const ParkingReservationDetailComponent = () => {
   const checkOut = useCallback(() => {
     setIsLoading(true);
     axios
-      .post(`parking-space/${res?.parkingId}/parking-reservation/${res?.id}/check-out`, {
-        externalId: res?.externalId
-      })
+      .post(
+        `parking-space/${res?.parkingId}/parking-reservation/${res?.id}/check-out`,
+        {
+          externalId: res?.externalId,
+        },
+      )
       .then(result => {
-        console.log(result)
+        console.log(result);
         setIsLoading(false);
         Alert.alert('Successfull!', '', [
           {
@@ -111,7 +117,6 @@ const ParkingReservationDetailComponent = () => {
       });
   }, [goBack, refreshFn, res?.externalId, res?.id, res?.parkingId]);
 
-
   const renderListPhotos = photos => {
     return photos?.map((photo, index) => (
       <TouchableOpacity
@@ -119,7 +124,7 @@ const ParkingReservationDetailComponent = () => {
         onPress={() => {
           setVisibleModal(true);
         }}>
-        <ImageComponent
+        {/* <ImageComponent
           style={{
             marginRight: 10,
             marginTop: 10,
@@ -128,6 +133,19 @@ const ParkingReservationDetailComponent = () => {
             borderRadius: 10,
           }}
           src={photo}
+        /> */}
+        <FastImage
+          style={{
+            marginRight: 10,
+            marginTop: 10,
+            width: 100,
+            height: 100,
+            borderRadius: 10,
+          }}
+          source={{
+            uri: photo,
+            priority: FastImage.priority.normal,
+          }}
         />
       </TouchableOpacity>
     ));
@@ -149,7 +167,21 @@ const ParkingReservationDetailComponent = () => {
           onDoubleClick={() => {
             setVisibleModal(false);
           }}
+          renderImage={props => {
+            console.log(props);
+            return (
+              <FastImage
+                {...props}
+                source={{
+                  uri: props.source.uri,
+                  priority: FastImage.priority.high,
+                }}
+              />
+            );
+          }}
           enableSwipeDown
+          enablePreload
+          loadingRender={() => <ActivityIndicator color="white" />}
           imageUrls={customizedPhotos || []}
         />
       </Modal>
@@ -166,10 +198,22 @@ const ParkingReservationDetailComponent = () => {
           paddingTop: 25,
           paddingHorizontal: 30,
         }}>
-        <Image
+        {/* <Image
           style={{height: 160, width: 160, resizeMode: 'cover'}}
           source={{
-            uri: res?.code?.id && `${envs.BACKEND_URL}parking-space/qr-code/${res?.code?.id}`,
+            uri:
+              res?.code?.id &&
+              `${envs.BACKEND_URL}parking-space/qr-code/${res?.code?.id}`,
+          }}
+        /> */}
+        <FastImage
+          style={{height: 300, width: 300, resizeMode: 'cover'}}
+          source={{
+            uri:
+              res?.code?.id &&
+              `${envs.BACKEND_URL}parking-space/qr-code/${res?.code?.id}`,
+
+            priority: FastImage.priority.high,
           }}
         />
         <ScrollView
