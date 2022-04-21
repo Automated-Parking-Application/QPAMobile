@@ -29,9 +29,7 @@ const ParkingSpaceReportComponent = () => {
   const [archive, setArchive] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const {navigate, goBack} = useNavigation();
-  const {
-    params: {id},
-  } = useRoute();
+  const {params} = useRoute();
   // const isAdmin =
   //   useSelector(state => state.auth.data?.User?.roleByRoleId?.name) === 'ADMIN';
   const isParkingLotAttendant =
@@ -43,12 +41,14 @@ const ParkingSpaceReportComponent = () => {
   );
 
   const refreshFn = useCallback(() => {
-    if (!selectedParkingId && !id) {
+    if (!selectedParkingId && !params?.id) {
       return;
     }
     setIsLoading(true);
     axios
-      .get(`/parking-space/${selectedParkingId || id}/parking-reservation`)
+      .get(
+        `/parking-space/${selectedParkingId || params?.id}/parking-reservation`,
+      )
       .then(res => {
         setIsLoading(false);
         setParkingRes(res.data);
@@ -61,7 +61,9 @@ const ParkingSpaceReportComponent = () => {
 
     axios
       .get(
-        `/parking-space/${selectedParkingId || id}/parking-reservation/backlog`,
+        `/parking-space/${
+          selectedParkingId || params?.id
+        }/parking-reservation/backlog`,
       )
       .then(res => {
         setIsLoading(false);
@@ -74,7 +76,9 @@ const ParkingSpaceReportComponent = () => {
 
     axios
       .get(
-        `/parking-space/${selectedParkingId || id}/parking-reservation/archive`,
+        `/parking-space/${
+          selectedParkingId || params?.id
+        }/parking-reservation/archive`,
       )
       .then(res => {
         setIsLoading(false);
@@ -85,7 +89,7 @@ const ParkingSpaceReportComponent = () => {
         console.log(err.response);
         setIsLoading(false);
       });
-  }, [id, selectedParkingId]);
+  }, [params?.id, selectedParkingId]);
   useEffect(() => {
     refreshFn();
   }, [refreshFn]);

@@ -5,7 +5,7 @@ import {
 } from '../../../constants/actionTypes';
 import axios from '../../../helpers/axiosInstance';
 
-export default id => dispatch => onSuccess => {
+export default id => dispatch => onSuccess => onError => {
   dispatch({
     type: DELETE_PARKING_SPACE_LOADING,
   });
@@ -26,5 +26,6 @@ export default id => dispatch => onSuccess => {
           ? err.response.data
           : {error: 'Something went wrong, try again'},
       });
+      onError(err.response ? err.response.data : 'Something went wrong');
     });
 };

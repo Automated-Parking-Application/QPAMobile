@@ -4,6 +4,7 @@ import {
   CREATE_PARKING_SPACE_SUCCESS,
   DELETE_PARKING_SPACE_LOADING,
   DELETE_PARKING_SPACE_SUCCESS,
+  DELETE_PARKING_SPACE_FAIL,
   GET_PARKING_SPACES_FAIL,
   GET_PARKING_SPACES_LOADING,
   GET_PARKING_SPACES_SUCCESS,
@@ -66,6 +67,17 @@ const contacts = (state, {type, payload}) => {
         deleteParkingSpace: {
           ...state.deleteParkingSpace,
           loading: true,
+          error: null,
+        },
+      };
+    }
+
+    case DELETE_PARKING_SPACE_FAIL: {
+      return {
+        ...state,
+        deleteParkingSpace: {
+          ...state.deleteParkingSpace,
+          loading: false,
           error: null,
         },
       };

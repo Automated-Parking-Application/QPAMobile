@@ -64,6 +64,13 @@ const ContactDetails = () => {
                         onPress: () => {
                           dispatch(deleteParkingSpace(item.id))(() => {
                             navigate(PARKING_SPACE_LIST);
+                          })(err => {
+                            Alert.alert('Error!', err, [
+                              {
+                                text: 'Try Again',
+                                onPress: () => {},
+                              },
+                            ]);
                           });
                         },
                       },
