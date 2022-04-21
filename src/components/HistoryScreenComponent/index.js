@@ -28,7 +28,9 @@ const HistoryScreenComponent = () => {
     useSelector(state => state.parkingSpaces.history) || {};
 
   useEffect(() => {
-    dispatch(getParkingSpacesHistory(selectedParkingId));
+    if (selectedParkingId) {
+      dispatch(getParkingSpacesHistory(selectedParkingId));
+    }
   }, [dispatch, selectedParkingId]);
 
   const ListEmptyComponent = () => {
@@ -40,7 +42,9 @@ const HistoryScreenComponent = () => {
   };
 
   const onRefresh = useCallback(async () => {
-    await dispatch(getParkingSpacesHistory(selectedParkingId));
+    if (selectedParkingId) {
+      await dispatch(getParkingSpacesHistory(selectedParkingId));
+    }
   }, [dispatch, selectedParkingId]);
 
   const renderItem = ({item}) => {
@@ -68,7 +72,9 @@ const HistoryScreenComponent = () => {
           <Icon
             size={20}
             type="feather"
-            color={type === '0' ? '#D0312D' : type === '1' ? '#0033CC' : "#FFD700"}
+            color={
+              type === '0' ? '#D0312D' : type === '1' ? '#0033CC' : '#FFD700'
+            }
             name={type === '0' ? 'log-out' : type === '1' ? 'log-in' : 'clock'}
           />
           <View style={{paddingLeft: 20}}>

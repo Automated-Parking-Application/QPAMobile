@@ -47,7 +47,7 @@ const ContactDetailsComponent = ({
 
   const refreshFn = useCallback(() => {
     axios
-      .get(`/parking-space/${id}/qr/count/`)
+      .get(`/parking-space/${id}/qr/count/all`)
       .then(res => {
         setCount(res.data);
       })

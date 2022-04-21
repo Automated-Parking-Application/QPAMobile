@@ -115,9 +115,19 @@ const Tabs = () => {
       messaging()
         .subscribeToTopic(selectedParkingId.toString())
         .then(() => {
-          console.log(`Topic: ${selectedParkingId} Suscribed`);
+          console.log(`Topic: ${selectedParkingId} Subcribed`);
         });
     }
+
+    // return () => {
+    //   if (selectedParkingId) {
+    //     messaging()
+    //       .unsubscribeFromTopic(selectedParkingId.toString())
+    //       .then(() => {
+    //         console.log(`Topic: ${selectedParkingId} Unsubcribed`);
+    //       });
+    //   }
+    // };
   }, [requestUserPermission, selectedParkingId]);
 
   React.useEffect(() => {
