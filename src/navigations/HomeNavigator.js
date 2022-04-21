@@ -77,6 +77,7 @@ const HomeNavigator = () => {
       <HomeStack.Screen name={CREATE_PARKING_SPACE} component={CreateContact} />
       <HomeStack.Screen name={SETTINGS} component={Settings} />
       <HomeStack.Screen name={LOGOUT} component={Logout} />
+      {common}
     </HomeStack.Navigator>
   ) : (
     isParkingLotAttendant &&

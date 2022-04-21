@@ -14,6 +14,7 @@ import colors from '../../assets/theme/colors';
 import {
   PARKING_SPACE_DETAIL,
   CREATE_PARKING_SPACE,
+  PARKING_SPACE_REPORT,
 } from '../../constants/routeNames';
 import Icon from '../common/Icon';
 import Message from '../common/Message';
@@ -49,32 +50,25 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
   }, [dispatch]);
 
   const renderItem = ({item}) => {
-    const {name, address, description, image} = item;
+    const {name, address, image} = item;
 
-    const renderLeftActions = (progress, dragX) => {
+    const renderLeftActions = (progress, dragX, item) => {
       return (
         <View style={[{flexDirection: 'row', paddingRight: 5}]}>
-          <TouchableOpacity style={styles.actionButton} onPress={() => {}}>
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => {
+              console.log(item);
+              navigate(PARKING_SPACE_REPORT, {id: item.id});
+            }}>
             <Icon
-              name="chat"
-              type="material"
+              name="chart-bar"
+              type="fa5"
               size={s(22)}
               color={colors.white}
             />
             <Text style={styles.actionText} numberOfLines={1}>
-              Chat
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.actionButton} onPress={() => {}}>
-            <Icon
-              name={'heart-outline'}
-              type="materialCommunity"
-              size={22}
-              color={colors.white}
-            />
-            <Text numberOfLines={1} style={styles.actionText}>
-              Favorite
+              Report
             </Text>
           </TouchableOpacity>
         </View>
@@ -82,20 +76,20 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
     };
     const {id} = item;
     return (
-      // <Swipeable
-      //   ref={ref =>
-      //     swipeableItemRefs.current.push({
-      //       id,
-      //       swipeable: ref,
-      //     })
-      //   }
-      //   onSwipeableWillOpen={() => toggleSwipeable(id)}
-      //   renderLeftActions={(progress, dragX) =>
-      //     renderLeftActions(progress, dragX, item)
-      //   }
-      //   renderRightActions={(progress, dragX) =>
-      //     renderLeftActions(progress, dragX, item)
-      //   }>
+      <Swipeable
+        ref={ref =>
+          swipeableItemRefs.current.push({
+            id,
+            swipeable: ref,
+          })
+        }
+        onSwipeableWillOpen={() => toggleSwipeable(id)}
+        renderLeftActions={(progress, dragX) =>
+          renderLeftActions(progress, dragX, item)
+        }
+        renderRightActions={(progress, dragX) =>
+          renderLeftActions(progress, dragX, item)
+        }>
         <TouchableOpacity
           style={styles.itemContainer}
           onPress={() => {
@@ -129,9 +123,9 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
               <Text style={styles.phoneNumber}>{address}</Text>
             </View>
           </View>
-          {/* <Icon name="right" type="ant" size={18} color={colors.grey} /> */}
+          <Icon name="right" type="ant" size={18} color={colors.grey} />
         </TouchableOpacity>
-      // </Swipeable>
+      </Swipeable>
     );
   };
   return (

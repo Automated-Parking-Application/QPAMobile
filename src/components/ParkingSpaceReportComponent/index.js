@@ -14,7 +14,7 @@ import axios from '../../helpers/axiosInstance';
 import moment from 'moment';
 import styles from './styles';
 import Icon from '../common/Icon';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import CustomButton from '../../components/common/CustomButton';
 
 import {LineChart} from 'react-native-chart-kit';
@@ -29,6 +29,9 @@ const ParkingSpaceReportComponent = () => {
   const [archive, setArchive] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const {navigate, goBack} = useNavigation();
+  const {
+    params: {id},
+  } = useRoute();
   // const isAdmin =
   //   useSelector(state => state.auth.data?.User?.roleByRoleId?.name) === 'ADMIN';
   const isParkingLotAttendant =
@@ -40,9 +43,12 @@ const ParkingSpaceReportComponent = () => {
   );
 
   const refreshFn = useCallback(() => {
+    if (!selectedParkingId && !id) {
+      return;
+    }
     setIsLoading(true);
     axios
-      .get(`/parking-space/${selectedParkingId}/parking-reservation`)
+      .get(`/parking-space/${selectedParkingId || id}/parking-reservation`)
       .then(res => {
         setIsLoading(false);
         setParkingRes(res.data);
@@ -54,7 +60,9 @@ const ParkingSpaceReportComponent = () => {
     setIsLoading(true);
 
     axios
-      .get(`/parking-space/${selectedParkingId}/parking-reservation/backlog`)
+      .get(
+        `/parking-space/${selectedParkingId || id}/parking-reservation/backlog`,
+      )
       .then(res => {
         setIsLoading(false);
         setBacklog(res.data);
@@ -65,7 +73,9 @@ const ParkingSpaceReportComponent = () => {
       });
 
     axios
-      .get(`/parking-space/${selectedParkingId}/parking-reservation/archive`)
+      .get(
+        `/parking-space/${selectedParkingId || id}/parking-reservation/archive`,
+      )
       .then(res => {
         setIsLoading(false);
         setArchive(res.data);
@@ -75,7 +85,7 @@ const ParkingSpaceReportComponent = () => {
         console.log(err.response);
         setIsLoading(false);
       });
-  }, [selectedParkingId]);
+  }, [id, selectedParkingId]);
   useEffect(() => {
     refreshFn();
   }, [refreshFn]);
@@ -154,10 +164,11 @@ const ParkingSpaceReportComponent = () => {
       refreshControl={
         <RefreshControl refreshing={isLoading} onRefresh={refreshFn} />
       }
+      nestedScrollEnabled
       style={{
-        paddingVertical: 30,
+        // paddingVertical: 30,
         paddingHorizontal: 20,
-        marginBottom: 20,
+        marginBottom: 10,
         backgroundColor: colors.white,
       }}>
       <Text style={{paddingVertical: 10, fontSize: 16, fontWeight: '700'}}>
@@ -207,16 +218,40 @@ const ParkingSpaceReportComponent = () => {
           *Note: All backlog vehicle will be archived at the end of working hour
         </Text>
       )}
-      {backlog.map(item =>
-        renderItem({item: item.vehicle, parkingReservation: item}),
+      {backlog.length > 0 && (
+        <View
+          style={{
+            borderColor: 'black',
+            borderStyle: 'solid',
+            borderWidth: 0.5,
+            borderRadius: 10,
+          }}>
+          <ScrollView nestedScrollEnabled style={{maxHeight: 300}}>
+            {backlog.map(item =>
+              renderItem({item: item.vehicle, parkingReservation: item}),
+            )}
+          </ScrollView>
+        </View>
       )}
+
       <Text style={{paddingVertical: 10, fontSize: 16, fontWeight: '700'}}>
         Number of Archive Vehicle: {archive.length}
       </Text>
       {archive.length > 0 && <Text>Contains:</Text>}
-
-      {archive.map(item =>
-        renderItem({item: item.vehicle, parkingReservation: item}),
+      {archive.length > 0 && (
+        <View
+          style={{
+            borderColor: 'black',
+            borderStyle: 'solid',
+            borderWidth: 0.5,
+            borderRadius: 10,
+          }}>
+          <ScrollView nestedScrollEnabled style={{maxHeight: 300}}>
+            {archive.map(item =>
+              renderItem({item: item.vehicle, parkingReservation: item}),
+            )}
+          </ScrollView>
+        </View>
       )}
       <View
         style={{
