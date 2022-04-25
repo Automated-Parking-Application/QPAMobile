@@ -8,7 +8,12 @@ import {
   View,
 } from 'react-native';
 import Container from '../../components/common/Container';
-import {SETTINGS, LOGIN, LOGOUT} from '../../constants/routeNames';
+import {
+  SETTINGS,
+  LOGIN,
+  LOGOUT,
+  SEARCH_VEHICLE,
+} from '../../constants/routeNames';
 import logoutUser from '../../context/actions/auth/logoutUser';
 import {useDispatch, useSelector} from 'react-redux';
 import removeSelectedParkingSpace from '../../context/actions/parkingSpaces/removeSelectedParkingSpace';
@@ -62,6 +67,13 @@ const SideMenu = ({navigation, authDispatch}) => {
           onPress: () => {
             dispatch(removeSelectedParkingSpace());
             navigation.toggleDrawer();
+          },
+        },
+        {
+          icon: <Icon type="fa" size={17} name="search" />,
+          name: 'Search',
+          onPress: () => {
+            navigation.navigate(SEARCH_VEHICLE);
           },
         },
         {

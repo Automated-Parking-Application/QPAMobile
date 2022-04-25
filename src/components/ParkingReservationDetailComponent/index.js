@@ -124,7 +124,7 @@ const ParkingReservationDetailComponent = () => {
         onPress={() => {
           setVisibleModal(true);
         }}>
-        {/* <ImageComponent
+        <ImageComponent
           style={{
             marginRight: 10,
             marginTop: 10,
@@ -133,8 +133,8 @@ const ParkingReservationDetailComponent = () => {
             borderRadius: 10,
           }}
           src={photo}
-        /> */}
-        <FastImage
+        />
+        {/* <FastImage
           style={{
             marginRight: 10,
             marginTop: 10,
@@ -146,7 +146,7 @@ const ParkingReservationDetailComponent = () => {
             uri: photo,
             priority: FastImage.priority.normal,
           }}
-        />
+        /> */}
       </TouchableOpacity>
     ));
   };

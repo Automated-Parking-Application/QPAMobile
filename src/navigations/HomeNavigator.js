@@ -14,6 +14,7 @@ import {
   PARKING_RESERVATION_DETAIL,
   UPDATE_PROFILE,
   PARKING_SPACE_REPORT,
+  SEARCH_VEHICLE
 } from '../constants/routeNames';
 import ParkingSpaceList from '../screens/ParkingSpaceList';
 import Contacts from '../screens/Contacts';
@@ -29,6 +30,7 @@ import RequestQR from '../screens/RequestQR';
 import Tabs from './BottomTabs';
 import UpdateProfile from '../screens/UpdateProfile';
 import ParkingSpaceReport from '../screens/ParkingSpaceReport';
+import SearchVehicle from "../screens/SearchVehicle";
 
 const getCommon = Stack => {
   return [
@@ -92,6 +94,9 @@ const HomeNavigator = () => {
             name={PARKING_RESERVATION_DETAIL}
             component={ParkingReservationDetail}
           />
+          <HomeStack.Screen name={SETTINGS} component={Settings} />
+          <HomeStack.Screen name={LOGOUT} component={Logout} />
+          <HomeStack.Screen name={SEARCH_VEHICLE} component={SearchVehicle} />
           {common}
         </HomeStack.Navigator>
       ) : (

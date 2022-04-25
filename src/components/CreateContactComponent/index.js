@@ -39,7 +39,7 @@ const CreateContactComponent = ({
   }, [form]);
 
   return (
-    <KeyboardAvoidingView behavior="position" style={styles.container}>
+    <KeyboardAvoidingView behavior={modalVisible ? null : `position`} style={styles.container}>
       <Modal
         entry="bottom"
         backdropPressToClose={true}

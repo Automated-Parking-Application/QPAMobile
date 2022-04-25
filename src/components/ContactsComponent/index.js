@@ -23,7 +23,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {useDispatch} from 'react-redux';
 import getParkingSpaces from '../../context/actions/parkingSpaces/getParkingSpaces';
 
-const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
+const ContactsComponent = ({sortBy, data, loading}) => {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
 
@@ -58,7 +58,6 @@ const ContactsComponent = ({sortBy, data, loading, setModalVisible}) => {
           <TouchableOpacity
             style={styles.actionButton}
             onPress={() => {
-              console.log(item);
               navigate(PARKING_SPACE_REPORT, {id: item.id});
             }}>
             <Icon

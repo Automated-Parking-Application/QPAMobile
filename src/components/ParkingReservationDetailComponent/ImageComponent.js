@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Image, View} from 'react-native';
 import * as Progress from 'react-native-progress';
+import FastImage from 'react-native-fast-image';
 
 function ImageComponent({src, style}) {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +31,7 @@ function ImageComponent({src, style}) {
         onError={onError}
         onLoadStart={onLoadStart}
         style={style}
-        source={{uri: src}}
+        source={{uri: src, priority: FastImage.priority.high}}
       />
     </View>
   );

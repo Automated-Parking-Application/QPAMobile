@@ -21,12 +21,14 @@ const AddParkingLotAttendantComponent = () => {
   const onSubmit = useCallback(() => {
     if (isNaN(phoneNumber)) {
       setErrors('Wrong format for phone number');
+    } else if (!phoneNumber) {
+      setErrors('Please input phone number');
     } else {
       setErrors('');
       setIsLoading(true);
       axios
         .post(`/parking-space/${parkingId}/user`, {
-          phoneNumber: '0' + phoneNumber,
+          phoneNumber,
         })
         .then(() => {
           Alert.alert('Successfull!', '', [

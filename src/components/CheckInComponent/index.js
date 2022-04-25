@@ -91,7 +91,7 @@ const CheckInComponent = forwardRef((props, ref) => {
         setIsSubmitting(true);
         checkIn({
           id: selectedParkingId,
-          plateNumber,
+          plateNumber: plateNumber.toUpperCase().replaceAll(/\s/g, ''),
           attachment: JSON.stringify(res),
           vehicleType: value,
           description,
@@ -315,7 +315,9 @@ const CheckInComponent = forwardRef((props, ref) => {
 
   return (
     <TouchableOpacity onPress={() => setOpen(false)} activeOpacity={1}>
-      <KeyboardAvoidingView behavior="position"style={{height: windowHeight - 115 - headerHeight}}>
+      <KeyboardAvoidingView
+        behavior="position"
+        style={{height: windowHeight - 115 - headerHeight}}>
         <ProgressLoader
           visible={uploading || submitting}
           isModal={true}
@@ -425,6 +427,7 @@ const CheckInComponent = forwardRef((props, ref) => {
           </Text>
           <View style={{width: '100%'}}>
             <Input
+              autoCapitalize="characters"
               error={errors.plateNumber}
               onChangeText={txt => {
                 setPlateNumber(txt);
