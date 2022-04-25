@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useRef} from 'react';
 import Container from '../../components/common/Container';
-import {Text, View, TouchableOpacity, Image} from 'react-native';
+import {Text, View, TouchableOpacity, Image, KeyboardAvoidingView} from 'react-native';
 import styles from './styles';
 import {useSelector, useDispatch} from 'react-redux';
 import Message from '../../components/common/Message';
@@ -67,7 +67,7 @@ const UpdateProfile = () => {
     }
   };
   return (
-    <Container>
+    <KeyboardAvoidingView behavior="position">
       <View style={styles.form}>
         {!uploadSucceeded && (
           <View style={{alignItems: 'center', paddingVertical: 20}}>
@@ -132,7 +132,7 @@ const UpdateProfile = () => {
         />
       </View>
       <ImagePicker onFileSelected={onFileSelected} ref={sheetRef} />
-    </Container>
+    </KeyboardAvoidingView>
   );
 };
 
