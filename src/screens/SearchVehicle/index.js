@@ -28,10 +28,9 @@ const SearchVehicle = () => {
       setIsLoading(true);
       axios
         .get(
-          `/parking-space/${selectedParkingId}/parking-reservation/search/${searchText.replaceAll(
-            /\s/g,
-            '',
-          )}`,
+          `/parking-space/${selectedParkingId}/parking-reservation/search/${searchText
+            .split(/\s/g)
+            .join('')}`,
         )
         .then(res => {
           console.log(res);

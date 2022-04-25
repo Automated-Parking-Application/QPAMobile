@@ -1,5 +1,12 @@
 import React, {useState, useCallback} from 'react';
-import {View, Text, Image, Alert, KeyboardAvoidingView} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Alert,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
 import CustomButton from '../../components/common/CustomButton';
@@ -24,7 +31,7 @@ const RequestQR = () => {
         .post(`/parking-space/${parkingId}/qr`, {
           number: parseInt(count),
         })
-        .then(res => {
+        .then(() => {
           Alert.alert('Successfull!', '', [
             {
               text: 'OK',
@@ -55,66 +62,68 @@ const RequestQR = () => {
         flex: 1,
         backgroundColor: 'white',
       }}>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-        }}>
-        <Image
-          height={200}
-          width={200}
-          source={require('../../assets/images/ticket.png')}
+      <ScrollView>
+        <View
           style={{
-            width: 300,
-            height: 300,
-          }}
-        />
-      </View>
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+          <Image
+            height={200}
+            width={200}
+            source={require('../../assets/images/ticket.png')}
+            style={{
+              width: 300,
+              height: 300,
+            }}
+          />
+        </View>
 
-      <Text
-        style={{
-          fontSize: 20,
-          fontWeight: '500',
-          paddingLeft: 15,
-          paddingRight: 15,
-        }}>
-        Please add number of qr code you want to request more
-      </Text>
-      <Text
-        style={{
-          fontSize: 15,
-          fontWeight: '400',
-          textAlign: 'left',
-          paddingTop: 15,
-          paddingLeft: 15,
-          paddingRight: 15,
-        }}>
-        *Your current plan is Basic, you can only request maximum 40 codes
-      </Text>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: '500',
+            paddingLeft: 15,
+            paddingRight: 15,
+          }}>
+          Please add number of qr code you want to request more
+        </Text>
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: '400',
+            textAlign: 'left',
+            paddingTop: 15,
+            paddingLeft: 15,
+            paddingRight: 15,
+          }}>
+          *Your current plan is Basic, you can only request maximum 40 codes
+        </Text>
 
-      <View style={{width: '100%', paddingLeft: 15, paddingRight: 15}}>
-        <Input
-          style={{width: '100%'}}
-          error={error}
-          onChangeText={value => {
-            setError('');
-            setCount(value);
-          }}
-          value={count}
-          label="Number to request more"
-          placeholder="Enter Number"
-        />
-      </View>
-      <View style={{width: '100%', paddingLeft: 15, paddingRight: 15}}>
-        <CustomButton
-          disabled={isLoading}
-          onPress={onSubmit}
-          loading={isLoading}
-          primary
-          title="Request more"
-        />
-      </View>
+        <View style={{width: '100%', paddingLeft: 15, paddingRight: 15}}>
+          <Input
+            style={{width: '100%'}}
+            error={error}
+            onChangeText={value => {
+              setError('');
+              setCount(value);
+            }}
+            value={count}
+            label="Number to request more"
+            placeholder="Enter Number"
+          />
+        </View>
+        <View style={{width: '100%', paddingLeft: 15, paddingRight: 15}}>
+          <CustomButton
+            disabled={isLoading}
+            onPress={onSubmit}
+            loading={isLoading}
+            primary
+            title="Request more"
+          />
+        </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };

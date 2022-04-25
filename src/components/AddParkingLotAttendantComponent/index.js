@@ -35,7 +35,7 @@ const AddParkingLotAttendantComponent = () => {
       setIsLoading(true);
       axios
         .post(`/parking-space/${parkingId}/user`, {
-          phoneNumber: phoneNumber.replaceAll(/\s/g, ''),
+          phoneNumber: phoneNumber.split(/\s/g).join(''),
         })
         .then(() => {
           Alert.alert('Successfull!', '', [

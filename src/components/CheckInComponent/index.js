@@ -91,7 +91,7 @@ const CheckInComponent = forwardRef((props, ref) => {
         setIsSubmitting(true);
         checkIn({
           id: selectedParkingId,
-          plateNumber: plateNumber.toUpperCase().replaceAll(/\s/g, ''),
+          plateNumber: plateNumber.toUpperCase().split(/\s/g).join(''),
           attachment: JSON.stringify(res),
           vehicleType: value,
           description,

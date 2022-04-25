@@ -7,7 +7,6 @@ import {
   View,
   ScrollView,
   Text,
-  Image,
   TouchableOpacity,
   Modal,
   Alert,
@@ -234,10 +233,12 @@ const ParkingReservationDetailComponent = () => {
           <Text style={{fontWeight: '700', fontSize: 16}}>Vehicle Type: </Text>
           <Text style={{fontSize: 16}}>{res?.vehicle?.vehicleType}</Text>
         </View>
-        <View style={{width: '100%', paddingTop: 20, flexDirection: 'row'}}>
-          <Text style={{fontWeight: '700', fontSize: 16}}>Description: </Text>
-          <Text style={{fontSize: 16}}>{res?.description}</Text>
-        </View>
+        {res?.description?.length > 0 && (
+          <View style={{width: '100%', paddingTop: 20, flexDirection: 'row'}}>
+            <Text style={{fontWeight: '700', fontSize: 16}}>Description: </Text>
+            <Text style={{fontSize: 16}}>{res?.description}</Text>
+          </View>
+        )}
 
         {activity?.map((activityItem, index) => (
           <View
@@ -250,7 +251,9 @@ const ParkingReservationDetailComponent = () => {
               {moment(activityItem?.createTime)?.format('LT')}{' '}
             </Text>
             <Text style={{fontWeight: '700', fontSize: 16}}>by </Text>
-            <Text style={{fontSize: 16}}>{activityItem?.user?.fullName}</Text>
+            <Text style={{fontSize: 16}}>
+              {activityItem?.user?.fullName || activityItem?.user?.phoneNumber}
+            </Text>
           </View>
         ))}
         {!alreadyCheckedOut && (
